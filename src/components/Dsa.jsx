@@ -1,13 +1,13 @@
 import React from 'react'
-import Navbar from './components/Navbar'
+import Navbar from './Navbar'
 
-function App() {
+function Dsa() {
   return (
     <div className='bg-black text-white w-screen h-screen'>
       <Navbar />
-      <div>home page</div>
+      <div>dsa</div>
     </div>
   )
 }
 
-export default App
+export default Dsa

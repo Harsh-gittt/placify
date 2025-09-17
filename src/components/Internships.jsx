@@ -1,13 +1,13 @@
 import React from 'react'
-import Navbar from './components/Navbar'
+import Navbar from './Navbar'
 
-function App() {
+function Internships() {
   return (
     <div className='bg-black text-white w-screen h-screen'>
       <Navbar />
-      <div>home page</div>
+      <div>internships</div>
     </div>
   )
 }
 
-export default App
+export default Internships
