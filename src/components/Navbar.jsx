@@ -12,11 +12,11 @@ function Navbar() {
 
       {/* Navigation Links */}
       <div className="flex space-x-8">
-        <Link to="/" className="hover:text-gray-300">Home</Link>
-        <Link to="/dsa" className="hover:text-gray-300">DSA</Link>
-        <Link to="/study-partner" className="hover:text-gray-300">Study Partner</Link>
-        <Link to="/internships" className="hover:text-gray-300">Internships</Link>
-        <Link to="/resources" className="hover:text-gray-300">Resources</Link>
+        <Link to="/" className="hover:text-purple-700">Home</Link>
+        <Link to="/dsa" className="hover:text-purple-700">DSA</Link>
+        <Link to="/study-partner" className="hover:text-purple-700">Study Partner</Link>
+        <Link to="/internships" className="hover:text-purple-700">Internships</Link>
+        <Link to="/resources" className="hover:text-purple-700">Resources</Link>
       </div>
 
       {/* Signup Button */}
