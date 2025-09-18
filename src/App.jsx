@@ -13,29 +13,25 @@ function App() {
         <CardBlock
           title="DSA"
           description="Master essential data structures & algorithms for efficient problem-solving skills."
-          buttonText="Explore"
-          
+          link="/dsa"
         />
 
         <CardBlock
           title="STUDY PARTNER"
           description="Connect with peers, collaborate, and study together for better learning."
-          buttonText="Explore"
-          
+          link="/study-partner"
         />
 
         <CardBlock
           title="INTERNSHIPS"
           description="Find top internship opportunities to gain real-world experience and grow."
-          buttonText="Explore"
-          
+          link="/internships"
         />
 
         <CardBlock
           title="RESOURCES"
           description="Access curated articles, tutorials, and tools for placement preparation."
-          buttonText="Explore"
-          
+          link="/resources"
         />
     </div>
     </div>
