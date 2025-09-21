@@ -7,13 +7,25 @@ import Dsa from './components/Dsa.jsx'
 import StudyPartner from './components/StudyPartner.jsx'
 import Internships from './components/Internships.jsx'
 import Resources from './components/Resources.jsx'
+import Signup from "./components/Signup.jsx"
+import Signin from './components/Signin.jsx'
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />
   },
+
   {
+    path : "/signup",
+    element : <Signup />
+  },
+  {
+    path : "/signin",
+    element : <Signin />
+  },
+{
     path: "/dsa",
     element: <Dsa />
   },
@@ -33,6 +45,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+
     <RouterProvider router={router}/>
+    
   </StrictMode>,
 )
