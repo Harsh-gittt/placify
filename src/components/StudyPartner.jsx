@@ -10,15 +10,15 @@ function StudyPartner() {
 
   // Example partner data
   const partners = [
-    { name: "Ananya Sharna", skills: "DSA, Web Dev", lookingFor: "Coding Practice, Project Work" },
+    { name: "Ananya Sharma", skills: "DSA, Web Dev", lookingFor: "Coding Practice, Project Work" },
     { name: "Rajesh Patel", skills: "Machine Learning", lookingFor: "Project Work, Theory Discussions" },
     { name: "Chloe Kim", skills: "Web Dev", lookingFor: "Frontend Coding Practice" },
     { name: "Chloe Kim", skills: "Web Dev", lookingFor: "Frontend Coding Practice" },
-    { name: "Ananya Sharna", skills: "DSA, Web Dev", lookingFor: "Coding Practice, Project Work" },
+    { name: "Ananya Sharma", skills: "DSA, Web Dev", lookingFor: "Coding Practice, Project Work" },
     { name: "Rajesh Patel", skills: "Machine Learning", lookingFor: "Project Work, Theory Discussions" },
     { name: "Chloe Kim", skills: "Web Dev", lookingFor: "Frontend Coding Practice" },
     { name: "Chloe Kim", skills: "Web Dev", lookingFor: "Frontend Coding Practice" },
-    { name: "Ananya Sharna", skills: "DSA, Web Dev", lookingFor: "Coding Practice, Project Work" },
+    { name: "Ananya Sharma", skills: "DSA, Web Dev", lookingFor: "Coding Practice, Project Work" },
     { name: "Rajesh Patel", skills: "Machine Learning", lookingFor: "Project Work, Theory Discussions" },
   ]
 

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/images/placify2.jpg";
 
 async function GetUserDetails() {
   try {
@@ -42,10 +43,12 @@ function Navbar() {
   return (
     <nav className="bg-black text-white px-6 py-4 flex items-center justify-between shadow-[0_2px_4px_rgba(255,255,255,0.1)]">
       {/* Logo */}
-      <div className="text-2xl font-bold">MyLogo</div>
+      <div>
+      <img src={logo} alt="MyLogo" className="h-15" />
+      </div>
 
       {/* Navigation Links */}
-      <div className="flex space-x-8">
+      <div className="flex space-x-9">
         <Link to="/" className="hover:text-purple-700">
           Home
         </Link>
