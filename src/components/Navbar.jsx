@@ -18,15 +18,14 @@ async function GetUserDetails() {
       const data = await res.json();
       return data?.user?.first_name || null;
     }
-  } catch (err) {
-    console.error(err);
+  } catch {
     return null;
   }
 }
 
-export default function Navbar() {
+function Navbar() {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState(null);
+  const [first_name, setFirstName] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -35,20 +34,14 @@ export default function Navbar() {
     })();
   }, []);
 
-  // ✅ Function to go home and refresh
-  const handleLogoClick = () => {
-    navigate("/");         // go to home route
-    window.location.reload(); // force refresh
-  };
-
   return (
     <nav className="bg-black text-white px-6 py-4 flex items-center justify-between shadow-[0_2px_4px_rgba(255,255,255,0.1)]">
-      {/* Logo (click to refresh and go home) */}
+      {/* ✅ Logo: click to go home */}
       <button
-        onClick={handleLogoClick}
+        onClick={() => navigate("/")}
         className="flex items-center focus:outline-none"
       >
-        <img src={logo} alt="Placify Logo" className="h-12" />
+        <img src={logo} alt="MyLogo" className="h-15" />
       </button>
 
       {/* Navigation Links */}
@@ -61,13 +54,13 @@ export default function Navbar() {
       </div>
 
       {/* Sign In or Greeting */}
-      {firstName ? (
-        <p className="text-xl font-semibold">
-          Hi <span className="text-purple-600">{firstName}</span>
+      {first_name ? (
+        <p className="text-xl sm:text-xl font-semibold">
+          Hi <span className="text-purple-600">{first_name}</span>
         </p>
       ) : (
         <button
-          className="bg-purple-700 hover:bg-purple-800 text-white font-semibold text-sm px-4 py-2 rounded-2xl"
+          className="bg-purple-700 hover:bg-purple-800 text-white font-semibold text-sm px-4 py-2 rounded-2xl cursor-pointer"
           onClick={() => navigate("/signin")}
         >
           Sign In
@@ -76,3 +69,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default Navbar;
