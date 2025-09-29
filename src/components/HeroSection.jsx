@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import HeroImage from "../assets/images/hero section image.png";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
 
 // ye code change kara tha ki agar user logged in nahi h to ye section render hoga nahi to welcome first_name render hoga niche main component m uska code h.
 function AuthSection() {
@@ -50,7 +51,7 @@ async function GetUserDetails() {
 }
 
 function HeroSection() {
-
+  const { darkMode } = useTheme();
   const [first_name, setFirstName] = useState(null);
   const [checking, setChecking] = useState(true);
 
@@ -71,7 +72,7 @@ function HeroSection() {
   };
 
   return (
-    <section className="bg-black text-white py-20 px-6 relative">
+    <section className={`${darkMode ? 'bg-black text-white' : 'bg-white text-black'} py-20 px-6 relative transition-colors duration-300`}>
       {/* Decorative Elements */}
       <div className="absolute top-10 right-10 text-orange-400 text-6xl opacity-60">✦</div>
       <div className="absolute bottom-20 left-10 text-orange-500 text-6xl">✦</div>
@@ -80,27 +81,27 @@ function HeroSection() {
       <div className="max-w-6xl mx-auto text-center">
         {/* Main Headline */}
         <h1 className="text-6xl md:text-7xl font-extrabold leading-tight mb-6">
-          <span className="block text-white">Advance Your Career with</span>
+          <span className={`block ${darkMode ? 'text-white' : 'text-black'}`}>Advance Your Career with</span>
           <span className="block text-teal-400 mt-2">CP Sheets</span>
         </h1>
 
         {/* Sub-headline with Top 1% badge */}
         <div className="flex items-center justify-center space-x-3 mb-8">
-          <span className="text-white text-2xl">Join the</span>
+          <span className={`${darkMode ? 'text-white' : 'text-black'} text-2xl`}>Join the</span>
           <div className="bg-orange-500 text-white px-6 py-2 rounded-full">
             <span className="font-bold">Top 1%</span>
           </div>
-          <span className="text-white text-2xl">Today</span>
+          <span className={`${darkMode ? 'text-white' : 'text-black'} text-2xl`}>Today</span>
         </div>
 
         {/* Descriptive Text */}
-        <p className="text-gray-300 text-xl max-w-4xl mx-auto mb-12">
+        <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} text-xl max-w-4xl mx-auto mb-12`}>
           Master DSA with curated resources and expert guidance – Learn the skills that set you apart and join the Top 1% of coding achievers!
         </p>
 
         {/* Call-to-Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-          <button className="bg-gray-800 border border-gray-600 text-white px-8 py-4 rounded-lg hover:bg-gray-700 flex items-center space-x-2">
+          <button className={`${darkMode ? 'bg-gray-800 border-gray-600' : 'bg-gray-200 border-gray-300'} border ${darkMode ? 'text-white' : 'text-black'} px-8 py-4 rounded-lg ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-300'} flex items-center space-x-2 transition-colors duration-300`}>
             <span>Start for Free</span>
             <span>⌄</span>
           </button>
@@ -111,15 +112,15 @@ function HeroSection() {
 
         {/* Conditional Rendering for logged in users */}
         {checking ? (
-          <div className="text-gray-400 mt-8">Checking user...</div>
+          <div className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} mt-8`}>Checking user...</div>
         ) : first_name ? (
           <div className="mt-8">
-            <p className="text-lg font-semibold text-white">
+            <p className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-black'}`}>
               Welcome back, <span className="text-orange-500">{first_name}</span> 👋
             </p>
             <button
               onClick={handleLogout}
-              className="mt-4 border border-white text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black"
+              className={`mt-4 border ${darkMode ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-black hover:text-white'} px-4 py-2 rounded-lg transition-colors duration-300`}
             >
               Logout
             </button>

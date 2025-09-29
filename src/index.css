@@ -1,1 +1,44 @@
 @import "tailwindcss";
+
+:root {
+  --bg-light: #ffffff;
+  --text-light: #000000;
+  --bg-dark: #000000;
+  --text-dark: #ffffff;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+/* Global theme transitions */
+body, div, nav, section, footer, button, a, span, p, h1, h2, h3, h4, h5, h6 {
+  transition-property: color, background-color, border-color;
+  transition-duration: 300ms;
+}
+
+/* Dark mode text and background colors for common elements */
+.dark .dark-bg-black {
+  background-color: var(--bg-dark);
+}
+
+.dark .dark-text-white {
+  color: var(--text-dark);
+}
+
+.dark .dark-border-gray-700 {
+  border-color: #374151;
+}
+
+/* Light mode defaults */
+.light-bg-white {
+  background-color: var(--bg-light);
+}
+
+.light-text-black {
+  color: var(--text-light);
+}
+
+.light-border-gray-300 {
+  border-color: #d1d5db;
+}

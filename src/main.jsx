@@ -9,6 +9,7 @@ import Internships from './components/Internships.jsx'
 import Resources from './components/Resources.jsx'
 import Signup from "./components/Signup.jsx"
 import Signin from './components/Signin.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 
 
 const router = createBrowserRouter([
@@ -45,8 +46,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-
-    <RouterProvider router={router}/>
-    
-  </StrictMode>,
+    <ThemeProvider>
+      <RouterProvider router={router}/>
+    </ThemeProvider>
+  </StrictMode>
 )

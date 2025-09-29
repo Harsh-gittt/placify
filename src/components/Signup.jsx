@@ -1,10 +1,12 @@
 // Signup.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Signup() {
   const navigate = useNavigate();
+  const { darkMode } = useTheme();
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -28,7 +30,7 @@ export default function Signup() {
 
       // optional: check res.ok / response status
       alert("Signup Successful ✅. Redirecting to Signin Page.");
-      navigate("/");
+      navigate("/signin");
     } catch (err) {
       console.error(err);
       alert("Signup Failed ❌");
@@ -41,54 +43,46 @@ export default function Signup() {
     <>
       <Navbar />
 
-      {/* Outer wrapper - black background */}
-      <div className="min-h-screen bg-black text-gray-100 py-10">
-        {/* Centering container with responsive horizontal padding */}
-        <div className="mx-4 sm:mx-6 md:mx-8 lg:mx-[6rem] flex justify-center">
-          {/* Card: full-width on small screens, capped width on larger */}
+      <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-white'} transition-colors duration-300 py-10 px-4`}>
+        <div className="max-w-md mx-auto">
           <div
-            className="
+            className={`
               relative
               w-full
-              max-w-full
-              sm:max-w-md
-              md:max-w-lg
-              lg:max-w-xl
-              bg-white
-              text-gray-900
               rounded-2xl
-              shadow-[0_10px_30px_rgba(0,0,0,0.6)]
-              p-5
-              sm:p-6
-              md:p-8
+              ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}
+              shadow-lg
               overflow-hidden
-            "
+              transition-colors duration-300
+              p-8
+            `}
             role="region"
             aria-labelledby="signup-heading"
           >
-            {/* Close button anchored to top-right, scales on small screens */}
             <button
               type="button"
               onClick={() => navigate("/")}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-600 hover:text-gray-800 rounded-md p-1
-                         bg-white/0 hover:bg-white/30 transition"
+              className={`absolute top-4 right-4 ${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} rounded-md p-1
+                         hover:bg-opacity-10 hover:bg-gray-500 transition-colors duration-300`}
               aria-label="Close signup"
             >
-              <span className="text-lg sm:text-xl">✖</span>
+              <span className="text-xl">✖</span>
             </button>
 
-            {/* Heading */}
-            <h2
-              id="signup-heading"
-              className="text-lg sm:text-2xl font-semibold mb-4 text-center text-purple-600"
-            >
-              Create your account
-            </h2>
+            <div className="text-center mb-8">
+              <h2
+                id="signup-heading"
+                className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}
+              >
+                Join Placify
+              </h2>
+              <p className={`mt-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'} transition-colors duration-300`}>
+                Create your account to get started
+              </p>
+            </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-              {/* name fields: single column on xs, two columns on sm+ */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-2 gap-4">
                 <label className="block">
                   <input
                     name="first_name"
@@ -96,7 +90,10 @@ export default function Signup() {
                     onChange={handleChange}
                     placeholder="First name"
                     required
-                    className="w-full px-3 py-2 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
+                    className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
+                    ${darkMode 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
+                      : 'bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600'}`}
                   />
                 </label>
 
@@ -107,7 +104,10 @@ export default function Signup() {
                     onChange={handleChange}
                     placeholder="Last name"
                     required
-                    className="w-full px-3 py-2 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
+                    className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
+                    ${darkMode 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
+                      : 'bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600'}`}
                   />
                 </label>
               </div>
@@ -120,7 +120,10 @@ export default function Signup() {
                   onChange={handleChange}
                   placeholder="Email"
                   required
-                  className="w-full px-3 py-2 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
+                  className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
+                  ${darkMode 
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
+                    : 'bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600'}`}
                 />
               </label>
 
@@ -132,23 +135,50 @@ export default function Signup() {
                   onChange={handleChange}
                   placeholder="Password"
                   required
-                  className="w-full px-3 py-2 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
+                  className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
+                  ${darkMode 
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
+                    : 'bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600'}`}
                 />
               </label>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2 sm:py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base"
+                className={`w-full py-3 rounded-lg font-medium text-white transition-all duration-300
+                ${loading 
+                  ? 'opacity-70 cursor-not-allowed' 
+                  : 'hover:shadow-lg transform hover:-translate-y-0.5'} 
+                ${darkMode 
+                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700' 
+                  : 'bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600'}`}
               >
-                {loading ? "Signing up..." : "Sign Up"}
+                {loading ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Creating account...
+                  </span>
+                ) : "Create Account"}
               </button>
             </form>
 
-            {/* small footer text */}
-            <p className="text-xs sm:text-sm text-center text-gray-500 mt-3">
-              By signing up you agree to our terms.
-            </p>
+            <div className={`mt-6 text-center ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className="text-sm">
+                Already have an account?{" "}
+                <Link
+                  to="/signin"
+                  className={`font-medium transition-colors duration-300 ${darkMode ? 'text-orange-400 hover:text-orange-300' : 'text-orange-500 hover:text-orange-700'}`}
+                >
+                  Sign in
+                </Link>
+              </p>
+              <p className={`text-xs mt-4 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                By creating an account, you agree to our Terms of Service and Privacy Policy
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useTheme } from '../context/ThemeContext'
 
 function Tab({ active, label, onClick }) {
+  const { darkMode } = useTheme();
+  
   return (
     <button
       onClick={onClick}
-      className={`${active ? 'bg-[#ea7a47] text-white' : 'bg-transparent text-gray-300'} border border-[#3a3a3a] px-5 py-2 rounded-xl`}
+      className={`${active ? 'bg-[#ea7a47] text-white' : `bg-transparent ${darkMode ? 'text-gray-300' : 'text-gray-600'}`} 
+      border ${darkMode ? 'border-[#3a3a3a]' : 'border-gray-300'} px-5 py-2 rounded-xl transition-colors duration-300`}
     >
       {label}
     </button>
@@ -13,13 +17,15 @@ function Tab({ active, label, onClick }) {
 }
 
 function Bullet({ title, description, to }) {
+  const { darkMode } = useTheme();
+  
   return (
     <div className="flex gap-4 items-start">
-      <div className="h-10 w-10 rounded-full bg-[#232323] flex items-center justify-center text-[#ea7a47]">●</div>
+      <div className={`h-10 w-10 rounded-full ${darkMode ? 'bg-[#232323]' : 'bg-[#f5f5f5]'} flex items-center justify-center text-[#ea7a47] transition-colors duration-300`}>●</div>
       <div>
-        <h4 className="text-lg font-semibold">{title}</h4>
-        <p className="text-gray-400 text-sm mt-1 max-w-xl">{description}</p>
-        <Link to={to} className="text-[#ea7a47] text-sm mt-3 inline-flex items-center gap-2">Get Started <span>→</span></Link>
+        <h4 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-800'} transition-colors duration-300`}>{title}</h4>
+        <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mt-1 max-w-xl transition-colors duration-300`}>{description}</p>
+        <Link to={to} className="text-[#ea7a47] text-sm mt-3 inline-flex items-center gap-2 transition-colors duration-300">Get Started <span>→</span></Link>
       </div>
     </div>
   )
@@ -27,6 +33,7 @@ function Bullet({ title, description, to }) {
 
 function LearningShowcase(){
   const [active, setActive] = useState('dsa')
+  const { darkMode } = useTheme();
 
   const content = {
     dsa: [
@@ -51,11 +58,11 @@ function LearningShowcase(){
     ]
   }
   return (
-    <section className="bg-black text-white py-14 px-6">
+    <section className={`${darkMode ? 'bg-black text-white' : 'bg-white text-gray-800'} py-14 px-6 transition-colors duration-300`}>
       <div className="max-w-7xl mx-auto">
         <h2 className="text-5xl font-extrabold text-center mb-8">Revolutionize the Way You Learn</h2>
 
-        <div className="bg-[#1f1f1f] rounded-3xl p-6 sm:p-10 border border-white/10">
+        <div className={`${darkMode ? 'bg-[#1f1f1f] border-white/10' : 'bg-gray-100 border-gray-200'} rounded-3xl p-6 sm:p-10 border transition-colors duration-300`}>
           {/* Tabs */}
           <div className="flex flex-wrap gap-4 justify-center">
             <Tab active={active==='dsa'} label="Striver's DSA Sheet" onClick={() => setActive('dsa')} />
@@ -74,7 +81,7 @@ function LearningShowcase(){
 
             {/* Right image placeholder */}
             <div className="w-full">
-              <div className="w-full aspect-video rounded-xl bg-[#0f0f0f] border border-white/10 flex items-center justify-center text-gray-500">
+              <div className={`w-full aspect-video rounded-xl ${darkMode ? 'bg-[#0f0f0f] border-white/10' : 'bg-gray-200 border-gray-300'} border flex items-center justify-center ${darkMode ? 'text-gray-500' : 'text-gray-600'} transition-colors duration-300`}>
                 {active==='dsa' ? 'DSA Screenshot' : active==='system' ? 'System Design Preview' : active==='subjects' ? 'Core Subjects Preview' : 'Interview Experiences Preview'}
               </div>
             </div>

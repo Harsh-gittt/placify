@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/images/placify2.jpg";
+import logo from "../assets/images/Placify4.png";
+import { useTheme } from "../context/ThemeContext";
 
 async function GetUserDetails() {
   try {
@@ -26,6 +27,7 @@ async function GetUserDetails() {
 function Navbar() {
   const navigate = useNavigate();
   const [first_name, setFirstName] = useState(null);
+  const { darkMode, toggleTheme } = useTheme();
 
   useEffect(() => {
     (async () => {
@@ -35,27 +37,35 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-black text-white">
+    <nav className={`${darkMode ? 'bg-black' : 'bg-white'} ${darkMode ? 'text-white' : 'text-black'} transition-colors duration-300`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-        {/* Left brand pill */}
-        <button
-          onClick={() => navigate("/")}
-          className="flex items-center gap-3 bg-[#232323] px-4 py-2 rounded-2xl"
-        >
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#0d0d0d] font-extrabold">TUF</span>
-          <span className="text-gray-200 font-medium">takeUforward</span>
-        </button>
+        {/* Left brand logo and name */}
+        <Link to="/" className={`flex items-center gap-3 ${darkMode ? 'bg-[#232323]' : 'bg-gray-200'} px-4 py-2 rounded-2xl transition-colors duration-300`}>
+          <img 
+            src={logo} 
+            alt="Placify Logo" 
+            className="h-11 rounded-lg object-cover"
+          />
+          <span className={`${darkMode ? 'text-gray-200' : 'text-gray-800'} font-medium transition-colors duration-300`}>PLACIFY</span>
+        </Link>
 
         {/* Right controls – flat (no inner pills), all inside the same navbar */}
         <div className="flex items-center gap-5">
-          <span className="hidden sm:inline font-extrabold">TUF</span>
+          {/* <span className="hidden sm:inline font-extrabold">TUF</span> */}
 
           <button className="flex items-center gap-1 hover:opacity-90">
             <span>Resources</span>
             <span className="opacity-80">▾</span>
           </button>
 
-          <button className="h-8 w-8 flex items-center justify-center hover:opacity-90">🌙</button>
+          <button 
+            onClick={toggleTheme}
+            className="h-8 w-8 flex items-center justify-center hover:opacity-90 transition-transform duration-300 hover:rotate-12"
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {darkMode ? '🌙' : '☀️'}
+          </button>
 
           <button
             className="bg-[#ea7a47] hover:bg-[#e06d37] text-white font-medium px-5 py-2 rounded-2xl cursor-pointer"
