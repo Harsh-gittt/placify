@@ -35,37 +35,36 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-black text-white px-6 py-4 flex items-center justify-between shadow-[0_2px_4px_rgba(255,255,255,0.1)]">
-      {/* ✅ Logo: click to go home */}
-      <button
-        onClick={() => navigate("/")}
-        className="flex items-center focus:outline-none"
-      >
-        <img src={logo} alt="MyLogo" className="h-15" />
-      </button>
-
-      {/* Navigation Links */}
-      <div className="flex space-x-9">
-        <Link to="/" className="hover:text-purple-700">Home</Link>
-        <Link to="/dsa" className="hover:text-purple-700">DSA</Link>
-        <Link to="/study-partner" className="hover:text-purple-700">Study Partner</Link>
-        <Link to="/internships" className="hover:text-purple-700">Internships</Link>
-        <Link to="/resources" className="hover:text-purple-700">Resources</Link>
-      </div>
-
-      {/* Sign In or Greeting */}
-      {first_name ? (
-        <p className="text-xl sm:text-xl font-semibold">
-          Hi <span className="text-purple-600">{first_name}</span>
-        </p>
-      ) : (
+    <nav className="bg-black text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+        {/* Left brand pill */}
         <button
-          className="bg-purple-700 hover:bg-purple-800 text-white font-semibold text-sm px-4 py-2 rounded-2xl cursor-pointer"
-          onClick={() => navigate("/signin")}
+          onClick={() => navigate("/")}
+          className="flex items-center gap-3 bg-[#232323] px-4 py-2 rounded-2xl"
         >
-          Sign In
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#0d0d0d] font-extrabold">TUF</span>
+          <span className="text-gray-200 font-medium">takeUforward</span>
         </button>
-      )}
+
+        {/* Right controls – flat (no inner pills), all inside the same navbar */}
+        <div className="flex items-center gap-5">
+          <span className="hidden sm:inline font-extrabold">TUF</span>
+
+          <button className="flex items-center gap-1 hover:opacity-90">
+            <span>Resources</span>
+            <span className="opacity-80">▾</span>
+          </button>
+
+          <button className="h-8 w-8 flex items-center justify-center hover:opacity-90">🌙</button>
+
+          <button
+            className="bg-[#ea7a47] hover:bg-[#e06d37] text-white font-medium px-5 py-2 rounded-2xl cursor-pointer"
+            onClick={() => navigate("/signin")}
+          >
+            Login
+          </button>
+        </div>
+      </div>
     </nav>
   );
 }

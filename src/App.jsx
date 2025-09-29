@@ -1,39 +1,22 @@
 import React from 'react'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
-import CardBlock from './components/CardBlock'
+import ResourcesGrid from './components/ResourcesGrid'
+import LearningShowcase from './components/LearningShowcase'
+import LearnersMarquee from './components/LearnersMarquee'
+import CommunityStats from './components/CommunityStats'
+import Footer from './components/Footer'
 
 function App() {
   return (
-    <div className='bg-black text-white w-screen h-screen'>
+    <div className='bg-black text-white w-screen min-h-screen'>
       <Navbar />
       <HeroSection />
-
-      <div className="bg-black flex items-center justify-center gap-10 py-3 px-5">
-        <CardBlock
-          title="DSA"
-          description="Master essential data structures & algorithms for efficient problem-solving skills."
-          link="/dsa"
-        />
-
-        <CardBlock
-          title="STUDY PARTNER"
-          description="Connect with peers, collaborate, and study together for better learning."
-          link="/study-partner"
-        />
-
-        <CardBlock
-          title="INTERNSHIPS"
-          description="Find top internship opportunities to gain real-world experience and grow."
-          link="/internships"
-        />
-
-        <CardBlock
-          title="RESOURCES"
-          description="Access curated articles, tutorials, and tools for placement preparation."
-          link="/resources"
-        />
-    </div>
+      <LearnersMarquee />
+      <ResourcesGrid />
+      <LearningShowcase />
+      <CommunityStats />
+      <Footer />
     </div>
   )
 }

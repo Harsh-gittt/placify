@@ -71,68 +71,60 @@ function HeroSection() {
   };
 
   return (
-    <section className="bg-black text-white py-10 px-6">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
-        {/* Text Content */}
-        <div className="md:w-1/2 space-y-6">
-          <h1 className="text-6xl font-extrabold leading-tight">
-            <span className="block underline decoration-purple-700">
-              PLACIFY
-            </span>
-            <br />
-            <span className="block text-purple-700 font-semibold text-3xl">
-              YOUR PATH TO PLACEMENT & INTERNSHIPS
-            </span>
-          </h1>
+    <section className="bg-black text-white py-20 px-6 relative">
+      {/* Decorative Elements */}
+      <div className="absolute top-10 right-10 text-orange-400 text-6xl opacity-60">✦</div>
+      <div className="absolute bottom-20 left-10 text-orange-500 text-6xl">✦</div>
+      <div className="absolute bottom-10 right-10 text-orange-500 text-4xl">+</div>
+      
+      <div className="max-w-6xl mx-auto text-center">
+        {/* Main Headline */}
+        <h1 className="text-6xl md:text-7xl font-extrabold leading-tight mb-6">
+          <span className="block text-white">Advance Your Career with</span>
+          <span className="block text-teal-400 mt-2">CP Sheets</span>
+        </h1>
 
-          <p className="text-gray-300 max-w-xl">
-            Unlock your career potential. Access placement resources and direct
-            links to internships and jobs.
-          </p>
-
-          {/* Conditional Rendering. IF checking is true then checking user will render. ELSE IF first_name is not null welcome back code will render or ELSE 
-          Our Auth Section will run (new user / existing user button wala.)
-          */}
-          <div className="mt-4">
-            {checking ? (
-              <div className="text-gray-400">Checking user...</div>
-            ) : first_name ? (
-              <div className="flex items-center space-x-4">
-                <div>
-                  <p className="text-lg sm:text-xl font-semibold">
-                    Welcome back,{" "}
-                    <span className="text-purple-600">{first_name}</span> 👋
-                  </p>
-                  <p className="text-sm text-gray-300">
-                    Good to see you again.
-                  </p>
-                </div>
-
-                <div className="flex space-x-2">
-                  <button
-                    onClick={handleLogout}
-                    className="border border-white text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black"
-                  >
-                    Logout
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
-                <AuthSection />
-              </>
-            )}
+        {/* Sub-headline with Top 1% badge */}
+        <div className="flex items-center justify-center space-x-3 mb-8">
+          <span className="text-white text-2xl">Join the</span>
+          <div className="bg-orange-500 text-white px-6 py-2 rounded-full">
+            <span className="font-bold">Top 1%</span>
           </div>
+          <span className="text-white text-2xl">Today</span>
         </div>
 
-        {/* Image */}
-        <div className="md:w-1/2 mt-10 md:mt-0 flex justify-center">
-          <img
-            src={HeroImage}
-            alt="Placify Hero"
-            className="w-full max-w-md object-contain"
-          />
+        {/* Descriptive Text */}
+        <p className="text-gray-300 text-xl max-w-4xl mx-auto mb-12">
+          Master DSA with curated resources and expert guidance – Learn the skills that set you apart and join the Top 1% of coding achievers!
+        </p>
+
+        {/* Call-to-Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <button className="bg-gray-800 border border-gray-600 text-white px-8 py-4 rounded-lg hover:bg-gray-700 flex items-center space-x-2">
+            <span>Start for Free</span>
+            <span>⌄</span>
+          </button>
+          <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold">
+            Explore Plus
+          </button>
         </div>
+
+        {/* Conditional Rendering for logged in users */}
+        {checking ? (
+          <div className="text-gray-400 mt-8">Checking user...</div>
+        ) : first_name ? (
+          <div className="mt-8">
+            <p className="text-lg font-semibold text-white">
+              Welcome back, <span className="text-orange-500">{first_name}</span> 👋
+            </p>
+            <button
+              onClick={handleLogout}
+              className="mt-4 border border-white text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black"
+            >
+              Logout
+            </button>
+          </div>
+        ) : null}
       </div>
     </section>
   );
