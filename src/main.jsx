@@ -18,14 +18,7 @@ const router = createBrowserRouter([
     element: <App />
   },
 
-  {
-    path : "/signup",
-    element : <Signup />
-  },
-  {
-    path : "/signin",
-    element : <Signin />
-  },
+  // auth modals are rendered inside App; routes removed
 {
     path: "/dsa",
     element: <Dsa />

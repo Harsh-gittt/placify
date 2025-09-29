@@ -1,11 +1,8 @@
 // Signup.jsx
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import Navbar from "./Navbar";
 import { useTheme } from "../context/ThemeContext";
 
-export default function Signup() {
-  const navigate = useNavigate();
+export default function Signup({ isOpen, onClose, openSignin }) {
   const { darkMode } = useTheme();
   const [formData, setFormData] = useState({
     first_name: "",
@@ -39,18 +36,18 @@ export default function Signup() {
     }
   };
 
-  return (
-    <>
-      <Navbar />
+  if (!isOpen) return null;
 
-      <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-white'} transition-colors duration-300 py-10 px-4`}>
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
+      <div className={`max-w-md w-full ${darkMode ? 'bg-black rounded-4xl' : 'bg-white rounded-4xl'} transition-colors duration-300 p-4`}>
         <div className="max-w-md mx-auto">
           <div
             className={`
               relative
               w-full
               rounded-2xl
-              ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}
+              ${darkMode ? 'bg-black-900 text-white' : 'bg-white text-gray-900'}
               shadow-lg
               overflow-hidden
               transition-colors duration-300
@@ -61,9 +58,9 @@ export default function Signup() {
           >
             <button
               type="button"
-              onClick={() => navigate("/")}
+              onClick={onClose}
               className={`absolute top-4 right-4 ${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} rounded-md p-1
-                         hover:bg-opacity-10 hover:bg-gray-500 transition-colors duration-300`}
+                         hover:bg-opacity-10 hover:bg-gray-600 transition-colors duration-300`}
               aria-label="Close signup"
             >
               <span className="text-xl">✖</span>
@@ -168,12 +165,12 @@ export default function Signup() {
             <div className={`mt-6 text-center ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               <p className="text-sm">
                 Already have an account?{" "}
-                <Link
-                  to="/signin"
+                <button
+                  onClick={() => { onClose?.(); openSignin?.(); }}
                   className={`font-medium transition-colors duration-300 ${darkMode ? 'text-orange-400 hover:text-orange-300' : 'text-orange-500 hover:text-orange-700'}`}
                 >
                   Sign in
-                </Link>
+                </button>
               </p>
               <p className={`text-xs mt-4 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
                 By creating an account, you agree to our Terms of Service and Privacy Policy
@@ -182,6 +179,6 @@ export default function Signup() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

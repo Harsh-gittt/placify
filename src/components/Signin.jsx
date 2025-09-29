@@ -1,11 +1,9 @@
 // Signin.jsx
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
-export default function Signin() {
-  const Navigate = useNavigate();
+export default function Signin({ isOpen, onClose, openSignup }) {
   const { darkMode } = useTheme();
   const [formData, setFormData] = useState({
     email: "",
@@ -31,8 +29,8 @@ export default function Signin() {
       if (res.ok) {
         const data = await res.json();
         localStorage.setItem("auth_token", data.auth_token);
-        alert("Signin successful ✅. Redirecting to home.");
-        Navigate("/");
+        alert("Signin successful ✅.");
+        onClose?.();
       } else {
         const err = await res.json().catch(() => ({}));
         alert(err.message || "Signin failed");
@@ -45,18 +43,18 @@ export default function Signin() {
     }
   };
 
-  return (
-    <>
-      <Navbar />
+  if (!isOpen) return null;
 
-      <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-white'} transition-colors duration-300 py-10 px-4`}>
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
+      <div className={`max-w-md w-full ${darkMode ? 'bg-black rounded-4xl' : 'bg-white rounded-4xl'} transition-colors duration-300 p-4`}>
         <div className="max-w-md mx-auto">
           <div
             className={`
               relative
               w-full
               rounded-2xl
-              ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}
+              ${darkMode ? 'bg-black text-white' : 'bg-white text-gray-900'}
               shadow-lg
               overflow-hidden
               transition-colors duration-300
@@ -67,7 +65,7 @@ export default function Signin() {
           >
             <button
               type="button"
-              onClick={() => Navigate("/")}
+              onClick={onClose}
               className={`absolute top-4 right-4 ${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} rounded-md p-1
                          hover:bg-opacity-10 hover:bg-gray-500 transition-colors duration-300`}
               aria-label="Close signin"
@@ -168,17 +166,17 @@ export default function Signin() {
             <div className={`mt-6 text-center ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               <p className="text-sm">
                 Don't have an account?{" "}
-                <Link
-                  to="/signup"
+                <button
+                  onClick={() => { onClose?.(); openSignup?.(); }}
                   className={`font-medium transition-colors duration-300 ${darkMode ? 'text-orange-400 hover:text-orange-300' : 'text-orange-500 hover:text-orange-600'}`}
                 >
                   Create an account
-                </Link>
+                </button>
               </p>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/images/Placify4.png";
+import logo from "../assets/images/Placify3.png";
 import { useTheme } from "../context/ThemeContext";
 
 async function GetUserDetails() {
@@ -24,7 +24,7 @@ async function GetUserDetails() {
   }
 }
 
-function Navbar() {
+function Navbar({ onLoginClick }) {
   const navigate = useNavigate();
   const [first_name, setFirstName] = useState(null);
   const { darkMode, toggleTheme } = useTheme();
@@ -37,7 +37,7 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className={`${darkMode ? 'bg-black' : 'bg-white'} ${darkMode ? 'text-white' : 'text-black'} transition-colors duration-300`}>
+    <nav className={`fixed top-0 inset-x-0 z-40 w-full ${darkMode ? 'bg-black' : 'bg-white'} ${darkMode ? 'text-white' : 'text-black'} transition-colors duration-300`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
         {/* Left brand logo and name */}
         <Link to="/" className={`flex items-center gap-3 ${darkMode ? 'bg-[#232323]' : 'bg-gray-200'} px-4 py-2 rounded-2xl transition-colors duration-300`}>
@@ -46,7 +46,7 @@ function Navbar() {
             alt="Placify Logo" 
             className="h-11 rounded-lg object-cover"
           />
-          <span className={`${darkMode ? 'text-gray-200' : 'text-gray-800'} font-medium transition-colors duration-300`}>PLACIFY</span>
+          <span className={`${darkMode ? 'text-gray-200' : 'text-gray-800'} font-medium text-xl transition-colors duration-300`}>PLACIFY</span>
         </Link>
 
         {/* Right controls – flat (no inner pills), all inside the same navbar */}
@@ -69,7 +69,7 @@ function Navbar() {
 
           <button
             className="bg-[#ea7a47] hover:bg-[#e06d37] text-white font-medium px-5 py-2 rounded-2xl cursor-pointer"
-            onClick={() => navigate("/signin")}
+            onClick={() => (onLoginClick ? onLoginClick() : navigate("/signin"))}
           >
             Login
           </button>
