@@ -42,3 +42,28 @@ body, div, nav, section, footer, button, a, span, p, h1, h2, h3, h4, h5, h6 {
 .light-border-gray-300 {
   border-color: #d1d5db;
 }
+
+/* Learners marquee animation */
+.marquee-container {
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: learners-marquee 25s linear infinite;
+}
+
+@keyframes learners-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause on hover (optional, nice for UX) */
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
+}

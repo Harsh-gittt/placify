@@ -13,23 +13,34 @@ function LearnersMarquee() {
   ]
 
   return (
-    <section className={`${darkMode ? 'bg-[#1f1f1f] text-white' : 'bg-gray-100 text-gray-800'} py-12 px-6 transition-colors duration-300`}>
+    <div className={`${darkMode ? 'bg-[#1f1f1f] text-white' : 'bg-gray-100 text-gray-800'} py-12 px-8 rounded-3xl p-6 sm:p-10 transition-colors duration-300`}>
       <div className="max-w-7xl mx-auto">
-        <h3 className="text-3xl font-bold mb-6"><span className="text-[#f59e0b]">12,26,611+</span> Learners</h3>
-        <div className="flex gap-6 overflow-x-auto no-scrollbar pb-2">
-          {learners.map((l, i) => (
-            <div key={i} className={`min-w-64 ${darkMode ? 'bg-[#262626]' : 'bg-white'} rounded-2xl p-6 flex flex-col items-center transition-colors duration-300`}>
-              <img src={l.img} alt={l.name} className="w-20 h-20 rounded-full object-cover" />
-              <p className={`mt-3 font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>{l.name}</p>
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{l.company}</p>
+        <h3 className="text-3xl font-bold mb-6">COMPANY's</h3>
+        <div className="marquee-container pb-2">
+          <div className="marquee-track gap-6">
+            <div className="flex gap-6">
+              {learners.map((l, i) => (
+                <div key={`a-${i}`} className={`min-w-64 ${darkMode ? 'bg-[#262626]' : 'bg-white'} rounded-2xl p-6 flex flex-col items-center transition-colors duration-300`}>
+                  <img src={l.img} alt={l.name} className="w-20 h-20 rounded-full object-cover" />
+                  <p className={`mt-3 font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>{l.name}</p>
+                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{l.company}</p>
+                </div>
+              ))}
             </div>
-          ))}
+            <div className="flex gap-6" aria-hidden="true">
+              {learners.map((l, i) => (
+                <div key={`b-${i}`} className={`min-w-64 ${darkMode ? 'bg-[#262626]' : 'bg-white'} rounded-2xl p-6 flex flex-col items-center transition-colors duration-300`}>
+                  <img src={l.img} alt={l.name} className="w-20 h-20 rounded-full object-cover" />
+                  <p className={`mt-3 font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>{l.name}</p>
+                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{l.company}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 
 export default LearnersMarquee
-
-
