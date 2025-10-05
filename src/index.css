@@ -12,7 +12,21 @@
 }
 
 /* Global theme transitions */
-body, div, nav, section, footer, button, a, span, p, h1, h2, h3, h4, h5, h6 {
+body,
+div,
+nav,
+section,
+footer,
+button,
+a,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   transition-property: color, background-color, border-color;
   transition-duration: 300ms;
 }
@@ -42,3 +56,11 @@ body, div, nav, section, footer, button, a, span, p, h1, h2, h3, h4, h5, h6 {
 .light-border-gray-300 {
   border-color: #d1d5db;
 }
+
+/* Global responsive guards */
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* Avoid globally forcing media sizes; control sizing within components */
