@@ -45,21 +45,19 @@ function Navbar({ onLoginClick }) {
         setShowResources(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside, { passive: true });
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside, { passive: true });
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-    }
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
   }, []);
 
   return (
     <nav
       className={`fixed top-0 inset-x-0 z-40 w-full ${
         darkMode ? "bg-black" : "bg-white"
-      } ${
-        darkMode ? "text-white" : "text-black"
-      } transition-colors duration-300`}
+      } ${darkMode ? "text-white" : "text-black"} transition-colors duration-300`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
         {/* Left brand logo and name */}
@@ -68,32 +66,14 @@ function Navbar({ onLoginClick }) {
           className="flex items-center gap-2 sm:gap-3 select-none"
           onClick={() => setIsMenuOpen(false)}
         >
-          <img
-            src={logo}
-            alt="Placify Logo"
-            className="h-10 w-auto object-contain"
-          />
-          <span
-            className={`${
-              darkMode ? "text-gray-100" : "text-gray-900"
-            } font-semibold text-base sm:text-lg`}
-          >
+          <img src={logo} alt="Placify Logo" className="h-10 w-auto object-contain" />
+          <span className={`${darkMode ? "text-gray-100" : "text-gray-900"} font-semibold text-base sm:text-lg`}>
             PLACIFY
           </span>
         </Link>
 
-<<<<<<< HEAD
-        {/* Desktop controls */}
-        <div className="hidden md:flex items-center gap-4">
-          <button className="flex items-center gap-1 hover:opacity-90">
-            <span>Resources</span>
-            <span className="opacity-80">▾</span>
-          </button>
-=======
         {/* Right controls – flat (no inner pills), all inside the same navbar */}
         <div className="flex items-center gap-5">
-          {/* <span className="hidden sm:inline font-extrabold">TUF</span> */}
-
           {/* Resources dropdown */}
           <div className="relative" ref={resourcesRef}>
             <button
@@ -106,34 +86,41 @@ function Navbar({ onLoginClick }) {
             {showResources && (
               <div className="absolute right-0 mt-3 w-64">
                 <div
-                  className={`${darkMode ? 'bg-[#1a1a1a] text-white border-white/10' : 'bg-white text-gray-800 border-gray-200'} border rounded-xl shadow-2xl overflow-hidden`}
+                  className={`${
+                    darkMode ? "bg-[#1a1a1a] text-white border-white/10" : "bg-white text-gray-800 border-gray-200"
+                  } border rounded-xl shadow-2xl overflow-hidden`}
                 >
                   <ul className="py-2">
                     <li>
-                      <Link to="/dsa" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>Striver's DSA Sheet</Link>
+                      <Link to="/dsa" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>
+                        Striver's DSA Sheet
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/resources" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>System Design Sheet</Link>
+                      <Link to="/resources" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>
+                        System Design Sheet
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/resources" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>Core Subjects</Link>
+                      <Link to="/resources" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>
+                        Core Subjects
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/resources" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>Interview Experiences</Link>
+                      <Link to="/resources" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>
+                        Interview Experiences
+                      </Link>
                     </li>
                   </ul>
                 </div>
               </div>
             )}
           </div>
->>>>>>> 0f72b1272ea4c0e7664e30103d18493f3aaa872a
 
           <button
             onClick={toggleTheme}
             className="h-8 w-8 flex items-center justify-center hover:opacity-90 transition-transform duration-300 hover:rotate-12"
-            aria-label={
-              darkMode ? "Switch to light mode" : "Switch to dark mode"
-            }
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
             {darkMode ? "🌙" : "☀️"}
@@ -141,9 +128,7 @@ function Navbar({ onLoginClick }) {
 
           <button
             className="bg-[#ea7a47] hover:bg-[#e06d37] text-white font-medium px-4 py-2 rounded-2xl cursor-pointer"
-            onClick={() =>
-              onLoginClick ? onLoginClick() : navigate("/signin")
-            }
+            onClick={() => (onLoginClick ? onLoginClick() : navigate("/signin"))}
           >
             Login
           </button>
@@ -157,42 +142,21 @@ function Navbar({ onLoginClick }) {
           onClick={() => setIsMenuOpen((v) => !v)}
         >
           <span className="sr-only">Toggle menu</span>
-          <svg
-            className={`h-6 w-6 ${darkMode ? "text-white" : "text-black"}`}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg className={`h-6 w-6 ${darkMode ? "text-white" : "text-black"}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             {isMenuOpen ? (
-              <path
-                d="M6 18L18 6M6 6l12 12"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             ) : (
-              <path
-                d="M4 6h16M4 12h16M4 18h16"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             )}
           </svg>
         </button>
       </div>
 
       {/* Mobile dropdown */}
-      <div
-        className={`md:hidden px-4 sm:px-6 lg:px-8 pb-3 ${
-          isMenuOpen ? "block" : "hidden"
-        }`}
-      >
+      <div className={`md:hidden px-4 sm:px-6 lg:px-8 pb-3 ${isMenuOpen ? "block" : "hidden"}`}>
         <div
           className={`flex flex-col gap-3 rounded-2xl border ${
-            darkMode
-              ? "border-gray-700 bg-[#0a0a0a]"
-              : "border-gray-200 bg-white"
+            darkMode ? "border-gray-700 bg-[#0a0a0a]" : "border-gray-200 bg-white"
           } p-3`}
         >
           <button
@@ -207,9 +171,7 @@ function Navbar({ onLoginClick }) {
               setIsMenuOpen(false);
             }}
             className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a]"
-            aria-label={
-              darkMode ? "Switch to light mode" : "Switch to dark mode"
-            }
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
             {darkMode ? "Light mode ☀️" : "Dark mode 🌙"}
           </button>
