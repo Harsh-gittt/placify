@@ -57,6 +57,7 @@ h6 {
   border-color: #d1d5db;
 }
 
+<<<<<<< HEAD
 /* Global responsive guards */
 html,
 body {
@@ -64,3 +65,29 @@ body {
 }
 
 /* Avoid globally forcing media sizes; control sizing within components */
+=======
+/* Learners marquee animation */
+.marquee-container {
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: learners-marquee 25s linear infinite;
+}
+
+@keyframes learners-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause on hover (optional, nice for UX) */
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
+}
+>>>>>>> 0f72b1272ea4c0e7664e30103d18493f3aaa872a

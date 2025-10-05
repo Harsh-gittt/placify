@@ -54,6 +54,13 @@ function HeroSection() {
   const { darkMode } = useTheme();
   const [first_name, setFirstName] = useState(null);
   const [checking, setChecking] = useState(true);
+  const rotatingItems = [
+    { label: 'DSA Sheet', className: 'text-teal-400' },
+    { label: 'Interview Insights', className: 'text-purple-400' },
+    { label: 'CS Subjects', className: 'text-amber-400' },
+    { label: 'CP Sheets', className: 'text-sky-400' }
+  ];
+  const [rotIdx, setRotIdx] = useState(0);
 
   async function checkUser() {
     const first_name = await GetUserDetails();
@@ -64,6 +71,13 @@ function HeroSection() {
   useEffect(() => {
     checkUser();
   },[])
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setRotIdx((i) => (i + 1) % rotatingItems.length);
+    }, 2000);
+    return () => clearInterval(id);
+  }, [])
 
   const handleLogout = () => {
     localStorage.removeItem("auth_token");
@@ -82,7 +96,7 @@ function HeroSection() {
         {/* Main Headline */}
         <h1 className="text-6xl md:text-7xl font-extrabold leading-tight mb-6">
           <span className={`block ${darkMode ? 'text-white' : 'text-black'}`}>Advance Your Career with</span>
-          <span className="block text-teal-400 mt-2">CP Sheets</span>
+          <span className={`block mt-2 ${rotatingItems[rotIdx].className}`}>{rotatingItems[rotIdx].label}</span>
         </h1>
 
         {/* Sub-headline with Top 1% badge */}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/images/Placify3.png";
 import { useTheme } from "../context/ThemeContext";
@@ -29,12 +29,28 @@ function Navbar({ onLoginClick }) {
   const [first_name, setFirstName] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { darkMode, toggleTheme } = useTheme();
+  const [showResources, setShowResources] = useState(false);
+  const resourcesRef = useRef(null);
 
   useEffect(() => {
     (async () => {
       const name = await GetUserDetails();
       setFirstName(name);
     })();
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (resourcesRef.current && !resourcesRef.current.contains(e.target)) {
+        setShowResources(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside, { passive: true });
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    }
   }, []);
 
   return (
@@ -66,12 +82,51 @@ function Navbar({ onLoginClick }) {
           </span>
         </Link>
 
+<<<<<<< HEAD
         {/* Desktop controls */}
         <div className="hidden md:flex items-center gap-4">
           <button className="flex items-center gap-1 hover:opacity-90">
             <span>Resources</span>
             <span className="opacity-80">▾</span>
           </button>
+=======
+        {/* Right controls – flat (no inner pills), all inside the same navbar */}
+        <div className="flex items-center gap-5">
+          {/* <span className="hidden sm:inline font-extrabold">TUF</span> */}
+
+          {/* Resources dropdown */}
+          <div className="relative" ref={resourcesRef}>
+            <button
+              className="flex items-center gap-1 hover:opacity-90"
+              onClick={() => setShowResources((s) => !s)}
+            >
+              <span>Resources</span>
+              <span className="opacity-80">▾</span>
+            </button>
+            {showResources && (
+              <div className="absolute right-0 mt-3 w-64">
+                <div
+                  className={`${darkMode ? 'bg-[#1a1a1a] text-white border-white/10' : 'bg-white text-gray-800 border-gray-200'} border rounded-xl shadow-2xl overflow-hidden`}
+                >
+                  <ul className="py-2">
+                    <li>
+                      <Link to="/dsa" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>Striver's DSA Sheet</Link>
+                    </li>
+                    <li>
+                      <Link to="/resources" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>System Design Sheet</Link>
+                    </li>
+                    <li>
+                      <Link to="/resources" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>Core Subjects</Link>
+                    </li>
+                    <li>
+                      <Link to="/resources" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>Interview Experiences</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+>>>>>>> 0f72b1272ea4c0e7664e30103d18493f3aaa872a
 
           <button
             onClick={toggleTheme}
