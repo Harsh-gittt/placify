@@ -1,4 +1,3 @@
-// Signup.jsx
 import React, { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 
@@ -25,12 +24,21 @@ export default function Signup({ isOpen, onClose, openSignin }) {
         body: JSON.stringify(formData),
       });
 
-      // optional: check res.ok / response status
-      alert("Signup Successful ✅. Redirecting to Signin Page.");
-      navigate("/signin");
+      // ✅ FIX: Proper response handling
+      if (res.ok) {
+        const data = await res.json();
+        alert("Signup Successful ✅");
+        // ✅ FIX: Clear form and close modal
+        setFormData({ first_name: "", last_name: "", email: "", password: "" });
+        onClose?.();
+        openSignin?.(); // Open signin modal
+      } else {
+        const error = await res.json();
+        alert(error.message || "Signup Failed ❌");
+      }
     } catch (err) {
       console.error(err);
-      alert("Signup Failed ❌");
+      alert("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -39,15 +47,16 @@ export default function Signup({ isOpen, onClose, openSignin }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
-      <div className={`max-w-md w-full ${darkMode ? 'bg-black rounded-4xl' : 'bg-white rounded-4xl'} transition-colors duration-300 p-4`}>
+    // ✅ FIX: Added proper backdrop
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className={`max-w-md w-full mx-4 ${darkMode ? 'bg-black rounded-2xl' : 'bg-white rounded-2xl'} transition-colors duration-300 p-4`}>
         <div className="max-w-md mx-auto">
           <div
             className={`
               relative
               w-full
               rounded-2xl
-              ${darkMode ? 'bg-black-900 text-white' : 'bg-white text-gray-900'}
+              ${darkMode ? 'bg-black text-white' : 'bg-white text-gray-900'}
               shadow-lg
               overflow-hidden
               transition-colors duration-300
@@ -89,7 +98,7 @@ export default function Signup({ isOpen, onClose, openSignin }) {
                     required
                     className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
                     ${darkMode 
-                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
+                      ? 'bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
                       : 'bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600'}`}
                   />
                 </label>
@@ -103,7 +112,7 @@ export default function Signup({ isOpen, onClose, openSignin }) {
                     required
                     className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
                     ${darkMode 
-                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
+                      ? 'bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
                       : 'bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600'}`}
                   />
                 </label>
@@ -119,7 +128,7 @@ export default function Signup({ isOpen, onClose, openSignin }) {
                   required
                   className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
                   ${darkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
+                    ? 'bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
                     : 'bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600'}`}
                 />
               </label>
@@ -130,11 +139,12 @@ export default function Signup({ isOpen, onClose, openSignin }) {
                   type="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Password"
+                  placeholder="Password (min 6 characters)"
                   required
+                  minLength="6"
                   className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
                   ${darkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
+                    ? 'bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500' 
                     : 'bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600'}`}
                 />
               </label>

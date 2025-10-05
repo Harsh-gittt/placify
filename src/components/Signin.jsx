@@ -1,6 +1,4 @@
-// Signin.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 export default function Signin({ isOpen, onClose, openSignup }) {
@@ -25,19 +23,21 @@ export default function Signin({ isOpen, onClose, openSignup }) {
         body: JSON.stringify(formData),
       });
 
-      // Optionally check response status
       if (res.ok) {
         const data = await res.json();
         localStorage.setItem("auth_token", data.auth_token);
-        alert("Signin successful ✅.");
+        alert("Signin successful ✅");
+        // ✅ FIX: Clear form and close modal
+        setFormData({ email: "", password: "" });
         onClose?.();
+        // Optionally redirect or update app state
       } else {
         const err = await res.json().catch(() => ({}));
-        alert(err.message || "Signin failed");
+        alert(err.message || "Signin failed ❌");
       }
     } catch (err) {
       console.error(err);
-      alert(err);
+      alert("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -46,10 +46,11 @@ export default function Signin({ isOpen, onClose, openSignup }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
+    // ✅ FIX: Added proper backdrop
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div
-        className={`max-w-md w-full ${
-          darkMode ? "bg-black rounded-4xl" : "bg-white rounded-4xl"
+        className={`max-w-md w-full mx-4 ${
+          darkMode ? "bg-black rounded-2xl" : "bg-white rounded-2xl"
         } transition-colors duration-300 p-4`}
       >
         <div className="max-w-md mx-auto">
@@ -112,7 +113,7 @@ export default function Signin({ isOpen, onClose, openSignup }) {
                     className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
                     ${
                       darkMode
-                        ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
+                        ? "bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
                         : "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600"
                     }`}
                   />
@@ -129,7 +130,7 @@ export default function Signin({ isOpen, onClose, openSignup }) {
                     className={`w-full px-4 py-3 text-base rounded-lg focus:outline-none transition-colors duration-300
                     ${
                       darkMode
-                        ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
+                        ? "bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
                         : "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-600 focus:border-blue-600"
                     }`}
                   />
