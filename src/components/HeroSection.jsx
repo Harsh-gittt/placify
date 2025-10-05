@@ -132,12 +132,6 @@ function HeroSection() {
             <p className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-black'}`}>
               Welcome back, <span className="text-orange-500">{first_name}</span> 👋
             </p>
-            <button
-              onClick={handleLogout}
-              className={`mt-4 border ${darkMode ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-black hover:text-white'} px-4 py-2 rounded-lg transition-colors duration-300`}
-            >
-              Logout
-            </button>
           </div>
         ) : null}
       </div>
