@@ -85,7 +85,7 @@ function Navbar({ onLoginClick }) {
   }
 
   return (
-    <nav className={`fixed top-0 inset-x-0 z-40 w-full ${darkMode ? 'bg-black' : 'bg-white'} ${darkMode ? 'text-white' : 'text-black'} transition-colors duration-300`}>
+    <nav className={`fixed top-3 inset-x-0 z-40 w-full bg-transparent ${darkMode ? 'text-white' : 'text-black'} transition-colors duration-300`}>
       <div className={`max-w-7xl mx-auto px-4 sm:px-6 ${darkMode ? 'bg-[#232323]' : 'bg-gray-200'} px-4 rounded-2xl transition-colors duration-300 flex items-center justify-between`}>
         {/* Left brand logo and name */}
         <Link to="/" className={`flex items-center gap-3 py-2 rounded-2xl transition-colors duration-300`}>
