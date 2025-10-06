@@ -11,15 +11,12 @@ import Signup from "./components/Signup.jsx"
 import Signin from './components/Signin.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 
-
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />
   },
-
-  // auth modals are rendered inside App; routes removed
-{
+  {
     path: "/dsa",
     element: <Dsa />
   },
