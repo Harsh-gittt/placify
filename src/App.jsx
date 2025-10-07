@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "./components/Navbar";
-import HeroSection from "./components/HeroSection";
-import ResourcesGrid from "./components/ResourcesGrid";
-import LearningShowcase from "./components/LearningShowcase";
-import LearnersMarquee from "./components/LearnersMarquee";
-import CommunityStats from "./components/CommunityStats";
-import Footer from "./components/Footer";
-import { ThemeProvider, useTheme } from "./context/ThemeContext";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
+import React, { useEffect, useState } from 'react'
+import Navbar from './components/Navbar'
+import HeroSection from './components/HeroSection'
+import ResourcesGrid from './components/ResourcesGrid'
+import LearningShowcase from './components/LearningShowcase'
+import LearnersMarquee from './components/LearnersMarquee'
+import CommunityStats from './components/CommunityStats'
+import Footer from './components/Footer'
+import { useTheme } from './context/ThemeContext'
+import Signin from './components/Signin'
+import Signup from './components/Signup'
 
 const AppContent = () => {
   const { darkMode } = useTheme();
   const [showSignin, setShowSignin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-
   // Apply theme class to document element for global styling
   useEffect(() => {
     if (darkMode) {
@@ -37,7 +36,6 @@ const AppContent = () => {
       <LearningShowcase />
       <CommunityStats />
       <Footer />
-
       {showSignin && (
         <Signin
           isOpen={showSignin}
@@ -63,11 +61,7 @@ const AppContent = () => {
 };
 
 function App() {
-  return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
-  );
+  return <AppContent />;
 }
 
 export default App;

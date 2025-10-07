@@ -26,11 +26,12 @@ export default function Signin({ isOpen, onClose, openSignup }) {
       if (res.ok) {
         const data = await res.json();
         localStorage.setItem("auth_token", data.auth_token);
-        alert("Signin successful ✅");
-        // ✅ FIX: Clear form and close modal
-        setFormData({ email: "", password: "" });
+        alert("Signin successful ✅.");
+        // Notify the app (e.g., Navbar) that auth status has changed
+        window.dispatchEvent(new Event('auth:update'));
         onClose?.();
-        // Optionally redirect or update app state
+        // Full page refresh so the entire app rehydrates with auth state
+        window.location.reload();
       } else {
         const err = await res.json().catch(() => ({}));
         alert(err.message || "Signin failed ❌");

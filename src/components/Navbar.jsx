@@ -31,12 +31,23 @@ function Navbar({ onLoginClick }) {
   const { darkMode, toggleTheme } = useTheme();
   const [showResources, setShowResources] = useState(false);
   const resourcesRef = useRef(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef(null);
 
   useEffect(() => {
-    (async () => {
+    async function fetchAndSetName() {
       const name = await GetUserDetails();
       setFirstName(name);
-    })();
+    }
+
+    fetchAndSetName();
+
+    function handleAuthUpdate() {
+      fetchAndSetName();
+    }
+
+    window.addEventListener('auth:update', handleAuthUpdate);
+    return () => window.removeEventListener('auth:update', handleAuthUpdate);
   }, []);
 
   useEffect(() => {
@@ -44,32 +55,47 @@ function Navbar({ onLoginClick }) {
       if (resourcesRef.current && !resourcesRef.current.contains(e.target)) {
         setShowResources(false);
       }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setShowUserMenu(false);
+      }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside, { passive: true });
+    function handleEsc(e) {
+      if (e.key === 'Escape') {
+        setShowResources(false);
+        setShowUserMenu(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside, { passive: true });
+    document.addEventListener('keydown', handleEsc);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleEsc);
+    }
   }, []);
 
+  function handleSignOut() {
+    try {
+      localStorage.removeItem('auth_token');
+    } catch {}
+    setFirstName(null);
+    setShowUserMenu(false);
+    window.dispatchEvent(new Event('auth:update'));
+    navigate('/');
+  }
+
   return (
-    <nav
-      className={`fixed top-0 inset-x-0 z-40 w-full ${
-        darkMode ? "bg-black" : "bg-white"
-      } ${darkMode ? "text-white" : "text-black"} transition-colors duration-300`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
+    <nav className={`fixed top-3 inset-x-0 z-40 w-full bg-transparent ${darkMode ? 'text-white' : 'text-black'} transition-colors duration-300`}>
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 ${darkMode ? 'bg-[#232323]' : 'bg-gray-200'} px-4 rounded-2xl transition-colors duration-300 flex items-center justify-between`}>
         {/* Left brand logo and name */}
-        <Link
-          to="/"
-          className="flex items-center gap-2 sm:gap-3 select-none"
-          onClick={() => setIsMenuOpen(false)}
-        >
-          <img src={logo} alt="Placify Logo" className="h-10 w-auto object-contain" />
-          <span className={`${darkMode ? "text-gray-100" : "text-gray-900"} font-semibold text-base sm:text-lg`}>
-            PLACIFY
-          </span>
+        <Link to="/" className={`flex items-center gap-3 py-2 rounded-2xl transition-colors duration-300`}>
+          <img 
+            src={logo} 
+            alt="Placify Logo" 
+            className="h-11 rounded-lg object-cover"
+          />
+          <span className={`${darkMode ? 'text-gray-200' : 'text-gray-800'} font-medium text-xl transition-colors duration-300`}>PLACIFY</span>
         </Link>
 
         {/* Right controls – flat (no inner pills), all inside the same navbar */}
@@ -126,12 +152,60 @@ function Navbar({ onLoginClick }) {
             {darkMode ? "🌙" : "☀️"}
           </button>
 
-          <button
-            className="bg-[#ea7a47] hover:bg-[#e06d37] text-white font-medium px-4 py-2 rounded-2xl cursor-pointer"
-            onClick={() => (onLoginClick ? onLoginClick() : navigate("/signin"))}
-          >
-            Login
-          </button>
+          {first_name ? (
+            <div className="relative" ref={userMenuRef}>
+              <button
+                onClick={() => setShowUserMenu((s) => !s)}
+                className={`h-10 w-10 rounded-full flex items-center justify-center ${darkMode ? 'bg-[#232323] text-white' : 'bg-gray-200 text-gray-800'} hover:opacity-90`}
+                aria-haspopup="menu"
+                aria-expanded={showUserMenu ? 'true' : 'false'}
+                title={`Hi, ${first_name}`}
+              >
+                <span aria-hidden>🙋</span>
+                <span className="sr-only">Open user menu</span>
+              </button>
+              {showUserMenu && (
+                <div className="absolute right-0 mt-3 w-72">
+                  <div className={`${darkMode ? 'bg-[#1a1a1a] text-white border-white/10' : 'bg-white text-gray-800 border-gray-200'} border rounded-xl shadow-2xl overflow-hidden`}> 
+                    <div className="px-4 py-3 flex items-center gap-3 border-b border-white/5">
+                      <div className={`${darkMode ? 'bg-[#232323]' : 'bg-gray-200'} h-12 w-12 rounded-full flex items-center justify-center text-xl`}>👤</div>
+                      <div className="min-w-0">
+                        <div className="font-semibold truncate">Hi, {first_name}</div>
+                      </div>
+                      <button className="ml-auto opacity-70 hover:opacity-100" onClick={() => setShowUserMenu(false)} aria-label="Close user menu">✖</button>
+                    </div>
+                    <ul className="py-2">
+                      <li>
+                        <button
+                          className="w-full text-left px-4 py-2 hover:bg-[#ea7a47]/10 flex gap-2 items-center"
+                          onClick={() => { setShowUserMenu(false); navigate('/profile'); }}
+                        >
+                          <span>👤</span>
+                          <span>Profile</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="w-full text-left px-4 py-2 hover:bg-[#ea7a47]/10 flex gap-2 items-center"
+                          onClick={handleSignOut}
+                        >
+                          <span>↪</span>
+                          <span>Sign Out</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              className="bg-[#ea7a47] hover:bg-[#e06d37] text-white font-medium px-5 py-2 rounded-2xl cursor-pointer"
+              onClick={() => (onLoginClick ? onLoginClick() : navigate("/signin"))}
+            >
+              Login
+            </button>
+          )}
         </div>
 
         {/* Mobile menu button */}
