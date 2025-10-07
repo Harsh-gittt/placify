@@ -48,7 +48,7 @@ export default function Signin({ isOpen, onClose, openSignup }) {
 
   return (
     // ✅ FIX: Added proper backdrop
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[2px]">
       <div
         className={`max-w-md w-full mx-4 ${
           darkMode ? "bg-black rounded-2xl" : "bg-white rounded-2xl"

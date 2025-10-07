@@ -37,7 +37,7 @@ function LearningShowcase(){
 
   const content = {
     dsa: [
-      { title: "Striver’s DSA Sheet", description: "Your ultimate guide to mastering DSA with curated questions.", to: "/dsa" },
+      { title: "DSA Sheet", description: "Your ultimate guide to mastering DSA with curated questions.", to: "/dsa" },
       { title: "Core DSA Topics", description: "Simplify complex concepts with a structured and focused approach.", to: "/dsa" },
       { title: "Problem–Solving Made Easy", description: "Solve a variety of problems to sharpen your skills and prepare for interviews", to: "/dsa" }
     ],
@@ -65,7 +65,7 @@ function LearningShowcase(){
         <div className={`${darkMode ? 'bg-[#1f1f1f] border-white/10' : 'bg-gray-100 border-gray-200'} rounded-3xl p-6 sm:p-10 border transition-colors duration-300`}>
           {/* Tabs */}
           <div className="flex flex-wrap gap-4 justify-center">
-            <Tab active={active==='dsa'} label="Striver's DSA Sheet" onClick={() => setActive('dsa')} />
+            <Tab active={active==='dsa'} label="DSA Sheet" onClick={() => setActive('dsa')} />
             <Tab active={active==='system'} label="System Design" onClick={() => setActive('system')} />
             <Tab active={active==='subjects'} label="Core Subjects" onClick={() => setActive('subjects')} />
             <Tab active={active==='interviews'} label="Interview Experiences" onClick={() => setActive('interviews')} />

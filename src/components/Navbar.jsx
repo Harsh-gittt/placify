@@ -119,7 +119,7 @@ function Navbar({ onLoginClick }) {
                   <ul className="py-2">
                     <li>
                       <Link to="/dsa" className="block px-4 py-2 hover:bg-[#ea7a47]/10" onClick={() => setShowResources(false)}>
-                        Striver's DSA Sheet
+                        DSA Sheet
                       </Link>
                     </li>
                     <li>

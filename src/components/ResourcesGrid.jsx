@@ -44,12 +44,12 @@ function ResourcesGrid() {
   const { darkMode } = useTheme();
 
   const items = [
-    { title: "Striver's DSA Sheet", subtitle: "Boost your DSA skills with our handy cheat sheets", to: "/dsa", bg: "[\#E57C54]", icon: '📄' },
-    { title: "Technical Blogs", subtitle: "Explore Tech Innovation with Engaging Blogs", to: "/resources", bg: "[\#59A6E8]", icon: '✍️' },
-    { title: "Striver's CP Sheet", subtitle: "Level Up Your Coding with Practice Resources", to: "/resources", bg: "[\#3B9D91]", icon: '🧠' },
-    { title: "Be Partner", subtitle: "be partner to help others and enhance your own knowledge", to: "/Study-Partner", bg: "[\#D6666A]", icon: '👥' },
-    { title: "CS Subjects", subtitle: "Ace interviews with Expert Insights", to: "/resources", bg: "[\#9B7AE1]", icon: '🎓' },
-    { title: "Interview Experience", subtitle: "Learn from Others' Experiences to Ace Interviews", to: "/resources", bg: "[\#D6AE57]", icon: '👥' },
+    { title: "DSA Sheet", subtitle: "Boost your DSA skills with our handy cheat sheets", to: "/dsa", bg: "[#E57C54]", icon: '📄' },
+    { title: "Technical Blogs", subtitle: "Explore Tech Innovation with Engaging Blogs", to: "/resources", bg: "[#59A6E8]", icon: '✍️' },
+    { title: "CP Sheet", subtitle: "Level Up Your Coding with Practice Resources", to: "/resources", bg: "[#3B9D91]", icon: '🧠' },
+    { title: "Be Partner", subtitle: "be partner to help others and enhance your own knowledge", to: "/Study-Partner", bg: "[#D6666A]", icon: '👥' },
+    { title: "CS Subjects", subtitle: "Ace interviews with Expert Insights", to: "/resources", bg: "[#9B7AE1]", icon: '🎓' },
+    { title: "Interview Experience", subtitle: "Learn from Others' Experiences to Ace Interviews", to: "/resources", bg: "[#D6AE57]", icon: '👥' },
   ]
 
   return (
