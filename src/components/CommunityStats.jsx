@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "../context/ThemeContext";
 import { FaLaptopCode, FaChartLine, FaUsers, FaBriefcase } from "react-icons/fa";
+import CountUp from "react-countup";
 
 function Stat({ value, label, icon: Icon }) {
   const { darkMode } = useTheme();
@@ -24,6 +25,11 @@ function Stat({ value, label, icon: Icon }) {
   const darkClasses =
     "bg-gradient-to-b from-[#ece7e3]/10 to-[#000000]/30 border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.55)] text-white";
 
+  // Extract numeric part for CountUp
+  const match = String(value).match(/(\d+[.,]?\d*)/);
+  const end = match ? parseFloat(match[1].replace(/,/g, '')) : 0;
+  const suffix = value.replace(/(\d+[.,]?\d*)/, "");
+
   return (
     <div className={`${containerClasses} ${darkMode ? darkClasses : lightClasses}`}>
       {Icon ? (
@@ -36,7 +42,9 @@ function Stat({ value, label, icon: Icon }) {
         <div className="w-12 h-12" aria-hidden="true" />
       )}
 
-      <div className="text-3xl font-bold">{value}</div>
+      <div className="text-3xl font-bold">
+        <CountUp end={end} duration={2} enableScrollSpy scrollSpyOnce suffix={suffix} />
+      </div>
       <div className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>{label}</div>
     </div>
   );
@@ -52,10 +60,10 @@ function CommunityStats() {
   const { darkMode } = useTheme();
 
   const stats = [
-    { value: "50K+", label: "DSA Questions Practiced", icon: FaLaptopCode },
-    { value: "10K+", label: "Aptitude Tests Attempted", icon: FaChartLine },
-    { value: "20K+", label: "Students Preparing with Us", icon: FaUsers },
-    { value: "1K+", label: "Internships Shared", icon: FaBriefcase },
+    { value: "250+", label: "DSA Questions", icon: FaLaptopCode },
+    { value: "50+", label: "Student Partners", icon: FaUsers },
+    { value: "100+", label: "Aptitude Drills", icon: FaChartLine },
+    { value: "75+", label: "Resumes Improved", icon: FaBriefcase },
   ];
 
   return (
@@ -66,7 +74,7 @@ function CommunityStats() {
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-12">Empowering Students for Career Success</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((s, idx) => (
             <Stat key={idx} {...s} />
           ))}

@@ -57,7 +57,6 @@ h6 {
   border-color: #d1d5db;
 }
 
-<<<<<<< HEAD
 /* Global responsive guards */
 html,
 body {
@@ -65,7 +64,7 @@ body {
 }
 
 /* Avoid globally forcing media sizes; control sizing within components */
-=======
+
 /* Learners marquee animation */
 .marquee-container {
   overflow: hidden;
@@ -90,4 +89,12 @@ body {
 .marquee-container:hover .marquee-track {
   animation-play-state: paused;
 }
->>>>>>> 0f72b1272ea4c0e7664e30103d18493f3aaa872a
+
+/* Hide scrollbar utility */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

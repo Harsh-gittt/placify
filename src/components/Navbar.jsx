@@ -86,20 +86,20 @@ function Navbar({ onLoginClick }) {
   }
 
   return (
-    <nav className={`fixed top-3 inset-x-0 z-40 w-full bg-transparent ${darkMode ? 'text-white' : 'text-black'} transition-colors duration-300`}>
-      <div className={`max-w-7xl mx-auto px-4 sm:px-6 ${darkMode ? 'bg-[#232323]' : 'bg-gray-200'} px-4 rounded-2xl transition-colors duration-300 flex items-center justify-between`}>
+    <nav className={`fixed top-0 md:top-3 inset-x-0 z-40 w-full bg-transparent ${darkMode ? 'text-white' : 'text-black'} transition-colors duration-300`}>
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 ${darkMode ? 'bg-[#232323]' : 'bg-gray-200'} px-4 md:rounded-2xl transition-colors duration-300 flex items-center justify-between py-3 md:py-5`}>
         {/* Left brand logo and name */}
-        <Link to="/" className={`flex items-center gap-3 py-2 rounded-2xl transition-colors duration-300`}>
+        <Link to="/" className={`flex items-center gap-3 rounded-2xl transition-colors duration-300`}>
           <img 
             src={logo} 
             alt="Placify Logo" 
-            className="h-11 rounded-lg object-cover"
+            className="h-10 sm:h-12 md:h-14 rounded-lg object-cover transition-all duration-300"
           />
-          <span className={`${darkMode ? 'text-gray-200' : 'text-gray-800'} font-medium text-xl transition-colors duration-300`}>PLACIFY</span>
+          <span className={`${darkMode ? 'text-gray-200' : 'text-gray-800'} font-medium text-lg sm:text-xl transition-colors duration-300`}>PLACIFY</span>
         </Link>
 
-        {/* Right controls – flat (no inner pills), all inside the same navbar */}
-        <div className="flex items-center gap-5">
+        {/* Right controls – desktop only */}
+        <div className="hidden md:flex items-center gap-5">
           {/* Resources dropdown */}
           <div className="relative" ref={resourcesRef}>
             <button
@@ -112,9 +112,7 @@ function Navbar({ onLoginClick }) {
             {showResources && (
               <div className="absolute right-0 mt-3 w-64">
                 <div
-                  className={`${
-                    darkMode ? "bg-[#1a1a1a] text-white border-white/10" : "bg-white text-gray-800 border-gray-200"
-                  } border rounded-xl shadow-2xl overflow-hidden`}
+                  className={`${darkMode ? "bg-[#1a1a1a] text-white border-white/10" : "bg-white text-gray-800 border-gray-200"} border rounded-xl shadow-2xl overflow-hidden`}
                 >
                   <ul className="py-2">
                     <li>
@@ -143,6 +141,7 @@ function Navbar({ onLoginClick }) {
             )}
           </div>
 
+          {/* Dark mode toggle always visible */}
           <button
             onClick={toggleTheme}
             className="h-8 w-8 flex items-center justify-center hover:opacity-90 transition-transform duration-300 hover:rotate-12"
@@ -208,56 +207,74 @@ function Navbar({ onLoginClick }) {
           )}
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden inline-flex items-center justify-center p-2 rounded-xl border border-transparent hover:border-gray-300 transition-colors"
-          aria-label="Toggle menu"
-          aria-expanded={isMenuOpen}
-          onClick={() => setIsMenuOpen((v) => !v)}
-        >
-          <span className="sr-only">Toggle menu</span>
-          <svg className={`h-6 w-6 ${darkMode ? "text-white" : "text-black"}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {isMenuOpen ? (
-              <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            ) : (
-              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            )}
-          </svg>
-        </button>
+        {/* Mobile right controls: dark mode toggle and hamburger */}
+        <div className="md:hidden flex items-center gap-2 ml-auto">
+          <button
+            onClick={toggleTheme}
+            className="h-8 w-8 flex items-center justify-center hover:opacity-90 transition-transform duration-300 hover:rotate-12"
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {darkMode ? "🌙" : "☀️"}
+          </button>
+          <button
+            className="inline-flex items-center justify-center p-2 rounded-xl border border-transparent hover:border-gray-300 transition-colors"
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((v) => !v)}
+          >
+            <span className="sr-only">Toggle menu</span>
+            <svg className={`h-6 w-6 ${darkMode ? "text-white" : "text-black"}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {isMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Mobile dropdown */}
       <div className={`md:hidden px-4 sm:px-6 lg:px-8 pb-3 ${isMenuOpen ? "block" : "hidden"}`}>
         <div
-          className={`flex flex-col gap-3 rounded-2xl border ${
-            darkMode ? "border-gray-700 bg-[#0a0a0a]" : "border-gray-200 bg-white"
-          } p-3`}
+          className={`flex flex-col gap-3 rounded-2xl border ${darkMode ? "border-gray-700 bg-[#0a0a0a]" : "border-gray-200 bg-white"} p-3`}
         >
-          <button
-            className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a]"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Resources
-          </button>
-          <button
-            onClick={() => {
-              toggleTheme();
-              setIsMenuOpen(false);
-            }}
-            className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a]"
-            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-          >
-            {darkMode ? "Light mode ☀️" : "Dark mode 🌙"}
-          </button>
-          <button
-            className="bg-[#ea7a47] hover:bg-[#e06d37] text-white font-medium px-5 py-2 rounded-2xl cursor-pointer"
-            onClick={() => {
-              setIsMenuOpen(false);
-              onLoginClick ? onLoginClick() : navigate("/signin");
-            }}
-          >
-            Login
-          </button>
+          <Link to="/dsa" className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a]" onClick={() => setIsMenuOpen(false)}>
+            DSA Sheet
+          </Link>
+          <Link to="/resources" className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a]" onClick={() => setIsMenuOpen(false)}>
+            System Design Sheet
+          </Link>
+          <Link to="/resources" className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a]" onClick={() => setIsMenuOpen(false)}>
+            Core Subjects
+          </Link>
+          <Link to="/resources" className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a]" onClick={() => setIsMenuOpen(false)}>
+            Interview Experiences
+          </Link>
+          {first_name ? (
+            <button
+              className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a]"
+              onClick={() => { setShowUserMenu(false); setIsMenuOpen(false); navigate('/profile'); }}
+            >
+              Profile
+            </button>
+          ) : (
+            <button
+              className="bg-[#ea7a47] hover:bg-[#e06d37] text-white font-medium px-5 py-2 rounded-2xl cursor-pointer"
+              onClick={() => { setIsMenuOpen(false); onLoginClick ? onLoginClick() : navigate("/signin"); }}
+            >
+              Login
+            </button>
+          )}
+          {first_name && (
+            <button
+              className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a]"
+              onClick={() => { setIsMenuOpen(false); handleSignOut(); }}
+            >
+              Sign Out
+            </button>
+          )}
         </div>
       </div>
     </nav>

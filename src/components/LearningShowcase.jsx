@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 
-function Tab({ active, label, onClick }) {
+function Tab({ active, label, onClick, className = '' }) {
   const { darkMode } = useTheme();
-  
   return (
     <button
       onClick={onClick}
-      className={`${active ? 'bg-[#ea7a47] text-white' : `bg-transparent ${darkMode ? 'text-gray-300' : 'text-gray-600'}`} 
-      border ${darkMode ? 'border-[#3a3a3a]' : 'border-gray-300'} px-5 py-2 rounded-xl transition-colors duration-300`}
+      className={`${active ? 'bg-[#ea7a47] text-white' : `bg-transparent ${darkMode ? 'text-gray-300' : 'text-gray-600'}`} border ${darkMode ? 'border-[#3a3a3a]' : 'border-gray-300'} px-5 py-2 rounded-xl transition-colors duration-300 ${className}`}
     >
       {label}
     </button>
@@ -42,9 +40,9 @@ function LearningShowcase(){
       { title: "Problem–Solving Made Easy", description: "Solve a variety of problems to sharpen your skills and prepare for interviews", to: "/dsa" }
     ],
     system: [
-      { title: "System Design Basics", description: "Learn architecture patterns, scalability, and trade-offs with guided notes.", to: "/resources" },
-      { title: "High-Level Design", description: "Design real products step-by-step with diagrams and checklists.", to: "/resources" },
-      { title: "Low-Level Design", description: "Dive into classes, APIs, and data models for robust systems.", to: "/resources" }
+      { title: "Aptitude Practice", description: "Practice quantitative, logical, and verbal questions with explanations.", to: "/resources" },
+      { title: "Topic-wise Drills", description: "Speed–distance, probability, permutations, data interpretation, and more.", to: "/resources" },
+      { title: "Timed Quizzes", description: "Simulate real tests with timers and accuracy tracking.", to: "/resources" }
     ],
     subjects: [
       { title: "OS, DBMS, CN", description: "Concise notes and top interview questions for core CS subjects.", to: "/resources" },
@@ -52,9 +50,9 @@ function LearningShowcase(){
       { title: "Mock Q&A", description: "Practice typical interviewer drills with crisp answers.", to: "/resources" }
     ],
     interviews: [
-      { title: "Company-wise Experiences", description: "Read curated candidate write-ups and pattern insights.", to: "/resources" },
-      { title: "Tips & Traps", description: "What to emphasize, what to avoid, and how to structure answers.", to: "/resources" },
-      { title: "Before The Round", description: "Last day checklist and warm-up problems.", to: "/resources" }
+      { title: "Interview Preparation", description: "End‑to‑end prep: HR, behavioral, CS fundamentals, and projects.", to: "/resources" },
+      { title: "Company Patterns", description: "Company‑wise question patterns and candidate insights.", to: "/resources" },
+      { title: "Before The Round", description: "Last day checklist and how to structure strong answers.", to: "/resources" }
     ]
   }
   return (
@@ -64,11 +62,11 @@ function LearningShowcase(){
 
         <div className={`${darkMode ? 'bg-[#1f1f1f] border-white/10' : 'bg-gray-100 border-gray-200'} rounded-3xl p-6 sm:p-10 border transition-colors duration-300`}>
           {/* Tabs */}
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Tab active={active==='dsa'} label="DSA Sheet" onClick={() => setActive('dsa')} />
-            <Tab active={active==='system'} label="System Design" onClick={() => setActive('system')} />
-            <Tab active={active==='subjects'} label="Core Subjects" onClick={() => setActive('subjects')} />
-            <Tab active={active==='interviews'} label="Interview Experiences" onClick={() => setActive('interviews')} />
+          <div className="flex gap-4 overflow-x-auto whitespace-nowrap no-scrollbar pl-2">
+            <Tab active={active==='dsa'} label="DSA Sheet" onClick={() => setActive('dsa')} className="flex-shrink-0" />
+            <Tab active={active==='system'} label="Aptitude Practice" onClick={() => setActive('system')} className="flex-shrink-0" />
+            <Tab active={active==='subjects'} label="Core Subjects" onClick={() => setActive('subjects')} className="flex-shrink-0" />
+            <Tab active={active==='interviews'} label="Interview Preparation" onClick={() => setActive('interviews')} className="flex-shrink-0" />
           </div>
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
@@ -82,7 +80,7 @@ function LearningShowcase(){
             {/* Right image placeholder */}
             <div className="w-full">
               <div className={`w-full aspect-video rounded-xl ${darkMode ? 'bg-[#0f0f0f] border-white/10' : 'bg-gray-200 border-gray-300'} border flex items-center justify-center ${darkMode ? 'text-gray-500' : 'text-gray-600'} transition-colors duration-300`}>
-                {active==='dsa' ? 'DSA Screenshot' : active==='system' ? 'System Design Preview' : active==='subjects' ? 'Core Subjects Preview' : 'Interview Experiences Preview'}
+                {active==='dsa' ? 'DSA Screenshot' : active==='system' ? 'Aptitude Preview' : active==='subjects' ? 'Core Subjects Preview' : 'Interview Preparation Preview'}
               </div>
             </div>
           </div>
