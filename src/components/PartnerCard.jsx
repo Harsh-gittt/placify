@@ -1,8 +1,16 @@
-import React from "react"
-import { useTheme } from '../context/ThemeContext'
+import React from "react";
 
-function PartnerCard({ name, skills, lookingFor }) {
-  const { darkMode } = useTheme();
+function PartnerCard({
+  id,
+  name,
+  skills,
+  lookingFor,
+  email,
+  onConnect,
+  connectionStatus,
+}) {
+  // Render skills as comma-separated if array
+  const skillsText = Array.isArray(skills) ? skills.join(", ") : skills;
   return (
     <div className={`border rounded-xl p-6 w-72 shadow-lg flex flex-col justify-between transition-colors duration-300 ${darkMode ? 'bg-[#1f1f1f] border-orange-400 text-white' : 'bg-white border-orange-200 text-gray-900'}`}>
       {/* Avatar placeholder */}
@@ -11,15 +19,36 @@ function PartnerCard({ name, skills, lookingFor }) {
         <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{name}</h2>
       </div>
       {/* Skills */}
-      <p className={`font-semibold text-sm mb-2 ${darkMode ? 'text-orange-400' : 'text-orange-500'}`}>Skills:</p>
-      <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} text-sm mb-4`}>{skills}</p>
+      <p className="text-purple-400 font-semibold text-sm mb-2">Skills:</p>
+      <p className="text-gray-300 text-sm mb-4">{skillsText}</p>
       {/* Looking for */}
-      <p className={`font-semibold text-sm mb-2 ${darkMode ? 'text-orange-400' : 'text-orange-500'}`}>Looking for:</p>
-      <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} text-sm mb-6`}>{lookingFor}</p>
-      {/* Connect Button */}
-      <button className={`px-4 py-2 rounded-xl font-semibold transition-colors duration-200 ${darkMode ? 'bg-orange-400 text-white hover:bg-orange-500' : 'bg-orange-400 text-white hover:bg-orange-500'}`}>Connect</button>
+      <p className="text-purple-400 font-semibold text-sm mb-2">Looking for:</p>
+      <p className="text-gray-300 text-sm mb-6">{lookingFor}</p>
+      {/* Connect Button or Status */}
+      {connectionStatus === "pending" ? (
+        <button
+          className="bg-orange-400 text-white px-4 py-2 rounded-xl cursor-not-allowed opacity-70"
+          disabled
+        >
+          Request Sent
+        </button>
+      ) : connectionStatus === "accepted" ? (
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded-xl cursor-default"
+          disabled
+        >
+          Connected
+        </button>
+      ) : (
+        <button
+          className="bg-purple-700 text-white px-4 py-2 rounded-xl hover:bg-purple-800 cursor-pointer"
+          onClick={() => onConnect && onConnect(id)}
+        >
+          Connect
+        </button>
+      )}
     </div>
-  )
+  );
 }
 
-export default PartnerCard
+export default PartnerCard;

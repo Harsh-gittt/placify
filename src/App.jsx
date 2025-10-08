@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from './components/Navbar'
-import HeroSection from './components/HeroSection'
-import ResourcesGrid from './components/ResourcesGrid'
-import LearningShowcase from './components/LearningShowcase'
-import LearnersMarquee from './components/LearnersMarquee'
-import CommunityStats from './components/CommunityStats'
-import Footer from './components/Footer'
-import { useTheme } from './context/ThemeContext'
-import Signin from './components/Signin'
-import Signup from './components/Signup'
+import React, { useEffect, useState } from "react";
+import Navbar from "./components/Navbar";
+import HeroSection from "./components/HeroSection";
+import ResourcesGrid from "./components/ResourcesGrid";
+import LearningShowcase from "./components/LearningShowcase";
+import LearnersMarquee from "./components/LearnersMarquee";
+import CommunityStats from "./components/CommunityStats";
+import Footer from "./components/Footer";
+import { ThemeProvider, useTheme } from "./context/ThemeContext";
+import Signin from "./components/Signin";
+import Signup from "./components/Signup";
+import { ChatProvider } from "./context/ChatContext";
 
 const AppContent = () => {
   const { darkMode } = useTheme();
@@ -61,7 +62,13 @@ const AppContent = () => {
 };
 
 function App() {
-  return <AppContent />;
+  return (
+    <ChatProvider>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </ChatProvider>
+  );
 }
 
 export default App;
