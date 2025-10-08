@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const ObjectId = Schema.Types.ObjectId;
 
+// ============================================================================
+// USER MODEL
+// ============================================================================
 const UserSchema = new Schema({
   first_name: String,
   last_name: String,
@@ -9,6 +12,9 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
 });
 
+// ============================================================================
+// BOOKMARK MODEL
+// ============================================================================
 const BookmarkSchema = new Schema(
   {
     userId: { type: ObjectId, ref: "User", index: true, required: true },
@@ -29,15 +35,26 @@ const BookmarkSchema = new Schema(
 
 BookmarkSchema.index({ userId: 1, internshipId: 1 }, { unique: true });
 
+// ============================================================================
+// PARTNER MODEL - Updated with owner field for self-connection prevention
+// ============================================================================
 const PartnerSchema = new Schema({
+  owner: { type: ObjectId, ref: "User", required: true, unique: true, index: true }, // ✅ Track who owns this partner profile
   name: { type: String, required: true },
   initial: { type: String },
-  skills: [{ type: String }],
-  lookingFor: { type: String },
+  skills: [{ type: String, required: true }],
+  lookingFor: { type: String, required: true },
   email: { type: String },
+  avatarColor: { type: String, default: "#ea7a47" },
   createdAt: { type: Date, default: Date.now },
 });
 
+// Index to ensure one partner profile per user
+PartnerSchema.index({ owner: 1 }, { unique: true });
+
+// ============================================================================
+// CONNECTION REQUEST MODEL
+// ============================================================================
 const ConnectionRequestSchema = new Schema({
   from: { type: ObjectId, ref: "Partner", required: true },
   to: { type: ObjectId, ref: "Partner", required: true },
@@ -49,42 +66,57 @@ const ConnectionRequestSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const ChatMessageSchema = new Schema({
-  connectionId: { type: ObjectId, ref: "ConnectionRequest", required: true },
-  sender: { type: ObjectId, ref: "Partner", required: true },
-  message: { type: String, required: true },
-  timestamp: { type: Date, default: Date.now },
-  read: { type: Boolean, default: false },
-});
+// Prevent duplicate requests
+ConnectionRequestSchema.index({ from: 1, to: 1 }, { unique: true });
 
+// ============================================================================
+// NOTIFICATION MODEL - Stores all user notifications
+// ============================================================================
 const NotificationSchema = new Schema({
-  recipient: { type: ObjectId, ref: "Partner", required: true },
+  userId: { type: ObjectId, ref: "User", required: true, index: true }, // ✅ Recipient user ID
+  fromUserId: { type: ObjectId, ref: "User" }, // ✅ Sender user ID (optional)
   type: {
     type: String,
-    enum: ["connection", "chat", "system"],
+    enum: ["connection_request", "connection_accepted", "connection_declined", "chat_message", "system"],
     required: true,
   },
   message: { type: String, required: true },
-  data: { type: Object },
+  payload: { type: Object }, // ✅ Additional data (requestId, connectionId, etc.)
   read: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 
+NotificationSchema.index({ userId: 1, read: 1, createdAt: -1 });
+
+// ============================================================================
+// CHAT MESSAGE MODEL - Stores conversation messages
+// ============================================================================
+const ChatMessageSchema = new Schema({
+  connectionId: { type: ObjectId, ref: "ConnectionRequest", required: true, index: true },
+  from: { type: ObjectId, ref: "User", required: true }, // ✅ Sender user ID
+  to: { type: ObjectId, ref: "User", required: true }, // ✅ Recipient user ID
+  text: { type: String, required: true },
+  read: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
+});
+
+ChatMessageSchema.index({ connectionId: 1, createdAt: 1 });
+
+// ============================================================================
+// EXPORT MODELS
+// ============================================================================
 const userModel = model("User", UserSchema);
 const bookmarkModel = model("Bookmark", BookmarkSchema);
 const partnerModel = model("Partner", PartnerSchema);
-const connectionRequestModel = model(
-  "ConnectionRequest",
-  ConnectionRequestSchema
-);
-const chatMessageModel = model("ChatMessage", ChatMessageSchema);
+const connectionRequestModel = model("ConnectionRequest", ConnectionRequestSchema);
 const notificationModel = model("Notification", NotificationSchema);
+const chatMessageModel = model("ChatMessage", ChatMessageSchema);
 
 module.exports = {
   userModel,
   bookmarkModel,
   partnerModel,
   connectionRequestModel,
-  chatMessageModel,
   notificationModel,
+  chatMessageModel,
 };
