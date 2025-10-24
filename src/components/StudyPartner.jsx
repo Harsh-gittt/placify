@@ -1,59 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { io } from "socket.io-client";
+
 import SearchBar from "./SearchBar";
 import PartnerCard from "./PartnerCard";
 import BePartner from "./BePartner";
 import Navbar from "./Navbar";
 import { useTheme } from "../context/ThemeContext";
+import { useChat } from "../context/ChatContext"; // Add this import
 
-let socket = null;
+
 const BACKEND_URL = "http://localhost:3000";
-
-// ============================================================================
-// NOTIFICATION TOAST
-// ============================================================================
-function NotificationToast({ notification, onClose }) {
-  const { darkMode } = useTheme();
-
-  useEffect(() => {
-    const timer = setTimeout(onClose, 6000);
-    return () => clearTimeout(timer);
-  }, [onClose]);
-
-  return (
-    <div
-      className={`fixed top-20 right-8 z-[100] w-96 rounded-xl shadow-2xl p-4 animate-slideIn ${
-        darkMode
-          ? "bg-[#18181b] border-2 border-orange-400"
-          : "bg-white border-2 border-orange-400 shadow-xl"
-      }`}
-    >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-3xl">🔔</span>
-            <span className="font-bold text-orange-400 text-lg">
-              New Notification
-            </span>
-          </div>
-          <p
-            className={`text-sm font-medium ${
-              darkMode ? "text-white" : "text-gray-900"
-            }`}
-          >
-            {notification.message}
-          </p>
-        </div>
-        <button
-          onClick={onClose}
-          className="text-gray-400 hover:text-gray-600 ml-4 text-2xl font-bold"
-        >
-          ✖
-        </button>
-      </div>
-    </div>
-  );
-}
 
 // ============================================================================
 // BECOME PARTNER MODAL
@@ -193,6 +148,7 @@ function StudyPartner() {
   const { darkMode } = useTheme();
 
   const [searchTerm, setSearchTerm] = useState("");
+  const { connections } = useChat(); //
   const [subject, setSubject] = useState("");
   const [partners, setPartners] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -201,52 +157,6 @@ function StudyPartner() {
   const [submitting, setSubmitting] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [myPartner, setMyPartner] = useState(null);
-  const [notification, setNotification] = useState(null);
-  const [unreadCount, setUnreadCount] = useState(0);
-
-  // ✅ Initialize socket connection ONCE
-  useEffect(() => {
-    if (!socket) {
-      console.log("🔌 Initializing socket connection...");
-      socket = io(BACKEND_URL, {
-        transports: ["websocket", "polling"],
-        reconnection: true,
-        reconnectionAttempts: 10,
-        reconnectionDelay: 1000,
-      });
-
-      socket.on("connect", () => {
-        console.log("✅ Socket connected:", socket.id);
-      });
-
-      socket.on("connect_error", (err) => {
-        console.error("❌ Socket connection error:", err.message);
-      });
-
-      socket.on("disconnect", (reason) => {
-        console.log("❌ Socket disconnected:", reason);
-      });
-
-      socket.on("reconnect", (attemptNumber) => {
-        console.log("🔄 Socket reconnected after", attemptNumber, "attempts");
-      });
-    }
-
-    socket.on("partner_created", (newPartner) => {
-      console.log("📡 New partner created:", newPartner.name);
-      setPartners((prev) => {
-        const exists = prev.some((p) => p._id === newPartner._id);
-        if (exists) return prev;
-        return [newPartner, ...prev];
-      });
-    });
-
-    return () => {
-      if (socket) {
-        socket.off("partner_created");
-      }
-    };
-  }, []);
 
   // ✅ Fetch user and partners on mount
   useEffect(() => {
@@ -254,155 +164,12 @@ function StudyPartner() {
     fetchPartners();
   }, []);
 
-  // ✅ Register user online and listen for notifications
-  useEffect(() => {
-    if (!socket) {
-      console.log("⚠️ Socket not initialized yet");
-      return;
-    }
-
-    let registrationAttempted = false;
-
-    const registerUser = async () => {
-      if (registrationAttempted) {
-        console.log("⏭️ Registration already attempted, skipping");
-        return;
-      }
-
-      const token = localStorage.getItem("auth_token");
-      console.log("\n🔍 ATTEMPTING USER REGISTRATION:");
-      console.log(`   Has token: ${!!token}`);
-      console.log(`   Socket exists: ${!!socket}`);
-      console.log(`   Socket connected: ${socket?.connected}`);
-      console.log(`   Socket ID: ${socket?.id}`);
-
-      if (!token) {
-        console.log("❌ No auth token - user not logged in");
-        return;
-      }
-
-      registrationAttempted = true;
-
-      try {
-        console.log("📡 Fetching user details...");
-        const res = await fetch(`${BACKEND_URL}/get-user-details`, {
-          headers: { Authorization: token },
-        });
-
-        console.log(`   Response status: ${res.status}`);
-
-        if (res.ok) {
-          const data = await res.json();
-          const userId = String(data.user.id || data.user._id);
-
-          console.log(`\n👤 USER DETAILS FETCHED:`);
-          console.log(`   User ID: ${userId}`);
-          console.log(`   Name: ${data.user.first_name}`);
-          console.log(`   Socket connected: ${socket.connected}`);
-          console.log(`   Socket ID: ${socket.id}`);
-
-          if (socket.connected) {
-            console.log(`\n📤 EMITTING user_online event...`);
-            socket.emit("user_online", { userId: userId });
-            console.log(`✅ user_online event emitted successfully!`);
-            console.log(`   Payload: { userId: "${userId}" }`);
-          } else {
-            console.log(`⚠️ Socket not connected, waiting...`);
-            socket.once("connect", () => {
-              console.log("🔄 Socket connected, now emitting user_online");
-              socket.emit("user_online", { userId: userId });
-            });
-          }
-        } else {
-          console.error(`❌ Failed to fetch user: ${res.status}`);
-        }
-      } catch (err) {
-        console.error("❌ Registration error:", err);
-        registrationAttempted = false;
-      }
-    };
-
-    console.log("\n🚀 Initial registration attempt...");
-    registerUser();
-
-    socket.on("connect", () => {
-      console.log("🔌 Socket connect event triggered");
-      setTimeout(registerUser, 500);
-    });
-
-    socket.on("unread_notifications", (notifications) => {
-      console.log(`📬 Received ${notifications.length} unread notifications`);
-      setUnreadCount(notifications.length);
-      if (notifications.length > 0 && !notification) {
-        setNotification(notifications[0]);
-      }
-    });
-
-    // ✅ Listen for connection_request notifications and dispatch to Navbar
-    socket.on("notification", (notif) => {
-      console.log(`\n🔔🔔🔔 NEW NOTIFICATION RECEIVED! 🔔🔔🔔`);
-      console.log(`   Type: ${notif.type}`);
-      console.log(`   Message: ${notif.message}`);
-      console.log("   Full data:", notif);
-
-      setNotification(notif);
-      setUnreadCount((prev) => prev + 1);
-
-      // ✅ Dispatch to Navbar for connection requests
-      if (notif.type === "connection_request") {
-        window.dispatchEvent(
-          new CustomEvent("socket:connection_request", { detail: notif })
-        );
-        console.log("📡 Dispatched connection_request event to Navbar");
-      }
-
-      try {
-        const audio = new Audio(
-          "data:audio/wav;base64,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"
-        );
-        audio.play();
-      } catch {}
-    });
-
-    // ✅ Listen for connection_accepted and dispatch to Navbar
-    socket.on("connection_accepted", (data) => {
-      console.log("✅ Connection accepted:", data);
-      window.dispatchEvent(
-        new CustomEvent("socket:connection_accepted", { detail: data })
-      );
-      console.log("📡 Dispatched connection_accepted event to Navbar");
-    });
-
-    // ✅ Listen for connection_declined and dispatch to Navbar
-    socket.on("connection_declined", (data) => {
-      console.log("❌ Connection declined:", data);
-      window.dispatchEvent(
-        new CustomEvent("socket:connection_declined", { detail: data })
-      );
-      console.log("📡 Dispatched connection_declined event to Navbar");
-    });
-
-    socket.on("new_message", (data) => {
-      console.log("💬 New message received:", data);
-    });
-
-    return () => {
-      socket.off("connect", registerUser);
-      socket.off("unread_notifications");
-      socket.off("notification");
-      socket.off("connection_accepted");
-      socket.off("connection_declined");
-      socket.off("new_message");
-    };
-  }, [socket]);
+  // ✅ Register user online and listen for socket events (dispatched to Navbar)
 
   async function fetchCurrentUser() {
     try {
       const token = localStorage.getItem("auth_token");
-      if (!token) {
-        console.log("⚠️ No auth token found");
-        return;
-      }
+      if (!token) return;
 
       const res = await fetch(`${BACKEND_URL}/get-user-details`, {
         headers: { Authorization: token },
@@ -412,12 +179,6 @@ function StudyPartner() {
         const data = await res.json();
         setCurrentUser(data.user);
         setMyPartner(data.partner);
-        console.log(
-          "✅ User loaded:",
-          data.user.first_name,
-          "| Has partner:",
-          data.partner ? "YES" : "NO"
-        );
       }
     } catch (err) {
       console.error("❌ Get user error:", err);
@@ -427,8 +188,6 @@ function StudyPartner() {
   async function fetchPartners() {
     try {
       setLoading(true);
-      console.log("📡 Fetching partners from database...");
-
       const res = await fetch(`${BACKEND_URL}/api/partners`);
 
       if (!res.ok) {
@@ -436,7 +195,6 @@ function StudyPartner() {
       }
 
       const data = await res.json();
-      console.log(`✅ Fetched ${data.length} partners`);
       setPartners(data);
       setError(null);
     } catch (err) {
@@ -452,17 +210,14 @@ function StudyPartner() {
       return false;
     }
 
-    const skillsStr = Array.isArray(p.skills)
-      ? p.skills.join(", ")
-      : p.skills;
+    const skillsStr = Array.isArray(p.skills) ? p.skills.join(", ") : p.skills;
 
     const matchesSearch =
       p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       skillsStr.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesSubject =
-      subject === "" ||
-      skillsStr.toLowerCase().includes(subject.toLowerCase());
+      subject === "" || skillsStr.toLowerCase().includes(subject.toLowerCase());
 
     return matchesSearch && matchesSubject;
   });
@@ -476,8 +231,6 @@ function StudyPartner() {
         alert("Please sign in first ⚠️");
         return;
       }
-
-      console.log("📡 Creating partner profile...");
 
       const skillsArray = formData.skills
         .split(",")
@@ -511,8 +264,6 @@ function StudyPartner() {
       }
 
       const savedPartner = await res.json();
-      console.log("✅ Partner created:", savedPartner);
-
       setMyPartner(savedPartner);
       alert("Successfully registered as a study partner! ✅");
       setShowModal(false);
@@ -548,8 +299,6 @@ function StudyPartner() {
         return;
       }
 
-      console.log(`📡 Sending connection request to partner: ${partnerId}`);
-
       const res = await fetch(`${BACKEND_URL}/api/connections`, {
         method: "POST",
         headers: {
@@ -575,12 +324,19 @@ function StudyPartner() {
         throw new Error(data.message || "Failed to send request");
       }
 
-      console.log("✅ Connection request sent successfully");
       alert("Connection request sent! 🎉");
     } catch (err) {
       console.error("❌ Connect error:", err);
       alert(`Failed to connect: ${err.message} ❌`);
     }
+  }
+  // ✅ Check if partner is already connected
+  function isConnected(partnerId) {
+    return connections.some((conn) => {
+      const fromId = conn.from?._id || conn.from;
+      const toId = conn.to?._id || conn.to;
+      return fromId === partnerId || toId === partnerId;
+    });
   }
 
   return (
@@ -589,21 +345,7 @@ function StudyPartner() {
         darkMode ? "bg-black text-white" : "bg-white text-gray-900"
       }`}
     >
-      <Navbar
-        connections={[]}
-        onSelectConnection={() => {}}
-        unreadCounts={{}}
-        onConnectNow={() => setShowModal(true)}
-      />
-
-      {notification && (
-        <NotificationToast
-          notification={notification}
-          onClose={() => setNotification(null)}
-        />
-      )}
-
-      <div className="pt-20">
+      <div className="px-8">
         {myPartner ? (
           <div
             className={`rounded-2xl p-8 text-center mt-10 transition-colors duration-300 ${
@@ -626,12 +368,6 @@ function StudyPartner() {
             >
               Your profile is visible to others. Browse below to connect!
             </p>
-            {unreadCount > 0 && (
-              <p className="mt-4 text-orange-400 font-semibold text-lg">
-                🔔 You have {unreadCount} unread notification
-                {unreadCount > 1 ? "s" : ""}
-              </p>
-            )}
           </div>
         ) : (
           <BePartner onBecomePartner={() => setShowModal(true)} />
@@ -694,6 +430,7 @@ function StudyPartner() {
                   lookingFor={partner.lookingFor}
                   email={partner.email}
                   onConnect={handleConnect}
+                  isConnected={isConnected(partner._id)} // ✅ Pass connection status
                 />
               ))
             ) : (
@@ -721,4 +458,3 @@ function StudyPartner() {
 }
 
 export default StudyPartner;
-

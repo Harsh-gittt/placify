@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/images/Placify3.png";
 import { useTheme } from "../context/ThemeContext";
+import { useChat } from "../context/ChatContext";
 
 async function GetUserDetails() {
   try {
@@ -51,33 +52,43 @@ function ConnectionRequestsPanel({
             }`}
           >
             <div className="flex items-start gap-3">
-              {/* Avatar */}
               <div className="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                 {req.payload?.fromPartnerName?.charAt(0) || "?"}
               </div>
 
-              {/* Content */}
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-sm mb-1">
                   {req.payload?.fromPartnerName || "Someone"}
                 </p>
                 <p className="text-xs text-gray-400 mb-2">{req.message}</p>
 
-                {/* Skills */}
+                {/* ✅ Skills Section */}
                 {req.payload?.skills && req.payload.skills.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mb-3">
-                    {req.payload.skills.slice(0, 3).map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs px-2 py-0.5 rounded-full bg-orange-400/20 text-orange-400"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                  <div className="mb-2">
+                    <p className="text-xs text-gray-500 mb-1">Skills:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {req.payload.skills.slice(0, 3).map((skill, idx) => (
+                        <span
+                          key={idx}
+                          className="text-xs px-2 py-0.5 rounded-full bg-orange-400/20 text-orange-400"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 )}
 
-                {/* Action buttons */}
+                {/* ✅ NEW: Looking For Section */}
+                {req.payload?.lookingFor && (
+                  <div className="mb-3">
+                    <p className="text-xs text-gray-500">Looking for:</p>
+                    <p className="text-xs text-gray-300 mt-1">
+                      {req.payload.lookingFor}
+                    </p>
+                  </div>
+                )}
+
                 <div className="flex gap-2">
                   <button
                     onClick={() => onAccept(req._id)}
@@ -108,7 +119,83 @@ function ConnectionRequestsPanel({
 }
 
 // ============================================================================
-// CONNECTIONS PANEL - TABS FOR REQUESTS & CONNECTIONS
+// REMOVE CONNECTION CONFIRMATION MODAL
+// ============================================================================
+// ============================================================================
+// REMOVE CONNECTION CONFIRMATION MODAL (IMPROVED UI)
+// ============================================================================
+function RemoveConnectionModal({ connection, onConfirm, onCancel, darkMode }) {
+  const partnerName =
+    connection?.from?.name || connection?.to?.name || "this connection";
+
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div
+        className={`rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl transform transition-all ${
+          darkMode
+            ? "bg-gradient-to-br from-[#18181b] to-[#23232a] text-white border-2 border-orange-400/30"
+            : "bg-white text-gray-900 border-2 border-orange-400/20"
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className=" flex items-center justify-center flex-shrink-0">
+              <span className="text-2xl leading-none">⚠️</span>
+            </div>
+            <h2 className="text-xl font-bold leading-tight pt-1">
+              Remove Connection?
+            </h2>
+          </div>
+          <button
+            onClick={onCancel}
+            className={`text-2xl hover:opacity-70 transition-opacity mt-1 ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
+            ✖
+          </button>
+        </div>
+
+        {/* Body */}
+        <div
+          className={`mb-6 p-4 rounded-lg ${
+            darkMode ? "bg-[#23232a]" : "bg-gray-50"
+          }`}
+        >
+          <p className="text-sm leading-relaxed">
+            Are you sure you want to remove{" "}
+            <span className="font-bold text-orange-400">{partnerName}</span>{" "}
+            from your connections? This action cannot be undone.
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-3">
+          <button
+            onClick={onConfirm}
+            className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg"
+          >
+            Yes, Remove
+          </button>
+          <button
+            onClick={onCancel}
+            className={`flex-1 font-semibold px-4 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 ${
+              darkMode
+                ? "bg-gray-700 hover:bg-gray-600 text-white"
+                : "bg-gray-200 hover:bg-gray-300 text-gray-900"
+            }`}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// CONNECTIONS PANEL - FIXED: Correctly identify other user
 // ============================================================================
 function ConnectionsPanel({
   connections,
@@ -118,8 +205,12 @@ function ConnectionsPanel({
   onConnectNow,
   onAcceptRequest,
   onDeclineRequest,
+  onOpenChat,
+  onRemoveConnection, // ✅ NEW
   loading,
   darkMode,
+  unreadChatCounts,
+  currentUserId,
 }) {
   const [activeTab, setActiveTab] = useState(
     requests.length > 0 ? "requests" : "connections"
@@ -134,7 +225,7 @@ function ConnectionsPanel({
             : "bg-white text-gray-900 border-gray-200"
         } border-2 rounded-xl shadow-2xl overflow-hidden`}
       >
-        {/* Tabs */}
+        {/* Tabs - unchanged */}
         <div className="flex border-b border-orange-400">
           <button
             onClick={() => setActiveTab("requests")}
@@ -190,30 +281,65 @@ function ConnectionsPanel({
           ) : (
             <ul className="space-y-2">
               {connections.map((conn) => {
-                const partner = conn.from || conn.to;
+                const isFromCurrentUser =
+                  conn.from?.owner?._id?.toString() === currentUserId ||
+                  conn.from?.owner?.toString() === currentUserId;
+
+                const partner = isFromCurrentUser ? conn.to : conn.from;
+                const unreadCount = unreadChatCounts?.[conn._id] || 0;
+                const hasUnread = unreadCount > 0;
+
                 return (
                   <li
                     key={conn._id}
-                    className={`flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer transition-colors ${
-                      darkMode
+                    className={`group flex items-center justify-between px-3 py-2 rounded-lg transition-colors relative ${
+                      hasUnread
+                        ? "bg-orange-400/20 border border-orange-400"
+                        : darkMode
                         ? "hover:bg-[#23232a]"
                         : "hover:bg-gray-50"
                     }`}
-                    onClick={() => onSelect(conn)}
                   >
-                    <div className="flex items-center gap-2">
+                    {/* ✅ Main clickable area for opening chat */}
+                    <div
+                      className="flex items-center gap-2 flex-1 cursor-pointer"
+                      onClick={() => {
+                        onOpenChat(conn);
+                        onSelect(conn);
+                      }}
+                    >
                       <div className="w-8 h-8 rounded-full bg-orange-400 flex items-center justify-center text-white font-bold text-sm">
                         {partner?.name?.charAt(0) || "?"}
                       </div>
-                      <span className="font-medium">
+                      <span
+                        className={`font-medium ${
+                          hasUnread ? "font-bold" : ""
+                        }`}
+                      >
                         {partner?.name || "Partner"}
                       </span>
                     </div>
-                    {unreadCounts[conn._id] > 0 && (
-                      <span className="bg-orange-400 text-white rounded-full px-2 py-0.5 text-xs font-bold">
-                        {unreadCounts[conn._id]}
-                      </span>
-                    )}
+
+                    {/* ✅ Right side: Unread badge or Remove button */}
+                    <div className="flex items-center gap-2">
+                      {hasUnread && (
+                        <span className="bg-orange-400 text-white rounded-full px-2 py-0.5 text-xs font-bold">
+                          {unreadCount}
+                        </span>
+                      )}
+
+                      {/* ✅ NEW: Remove button (appears on hover) */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation(); // Don't trigger chat open
+                          onRemoveConnection(conn);
+                        }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-600 text-lg"
+                        title="Remove connection"
+                      >
+                        ✖
+                      </button>
+                    </div>
                   </li>
                 );
               })}
@@ -290,32 +416,39 @@ function Navbar({ onLoginClick, onConnectNow }) {
   const navigate = useNavigate();
   const [first_name, setFirstName] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null); // ✅ NEW
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { darkMode, toggleTheme } = useTheme();
+  const [connectionToRemove, setConnectionToRemove] = useState(null);
+  const { socket, openChat, unreadChatCounts, setGlobalToast } = useChat();
+
   const [showResources, setShowResources] = useState(false);
   const [showConnections, setShowConnections] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  // ✅ Connection & notification state
   const [connections, setConnections] = useState([]);
   const [connectionRequests, setConnectionRequests] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [unreadCounts, setUnreadCounts] = useState({});
   const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState(null);
 
   const resourcesRef = useRef(null);
   const userMenuRef = useRef(null);
   const connectionsRef = useRef(null);
 
-  // ✅ Fetch user details
+  const totalUnreadChats = Object.values(unreadChatCounts || {}).reduce(
+    (a, b) => a + b,
+    0
+  );
+
   useEffect(() => {
     async function fetchAndSetName() {
       const user = await GetUserDetails();
       if (user) {
         setFirstName(user.first_name);
         setCurrentUser(user);
-        console.log("✅ User loaded:", user.first_name);
+        setCurrentUserId(String(user._id || user.id)); // ✅ NEW: Set user ID
+        console.log("✅ Navbar User loaded:", user.first_name, "ID:", user._id);
       }
     }
 
@@ -329,7 +462,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
     return () => window.removeEventListener("auth:update", handleAuthUpdate);
   }, []);
 
-  // ✅ Fetch connections and requests
   useEffect(() => {
     if (!currentUser) return;
 
@@ -338,7 +470,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
         const token = localStorage.getItem("auth_token");
         if (!token) return;
 
-        // Fetch accepted connections
+        // Fetch connections
         const connRes = await fetch(
           "http://localhost:3000/api/connections/accepted",
           {
@@ -348,23 +480,23 @@ function Navbar({ onLoginClick, onConnectNow }) {
         if (connRes.ok) {
           const connData = await connRes.json();
           setConnections(connData);
-          console.log(`✅ Loaded ${connData.length} connections`);
         }
 
-        // Fetch notifications (for connection requests)
-        const notifRes = await fetch("http://localhost:3000/api/notifications", {
-          headers: { Authorization: token },
-        });
+        // Fetch notifications
+        const notifRes = await fetch(
+          "http://localhost:3000/api/notifications",
+          {
+            headers: { Authorization: token },
+          }
+        );
         if (notifRes.ok) {
           const notifData = await notifRes.json();
           setNotifications(notifData);
 
-          // Filter unread connection requests
           const requests = notifData.filter(
             (n) => n.type === "connection_request" && !n.read
           );
           setConnectionRequests(requests);
-          console.log(`✅ Loaded ${requests.length} pending requests`);
         }
       } catch (err) {
         console.error("❌ Fetch data error:", err);
@@ -373,7 +505,48 @@ function Navbar({ onLoginClick, onConnectNow }) {
 
     fetchData();
 
-    // Listen for socket events
+    // ✅ ADD: Real-time event listeners
+    function handleNewRequest(e) {
+      const notification = e.detail;
+      console.log("🔔 NEW REQUEST received:", notification);
+
+      setConnectionRequests((prev) => [notification, ...prev]);
+      setNotifications((prev) => [notification, ...prev]);
+      setToast(notification);
+    }
+
+    function handleAccepted(e) {
+      const { notification, connection } = e.detail;
+      console.log("✅ CONNECTION ACCEPTED:", notification);
+
+      if (connection) {
+        setConnections((prev) => [connection, ...prev]);
+      }
+      setToast(notification);
+
+      // Remove from requests
+      setConnectionRequests((prev) =>
+        prev.filter((r) => r.payload?.connectionRequestId !== connection?._id)
+      );
+    }
+
+    function handleDeclined(e) {
+      const { notification } = e.detail;
+      console.log("❌ CONNECTION DECLINED:", notification);
+      setToast(notification);
+
+      // Remove from requests
+      if (notification.payload?.connectionRequestId) {
+        setConnectionRequests((prev) =>
+          prev.filter(
+            (r) =>
+              r.payload?.connectionRequestId !==
+              notification.payload.connectionRequestId
+          )
+        );
+      }
+    }
+
     window.addEventListener("socket:connection_request", handleNewRequest);
     window.addEventListener("socket:connection_accepted", handleAccepted);
     window.addEventListener("socket:connection_declined", handleDeclined);
@@ -385,7 +558,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
     };
   }, [currentUser]);
 
-  // ✅ Handle new connection request
   function handleNewRequest(e) {
     const notification = e.detail;
     console.log("🔔 New connection request received:", notification);
@@ -395,7 +567,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
     setToast(notification);
   }
 
-  // ✅ Handle connection accepted
   function handleAccepted(e) {
     const { notification, connection } = e.detail;
     console.log("✅ Connection accepted:", notification);
@@ -406,14 +577,12 @@ function Navbar({ onLoginClick, onConnectNow }) {
     setToast(notification);
   }
 
-  // ✅ Handle connection declined
   function handleDeclined(e) {
     const { notification } = e.detail;
     console.log("❌ Connection declined:", notification);
     setToast(notification);
   }
 
-  // ✅ Accept connection request
   async function handleAcceptRequest(notificationId) {
     try {
       setLoading(true);
@@ -432,43 +601,47 @@ function Navbar({ onLoginClick, onConnectNow }) {
         }
       );
 
-      if (res.ok) {
-        const data = await res.json();
-        console.log("✅ Request accepted:", data);
-
-        // Remove from requests
-        setConnectionRequests((prev) =>
-          prev.filter((r) => r._id !== notificationId)
+      // ✅ Check response status first
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || `HTTP ${res.status}: Failed to accept request`
         );
-
-        // Add to connections
-        if (data.connection) {
-          setConnections((prev) => [data.connection, ...prev]);
-        }
-
-        // Show success toast
-        setToast({
-          type: "connection_accepted",
-          message: "Connection accepted successfully! 🎉",
-        });
-
-        // Refresh data
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      } else {
-        const error = await res.json();
-        alert(error.message || "Failed to accept request");
       }
+
+      // ✅ Parse response data
+      const data = await res.json();
+      console.log("✅ Request accepted:", data);
+
+      // ✅ Update UI: Add to connections
+      if (data.connection) {
+        setConnections((prev) => [data.connection, ...prev]);
+      }
+
+      // ✅ Update UI: Remove from requests
+      setConnectionRequests((prev) =>
+        prev.filter((r) => r._id !== notificationId)
+      );
+
+      // ✅ Show success toast using global toast
+      if (setGlobalToast) {
+        setGlobalToast({
+          type: "connection_accepted",
+          message: "Connection request accepted!",
+          timestamp: new Date().toISOString(),
+        });
+      }
+
+      console.log("✅ Connection accepted successfully");
     } catch (err) {
       console.error("❌ Accept error:", err);
-      alert("Failed to accept request");
+      // ✅ Only alert on actual errors
+      alert(`Failed to accept request: ${err.message}`);
     } finally {
       setLoading(false);
     }
   }
 
-  // ✅ Decline connection request
   async function handleDeclineRequest(notificationId) {
     try {
       setLoading(true);
@@ -490,7 +663,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
       if (res.ok) {
         console.log("✅ Request declined");
 
-        // Remove from requests
         setConnectionRequests((prev) =>
           prev.filter((r) => r._id !== notificationId)
         );
@@ -507,7 +679,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
     }
   }
 
-  // ✅ Click outside handlers
   useEffect(() => {
     function handleEsc(e) {
       if (e.key === "Escape") {
@@ -524,7 +695,10 @@ function Navbar({ onLoginClick, onConnectNow }) {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
         setShowUserMenu(false);
       }
-      if (connectionsRef.current && !connectionsRef.current.contains(e.target)) {
+      if (
+        connectionsRef.current &&
+        !connectionsRef.current.contains(e.target)
+      ) {
         setShowConnections(false);
       }
     }
@@ -553,23 +727,56 @@ function Navbar({ onLoginClick, onConnectNow }) {
     navigate("/");
   }
 
+  async function handleRemoveConnection(connectionId) {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("auth_token");
+
+      const res = await fetch(
+        `http://localhost:3000/api/connections/${connectionId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+
+      if (res.ok) {
+        setConnections((prev) => prev.filter((c) => c._id !== connectionId));
+        setConnectionToRemove(null);
+
+        window.dispatchEvent(
+          new CustomEvent("connection_removed", {
+            detail: { connectionId },
+          })
+        );
+
+        // ✅ Use global toast instead of local toast
+        setGlobalToast({
+          type: "connection_removed",
+          message: "Connection removed successfully",
+          timestamp: new Date().toISOString(),
+        });
+      }
+    } catch (err) {
+      console.error("❌ Remove connection error:", err);
+      alert("Failed to remove connection");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <nav
       className={`fixed top-0 inset-x-0 z-40 w-full ${
         darkMode ? "bg-black" : "bg-white"
-      } ${darkMode ? "text-white" : "text-black"} transition-colors duration-300`}
+      } ${
+        darkMode ? "text-white" : "text-black"
+      } transition-colors duration-300`}
     >
-      {/* Toast notification */}
-      {toast && (
-        <NotificationToast
-          notification={toast}
-          onClose={() => setToast(null)}
-          darkMode={darkMode}
-        />
-      )}
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
-        {/* Logo */}
         <Link
           to="/"
           className="flex items-center gap-2 sm:gap-3 select-none"
@@ -589,22 +796,30 @@ function Navbar({ onLoginClick, onConnectNow }) {
           </span>
         </Link>
 
-        {/* Right controls */}
         <div className="flex items-center gap-5">
-          {/* Connections dropdown with badge */}
           <div className="relative" ref={connectionsRef}>
             <button
-              className="flex items-center gap-1 hover:opacity-90 transition-opacity relative"
+              className="flex items-center gap-1 hover:opacity-90 transition-opacity relative pr-2"
               onClick={() => setShowConnections((s) => !s)}
             >
               <span>Connections</span>
+
+              {/* ✅ Better positioned badge */}
               {connectionRequests.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-orange-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full min-w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
                   {connectionRequests.length}
                 </span>
               )}
-              <span className="opacity-80">▾</span>
+
+              {connectionRequests.length === 0 && totalUnreadChats > 0 && (
+                <span className="absolute -top-1 -right-1 bg-orange-400 text-white rounded-full min-w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
+                  {totalUnreadChats}
+                </span>
+              )}
+
+              <span className="opacity-80 ml-1">▾</span>
             </button>
+
             {showConnections && (
               <ConnectionsPanel
                 connections={connections}
@@ -616,18 +831,34 @@ function Navbar({ onLoginClick, onConnectNow }) {
                 unreadCounts={unreadCounts}
                 onConnectNow={() => {
                   if (onConnectNow) onConnectNow();
-                  navigate("/study-partners");
+                  navigate("/study-partner");
                   setShowConnections(false);
                 }}
                 onAcceptRequest={handleAcceptRequest}
                 onDeclineRequest={handleDeclineRequest}
+                onOpenChat={(conn) => {
+                  openChat(conn);
+                  setShowConnections(false);
+                }}
+                onRemoveConnection={(conn) => setConnectionToRemove(conn)} // ✅ NEW
                 loading={loading}
+                darkMode={darkMode}
+                unreadChatCounts={unreadChatCounts}
+                currentUserId={currentUserId}
+              />
+            )}
+
+            {/* ✅ NEW: Remove connection modal */}
+            {connectionToRemove && (
+              <RemoveConnectionModal
+                connection={connectionToRemove}
+                onConfirm={() => handleRemoveConnection(connectionToRemove._id)}
+                onCancel={() => setConnectionToRemove(null)}
                 darkMode={darkMode}
               />
             )}
           </div>
 
-          {/* Resources dropdown */}
           <div className="relative" ref={resourcesRef}>
             <button
               className="flex items-center gap-1 hover:opacity-90 transition-opacity"
@@ -688,7 +919,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
             )}
           </div>
 
-          {/* Dark mode toggle */}
           <button
             onClick={toggleTheme}
             className="h-8 w-8 flex items-center justify-center hover:opacity-90 transition-transform duration-300 hover:rotate-12"
@@ -700,7 +930,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
             {darkMode ? "🌙" : "☀️"}
           </button>
 
-          {/* Login/User Menu */}
           {first_name ? (
             <div className="relative" ref={userMenuRef}>
               <button
@@ -763,7 +992,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
           )}
         </div>
 
-        {/* Mobile menu button */}
         <button
           className="md:hidden inline-flex items-center justify-center p-2 rounded-xl border border-transparent hover:border-gray-300 transition-colors"
           aria-label="Toggle menu"
@@ -796,7 +1024,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
         </button>
       </div>
 
-      {/* Mobile dropdown */}
       <div
         className={`md:hidden px-4 sm:px-6 lg:px-8 pb-3 ${
           isMenuOpen ? "block" : "hidden"

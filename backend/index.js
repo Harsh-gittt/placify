@@ -30,7 +30,11 @@ app.use(express.json());
 // ============================================================================
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"],
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:3000",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -43,7 +47,11 @@ app.use(
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"],
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:3000",
+    ],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -68,7 +76,9 @@ io.on("connection", (socket) => {
     userSockets.set(userIdStr, socket.id);
     console.log(`👤 User ${userIdStr} online (socket: ${socket.id})`);
     console.log(`📊 Total online users: ${userSockets.size}`);
-    console.log(`   Online user IDs: ${Array.from(userSockets.keys()).join(", ")}`);
+    console.log(
+      `   Online user IDs: ${Array.from(userSockets.keys()).join(", ")}`
+    );
 
     try {
       // ✅ Load and send unread notifications
@@ -79,7 +89,9 @@ io.on("connection", (socket) => {
         .lean();
 
       socket.emit("unread_notifications", unreadNotifications);
-      console.log(`📬 Sent ${unreadNotifications.length} unread notifications to ${userIdStr}`);
+      console.log(
+        `📬 Sent ${unreadNotifications.length} unread notifications to ${userIdStr}`
+      );
     } catch (err) {
       console.error("❌ Error loading notifications:", err);
     }
@@ -134,7 +146,9 @@ app.post("/signup", async (req, res) => {
     }
 
     if (password.length < 6) {
-      return res.status(400).json({ message: "Password must be at least 6 characters" });
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters" });
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -143,7 +157,9 @@ app.post("/signup", async (req, res) => {
 
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ message: "User already exists with this email" });
+      return res
+        .status(409)
+        .json({ message: "User already exists with this email" });
     }
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -169,7 +185,9 @@ app.post("/signup", async (req, res) => {
     });
   } catch (err) {
     console.error("❌ Signup error:", err);
-    res.status(500).json({ message: "Error while creating user", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error while creating user", error: err.message });
   }
 });
 
@@ -178,7 +196,9 @@ app.post("/signin", async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
     }
 
     const user = await userModel.findOne({ email });
@@ -251,7 +271,9 @@ app.get("/api/partners", async (req, res) => {
     res.json(partners);
   } catch (err) {
     console.error("❌ Fetch partners error:", err);
-    res.status(500).json({ message: "Failed to fetch partners", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch partners", error: err.message });
   }
 });
 
@@ -261,11 +283,15 @@ app.post("/api/partners", userauthmiddleware, async (req, res) => {
     const { name, skills, lookingFor, email } = req.body;
 
     if (!name || !skills || !Array.isArray(skills) || skills.length === 0) {
-      return res.status(400).json({ message: "Name and at least one skill are required." });
+      return res
+        .status(400)
+        .json({ message: "Name and at least one skill are required." });
     }
 
     if (!lookingFor) {
-      return res.status(400).json({ message: "Please specify what you're looking for." });
+      return res
+        .status(400)
+        .json({ message: "Please specify what you're looking for." });
     }
 
     const existingPartner = await partnerModel.findOne({ owner: userId });
@@ -292,7 +318,9 @@ app.post("/api/partners", userauthmiddleware, async (req, res) => {
 
     await partner.save();
 
-    console.log(`✅ Partner created: ${partner.name} (ID: ${partner._id}, Owner: ${userId})`);
+    console.log(
+      `✅ Partner created: ${partner.name} (ID: ${partner._id}, Owner: ${userId})`
+    );
 
     io.emit("partner_created", partner);
     console.log(`📡 Broadcasted partner_created event to all clients`);
@@ -300,7 +328,9 @@ app.post("/api/partners", userauthmiddleware, async (req, res) => {
     res.status(201).json(partner);
   } catch (err) {
     console.error("❌ Create partner error:", err);
-    res.status(500).json({ message: "Failed to create partner", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to create partner", error: err.message });
   }
 });
 
@@ -310,13 +340,17 @@ app.get("/api/partners/me", userauthmiddleware, async (req, res) => {
     const partner = await partnerModel.findOne({ owner: userId });
 
     if (!partner) {
-      return res.status(404).json({ message: "You don't have a partner profile yet." });
+      return res
+        .status(404)
+        .json({ message: "You don't have a partner profile yet." });
     }
 
     res.json(partner);
   } catch (err) {
     console.error("❌ Get my partner error:", err);
-    res.status(500).json({ message: "Failed to fetch partner profile", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch partner profile", error: err.message });
   }
 });
 
@@ -326,68 +360,100 @@ app.get("/api/partners/me", userauthmiddleware, async (req, res) => {
 
 app.post("/api/connections", userauthmiddleware, async (req, res) => {
   try {
-    const userId = req.id;
+    const fromUserId = req.id;
     const { toPartnerId } = req.body;
 
+    console.log(`\n🔗 ====== CONNECTION REQUEST ======`);
+    console.log(`   From User ID: ${fromUserId}`);
+    console.log(`   To Partner ID: ${toPartnerId}`);
+
     if (!toPartnerId) {
-      return res.status(400).json({ message: "Recipient partner ID required." });
+      return res.status(400).json({ message: "Partner ID required" });
     }
 
-    console.log(`\n🔗 Connection request initiated by user: ${userId}`);
-
-    const fromPartner = await partnerModel.findOne({ owner: userId });
+    // Get sender's partner profile
+    const fromPartner = await partnerModel.findOne({ owner: fromUserId });
     if (!fromPartner) {
-      return res.status(400).json({ message: "You need to create a partner profile first." });
+      return res
+        .status(404)
+        .json({ message: "You need to create a partner profile first" });
     }
 
-    console.log(`   From Partner: ${fromPartner.name} (ID: ${fromPartner._id})`);
-
-    if (fromPartner._id.toString() === toPartnerId.toString()) {
-      console.log(`⛔ Self-connection blocked: ${fromPartner._id}`);
-      return res.status(400).json({ error: "Cannot connect to self" });
-    }
-
+    // Get recipient's partner profile
     const toPartner = await partnerModel.findById(toPartnerId);
     if (!toPartner) {
-      return res.status(404).json({ message: "Recipient partner not found." });
+      return res.status(404).json({ message: "Recipient partner not found" });
     }
 
-    console.log(`   To Partner: ${toPartner.name} (ID: ${toPartner._id}, Owner: ${toPartner.owner})`);
-
-    if (fromPartner.owner.toString() === toPartner.owner.toString()) {
-      console.log(`⛔ Self-connection blocked: Same owner`);
+    // Can't connect to self
+    if (fromPartner._id.toString() === toPartner._id.toString()) {
       return res.status(400).json({ error: "Cannot connect to self" });
     }
 
-    const existing = await connectionRequestModel.findOne({
+    console.log(`   From Partner: ${fromPartner.name} (${fromPartner._id})`);
+    console.log(`   To Partner: ${toPartner.name} (${toPartner._id})`);
+
+    // ✅ FIX: Delete any old declined requests FIRST
+    const deletedDeclined = await connectionRequestModel.deleteMany({
       $or: [
-        { from: fromPartner._id, to: toPartner._id },
-        { from: toPartner._id, to: fromPartner._id },
+        { from: fromPartner._id, to: toPartner._id, status: "declined" },
+        { from: toPartner._id, to: fromPartner._id, status: "declined" },
       ],
     });
 
-    if (existing) {
-      console.log(`⚠️ Duplicate request blocked`);
-      return res.status(409).json({ message: "Connection request already exists." });
+    if (deletedDeclined.deletedCount > 0) {
+      console.log(
+        `🗑️ Deleted ${deletedDeclined.deletedCount} old declined requests`
+      );
     }
 
-    const request = new connectionRequestModel({
+    // ✅ Now check for active requests (pending or accepted only)
+    const existingRequest = await connectionRequestModel.findOne({
+      $or: [
+        {
+          from: fromPartner._id,
+          to: toPartner._id,
+          status: { $in: ["pending", "accepted"] },
+        },
+        {
+          from: toPartner._id,
+          to: fromPartner._id,
+          status: { $in: ["pending", "accepted"] },
+        },
+      ],
+    });
+
+    if (existingRequest) {
+      console.log(
+        `⚠️ Active request already exists with status: ${existingRequest.status}`
+      );
+      return res.status(409).json({
+        message:
+          existingRequest.status === "accepted"
+            ? "You are already connected"
+            : "Connection request already sent",
+        error: "Request exists",
+      });
+    }
+
+    // Create new connection request
+    const newRequest = new connectionRequestModel({
       from: fromPartner._id,
       to: toPartner._id,
       status: "pending",
     });
-    await request.save();
 
-    console.log(`✅ Connection request saved: ${request._id}`);
+    await newRequest.save();
+    console.log(`✅ Connection request created: ${newRequest._id}`);
 
-    // ✅ Create notification for recipient
+    // Create notification for recipient
     const notification = new notificationModel({
       userId: toPartner.owner,
-      fromUserId: fromPartner.owner,
+      fromUserId: fromUserId,
       type: "connection_request",
-      message: `${fromPartner.name} wants to connect with you!`,
+      message: `${fromPartner.name} wants to connect with you`,
       payload: {
-        requestId: request._id,
+        connectionRequestId: newRequest._id,
         fromPartnerId: fromPartner._id,
         fromPartnerName: fromPartner.name,
         skills: fromPartner.skills,
@@ -395,30 +461,36 @@ app.post("/api/connections", userauthmiddleware, async (req, res) => {
       },
       read: false,
     });
-    await notification.save();
 
+    await notification.save();
     console.log(`✅ Notification saved: ${notification._id}`);
 
-    // ✅ Emit to recipient if online
-    const recipientUserIdStr = String(toPartner.owner);
-    const recipientSocketId = userSockets.get(recipientUserIdStr);
+    // Send real-time notification via socket
+    const recipientSocketId = userSockets.get(String(toPartner.owner));
 
-    console.log(`\n📡 NOTIFICATION DELIVERY CHECK:`);
-    console.log(`   Recipient User ID: ${recipientUserIdStr}`);
-    console.log(`   Socket ID found: ${recipientSocketId || "NOT FOUND"}`);
-    console.log(`   Online users: ${Array.from(userSockets.keys()).join(", ") || "NONE"}`);
+    console.log(`\n🔍 SOCKET DELIVERY:`);
+    console.log(`   Recipient User ID: ${toPartner.owner}`);
+    console.log(`   Socket ID: ${recipientSocketId || "NOT FOUND"}`);
 
     if (recipientSocketId) {
       io.to(recipientSocketId).emit("notification", notification);
-      console.log(`✅ Notification emitted to socket: ${recipientSocketId}\n`);
+      console.log(`✅ Notification emitted via socket`);
     } else {
-      console.log(`⚠️ Recipient not online - notification saved to DB only\n`);
+      console.log(`⚠️ Recipient offline, notification saved to DB`);
     }
 
-    res.status(201).json(request);
+    console.log(`====== CONNECTION REQUEST COMPLETE ======\n`);
+
+    res.status(201).json({
+      message: "Connection request sent successfully",
+      request: newRequest,
+    });
   } catch (err) {
-    console.error("❌ Send connection error:", err);
-    res.status(500).json({ message: "Failed to send request", error: err.message });
+    console.error("❌ Connection request error:", err);
+    res.status(500).json({
+      message: "Failed to send connection request",
+      error: err.message,
+    });
   }
 });
 
@@ -435,11 +507,15 @@ app.get("/api/connections/requests", userauthmiddleware, async (req, res) => {
       .populate("from", "name skills initial email")
       .sort({ createdAt: -1 });
 
-    console.log(`✅ Found ${requests.length} pending requests for user ${userId}`);
+    console.log(
+      `✅ Found ${requests.length} pending requests for user ${userId}`
+    );
     res.json(requests);
   } catch (err) {
     console.error("❌ Fetch requests error:", err);
-    res.status(500).json({ message: "Failed to fetch requests", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch requests", error: err.message });
   }
 });
 
@@ -459,14 +535,56 @@ app.get("/api/connections/accepted", userauthmiddleware, async (req, res) => {
         $or: [{ from: partner._id }, { to: partner._id }],
         status: "accepted",
       })
-      .populate("from to", "name skills initial email owner")
+      .populate("from to", "name skills initial email owner lookingFor")
       .sort({ createdAt: -1 });
 
-    console.log(`✅ Found ${connections.length} accepted connections for user ${userId}`);
+    console.log(
+      `✅ Found ${connections.length} accepted connections for user ${userId}`
+    );
     res.json(connections);
   } catch (err) {
     console.error("❌ Fetch connections error:", err);
-    res.status(500).json({ message: "Failed to fetch connections", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch connections", error: err.message });
+  }
+});
+
+// DELETE connection
+app.delete("/api/connections/:id", userauthmiddleware, async (req, res) => {
+  try {
+    const connectionId = req.params.id;
+    const userId = req.id;
+
+    console.log(`\n🗑️ ====== REMOVING CONNECTION ======`);
+    console.log(`   Connection ID: ${connectionId}`);
+    console.log(`   User ID: ${userId}`);
+
+    const connection = await connectionRequestModel.findById(connectionId);
+    if (!connection) {
+      return res.status(404).json({ message: "Connection not found" });
+    }
+
+    // Verify user is part of this connection
+    const fromPartner = await partnerModel.findById(connection.from);
+    const toPartner = await partnerModel.findById(connection.to);
+
+    if (
+      fromPartner?.owner?.toString() !== userId.toString() &&
+      toPartner?.owner?.toString() !== userId.toString()
+    ) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    await connectionRequestModel.findByIdAndDelete(connectionId);
+    console.log(`✅ Connection removed: ${connectionId}`);
+
+    res.json({ message: "Connection removed successfully" });
+  } catch (err) {
+    console.error("❌ Remove connection error:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to remove connection", error: err.message });
   }
 });
 
@@ -485,188 +603,213 @@ app.get("/api/notifications", userauthmiddleware, async (req, res) => {
       .limit(50)
       .lean();
 
-    console.log(`✅ Fetched ${notifications.length} notifications for user ${userId}`);
+    console.log(
+      `✅ Fetched ${notifications.length} notifications for user ${userId}`
+    );
     res.json(notifications);
   } catch (err) {
     console.error("❌ Fetch notifications error:", err);
-    res.status(500).json({ message: "Failed to fetch notifications", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch notifications", error: err.message });
   }
 });
 
 // ✅ POST accept connection request
-app.post("/api/notifications/:id/accept", userauthmiddleware, async (req, res) => {
-  try {
-    const userId = req.id;
-    const { id } = req.params;
+app.post(
+  "/api/notifications/:id/accept",
+  userauthmiddleware,
+  async (req, res) => {
+    try {
+      const userId = req.id;
+      const { id } = req.params;
 
-    console.log(`\n✅ ACCEPTING CONNECTION REQUEST:`);
-    console.log(`   Notification ID: ${id}`);
-    console.log(`   User accepting: ${userId}`);
+      console.log(`\n✅ ACCEPTING CONNECTION REQUEST:`);
+      console.log(`   Notification ID: ${id}`);
+      console.log(`   User accepting: ${userId}`);
 
-    const notification = await notificationModel.findById(id);
-    if (!notification) {
-      return res.status(404).json({ message: "Notification not found" });
-    }
+      const notification = await notificationModel.findById(id);
+      if (!notification) {
+        return res.status(404).json({ message: "Notification not found" });
+      }
 
-    if (notification.type !== "connection_request") {
-      return res.status(400).json({ message: "Invalid notification type" });
-    }
+      if (notification.type !== "connection_request") {
+        return res.status(400).json({ message: "Invalid notification type" });
+      }
 
-    if (notification.userId.toString() !== userId.toString()) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
+      if (notification.userId.toString() !== userId.toString()) {
+        return res.status(403).json({ message: "Not authorized" });
+      }
 
-    const fromUserId = notification.fromUserId;
-    const toUserId = notification.userId;
+      const fromUserId = notification.fromUserId;
+      const toUserId = notification.userId;
 
-    // Prevent self-connection
-    if (fromUserId.toString() === toUserId.toString()) {
-      console.log(`⛔ Self-connection blocked`);
-      return res.status(400).json({ error: "Cannot connect to self" });
-    }
+      // Prevent self-connection
+      if (fromUserId.toString() === toUserId.toString()) {
+        console.log(`⛔ Self-connection blocked`);
+        return res.status(400).json({ error: "Cannot connect to self" });
+      }
 
-    const fromPartner = await partnerModel.findOne({ owner: fromUserId });
-    const toPartner = await partnerModel.findOne({ owner: toUserId });
+      const fromPartner = await partnerModel.findOne({ owner: fromUserId });
+      const toPartner = await partnerModel.findOne({ owner: toUserId });
 
-    if (!fromPartner || !toPartner) {
-      return res.status(404).json({ message: "Partner profile not found" });
-    }
+      if (!fromPartner || !toPartner) {
+        return res.status(404).json({ message: "Partner profile not found" });
+      }
 
-    // ✅ Check if connection already exists
-    let connectionRequest = await connectionRequestModel.findOne({
-      $or: [
-        { from: fromPartner._id, to: toPartner._id },
-        { from: toPartner._id, to: fromPartner._id },
-      ],
-    });
+      // ✅ Check if connection already exists
+      let connectionRequest = await connectionRequestModel.findOne({
+        $or: [
+          { from: fromPartner._id, to: toPartner._id },
+          { from: toPartner._id, to: fromPartner._id },
+        ],
+      });
 
-    if (connectionRequest && connectionRequest.status === "accepted") {
-      console.log(`⚠️ Connection already accepted`);
+      if (connectionRequest && connectionRequest.status === "accepted") {
+        console.log(`⚠️ Connection already accepted`);
+        notification.read = true;
+        await notification.save();
+        return res.status(409).json({
+          message: "Connection already exists",
+          connection: connectionRequest,
+        });
+      }
+
+      // ✅ Update or create connection
+      if (connectionRequest) {
+        connectionRequest.status = "accepted";
+        await connectionRequest.save();
+      } else {
+        connectionRequest = new connectionRequestModel({
+          from: fromPartner._id,
+          to: toPartner._id,
+          status: "accepted",
+        });
+        await connectionRequest.save();
+      }
+
+      // Mark notification as read
       notification.read = true;
       await notification.save();
-      return res.status(409).json({ message: "Connection already exists", connection: connectionRequest });
-    }
 
-    // ✅ Update or create connection
-    if (connectionRequest) {
-      connectionRequest.status = "accepted";
-      await connectionRequest.save();
-    } else {
-      connectionRequest = new connectionRequestModel({
-        from: fromPartner._id,
-        to: toPartner._id,
-        status: "accepted",
+      console.log(
+        `✅ Connection accepted: ${fromPartner.name} ↔ ${toPartner.name}`
+      );
+
+      // ✅ Create acceptance notification for sender
+      const acceptNotification = new notificationModel({
+        userId: fromUserId,
+        fromUserId: toUserId,
+        type: "connection_accepted",
+        message: `${toPartner.name} accepted your connection request!`,
+        payload: {
+          partnerName: toPartner.name,
+          partnerId: toPartner._id,
+        },
+        read: false,
       });
-      await connectionRequest.save();
-    }
+      await acceptNotification.save();
 
-    // Mark notification as read
-    notification.read = true;
-    await notification.save();
+      // ✅ Emit to sender if online
+      const senderSocketId = userSockets.get(String(fromUserId));
+      if (senderSocketId) {
+        // Populate connection for real-time update
+        const populatedConnection = await connectionRequestModel
+          .findById(connectionRequest._id)
+          .populate("from to", "name skills initial email owner lookingFor");
 
-    console.log(`✅ Connection accepted: ${fromPartner.name} ↔ ${toPartner.name}`);
+        io.to(senderSocketId).emit("connection_accepted", {
+          notification: acceptNotification,
+          connection: populatedConnection,
+        });
+        console.log(`📬 Sent acceptance notification to ${fromUserId}`);
+      }
 
-    // ✅ Create acceptance notification for sender
-    const acceptNotification = new notificationModel({
-      userId: fromUserId,
-      fromUserId: toUserId,
-      type: "connection_accepted",
-      message: `${toPartner.name} accepted your connection request!`,
-      payload: {
-        partnerName: toPartner.name,
-        partnerId: toPartner._id,
-      },
-      read: false,
-    });
-    await acceptNotification.save();
-
-    // ✅ Emit to sender if online
-    const senderSocketId = userSockets.get(String(fromUserId));
-    if (senderSocketId) {
-      // Populate connection for real-time update
+      // Return populated connection
       const populatedConnection = await connectionRequestModel
         .findById(connectionRequest._id)
-        .populate("from to", "name skills initial email owner");
+        .populate("from to", "name skills initial email owner lookingFor");
 
-      io.to(senderSocketId).emit("connection_accepted", {
-        notification: acceptNotification,
+      res.json({
+        message: "Connection accepted",
         connection: populatedConnection,
       });
-      console.log(`📬 Sent acceptance notification to ${fromUserId}`);
+    } catch (err) {
+      console.error("❌ Accept connection error:", err);
+      res
+        .status(500)
+        .json({ message: "Failed to accept connection", error: err.message });
     }
-
-    // Return populated connection
-    const populatedConnection = await connectionRequestModel
-      .findById(connectionRequest._id)
-      .populate("from to", "name skills initial email owner");
-
-    res.json({
-      message: "Connection accepted",
-      connection: populatedConnection,
-    });
-  } catch (err) {
-    console.error("❌ Accept connection error:", err);
-    res.status(500).json({ message: "Failed to accept connection", error: err.message });
   }
-});
+);
 
 // ✅ POST decline connection request
-app.post("/api/notifications/:id/decline", userauthmiddleware, async (req, res) => {
-  try {
-    const userId = req.id;
-    const { id } = req.params;
+app.post(
+  "/api/notifications/:id/decline",
+  userauthmiddleware,
+  async (req, res) => {
+    try {
+      const notificationId = req.params.id;
+      const userId = req.id;
 
-    console.log(`\n❌ DECLINING CONNECTION REQUEST:`);
-    console.log(`   Notification ID: ${id}`);
-    console.log(`   User declining: ${userId}`);
+      console.log(`\n❌ ====== DECLINING REQUEST ======`);
+      console.log(`   Notification ID: ${notificationId}`);
+      console.log(`   User ID: ${userId}`);
 
-    const notification = await notificationModel.findById(id);
-    if (!notification) {
-      return res.status(404).json({ message: "Notification not found" });
-    }
+      const notification = await notificationModel.findById(notificationId);
+      if (!notification) {
+        return res.status(404).json({ message: "Notification not found" });
+      }
 
-    if (notification.userId.toString() !== userId.toString()) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
+      if (notification.userId.toString() !== userId.toString()) {
+        return res.status(403).json({ message: "Not authorized" });
+      }
 
-    const fromUserId = notification.fromUserId;
-    const toUserId = notification.userId;
+      // ✅ Mark connection request as declined
+      const requestId = notification.payload?.connectionRequestId;
+      if (requestId) {
+        await connectionRequestModel.findByIdAndUpdate(requestId, {
+          status: "declined",
+        });
+        console.log(`✅ Connection request ${requestId} marked as declined`);
 
-    const fromPartner = await partnerModel.findOne({ owner: fromUserId });
-    const toPartner = await partnerModel.findOne({ owner: toUserId });
+        // ✅ DELETE the declined request immediately (so it can be resent)
+        await connectionRequestModel.findByIdAndDelete(requestId);
+        console.log(`🗑️ Deleted declined request ${requestId}`);
+      }
 
-    // Mark notification as read/handled
-    notification.read = true;
-    await notification.save();
+      // Mark notification as read
+      notification.read = true;
+      await notification.save();
 
-    console.log(`✅ Connection declined`);
+      // Send socket event to requester
+      const requesterSocketId = userSockets.get(
+        String(notification.fromUserId)
+      );
+      if (requesterSocketId) {
+        io.to(requesterSocketId).emit("connection_declined", {
+          notification: {
+            type: "connection_declined",
+            message: "Your connection request was declined",
+          },
+        });
+        console.log(`✅ Decline notification sent to requester`);
+      }
 
-    // ✅ Create decline notification for sender
-    const declineNotification = new notificationModel({
-      userId: fromUserId,
-      fromUserId: toUserId,
-      type: "connection_declined",
-      message: `${toPartner?.name || "User"} declined your connection request.`,
-      payload: {},
-      read: false,
-    });
-    await declineNotification.save();
+      console.log(`====== DECLINE COMPLETE ======\n`);
 
-    // ✅ Emit to sender if online
-    const senderSocketId = userSockets.get(String(fromUserId));
-    if (senderSocketId) {
-      io.to(senderSocketId).emit("connection_declined", {
-        notification: declineNotification,
+      res.json({
+        message: "Request declined successfully",
+        notification,
       });
-      console.log(`📬 Sent decline notification to ${fromUserId}`);
+    } catch (err) {
+      console.error("❌ Decline error:", err);
+      res
+        .status(500)
+        .json({ message: "Failed to decline request", error: err.message });
     }
-
-    res.json({ message: "Connection declined" });
-  } catch (err) {
-    console.error("❌ Decline connection error:", err);
-    res.status(500).json({ message: "Failed to decline connection", error: err.message });
   }
-});
+);
 
 app.put("/api/notifications/:id/read", userauthmiddleware, async (req, res) => {
   try {
@@ -686,65 +829,31 @@ app.put("/api/notifications/:id/read", userauthmiddleware, async (req, res) => {
     res.json(notification);
   } catch (err) {
     console.error("❌ Mark notification error:", err);
-    res.status(500).json({ message: "Failed to mark as read", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to mark as read", error: err.message });
   }
 });
 
 // ============================================================================
-// CHAT SYSTEM (EXISTING)
+// CHAT SYSTEM - SINGLE SET OF ROUTES (NO DUPLICATES)
 // ============================================================================
 
-app.post("/api/chat", userauthmiddleware, async (req, res) => {
-  try {
-    const userId = req.id;
-    const { connectionId, text } = req.body;
-
-    if (!connectionId || !text) {
-      return res.status(400).json({ message: "Connection ID and text required." });
-    }
-
-    const connection = await connectionRequestModel.findById(connectionId).populate("from to");
-
-    if (!connection || connection.status !== "accepted") {
-      return res.status(404).json({ message: "Connection not found or not accepted." });
-    }
-
-    const isFromSender = connection.from.owner.toString() === userId.toString();
-    const recipientUserId = isFromSender ? connection.to.owner : connection.from.owner;
-
-    const message = new chatMessageModel({
-      connectionId,
-      from: userId,
-      to: recipientUserId,
-      text,
-    });
-    await message.save();
-
-    console.log(`✅ Message sent in connection ${connectionId}`);
-
-    const recipientSocketId = userSockets.get(String(recipientUserId));
-    if (recipientSocketId) {
-      io.to(recipientSocketId).emit("new_message", {
-        connectionId,
-        message,
-      });
-    }
-
-    res.status(201).json(message);
-  } catch (err) {
-    console.error("❌ Send message error:", err);
-    res.status(500).json({ message: "Failed to send message", error: err.message });
-  }
-});
-
+// ✅ GET chat history (max 100 messages, auto-pruned)
 app.get("/api/chat/:connectionId", userauthmiddleware, async (req, res) => {
   try {
     const userId = req.id;
     const { connectionId } = req.params;
 
-    const connection = await connectionRequestModel.findById(connectionId).populate("from to");
-    if (!connection) {
-      return res.status(404).json({ message: "Connection not found." });
+    console.log(`📡 Fetching chat for connection: ${connectionId}`);
+
+    // Verify user is part of this connection
+    const connection = await connectionRequestModel
+      .findById(connectionId)
+      .populate("from to", "owner");
+
+    if (!connection || connection.status !== "accepted") {
+      return res.status(404).json({ message: "Connection not found" });
     }
 
     const isPartOfConnection =
@@ -752,15 +861,155 @@ app.get("/api/chat/:connectionId", userauthmiddleware, async (req, res) => {
       connection.to.owner.toString() === userId.toString();
 
     if (!isPartOfConnection) {
-      return res.status(403).json({ message: "You are not part of this connection." });
+      return res.status(403).json({ message: "Not authorized" });
     }
 
-    const messages = await chatMessageModel.find({ connectionId }).sort({ createdAt: 1 }).lean();
+    // Fetch latest 100 messages
+    const messages = await chatMessageModel
+      .find({ connectionId })
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .lean();
 
+    // Return in chronological order (oldest first)
+    messages.reverse();
+
+    console.log(
+      `✅ Fetched ${messages.length} messages for connection ${connectionId}`
+    );
     res.json(messages);
   } catch (err) {
     console.error("❌ Fetch chat error:", err);
-    res.status(500).json({ message: "Failed to fetch messages", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch messages", error: err.message });
+  }
+});
+
+// ✅ POST send message (auto-prune to 100 messages per connection)
+// ✅ POST send message (auto-prune to 100 messages per connection)
+app.post("/api/chat", userauthmiddleware, async (req, res) => {
+  try {
+    const userId = req.id;
+    const { connectionId, text } = req.body;
+
+    if (!connectionId || !text || !text.trim()) {
+      return res
+        .status(400)
+        .json({ message: "Connection ID and message text required" });
+    }
+
+    console.log(`\n📤 ====== SENDING MESSAGE ======`);
+    console.log(`   Connection: ${connectionId}`);
+    console.log(`   From User: ${userId}`);
+
+    // Verify connection
+    const connection = await connectionRequestModel
+      .findById(connectionId)
+      .populate("from to", "owner name");
+
+    if (!connection || connection.status !== "accepted") {
+      return res
+        .status(404)
+        .json({ message: "Connection not found or not accepted" });
+    }
+
+    const isFromSender = connection.from.owner.toString() === userId.toString();
+    const recipientUserId = isFromSender
+      ? connection.to.owner
+      : connection.from.owner;
+    const senderName = isFromSender ? connection.from.name : connection.to.name;
+
+    console.log(`   To User: ${recipientUserId}`);
+    console.log(`   Sender Name: ${senderName}`);
+
+    if (!isFromSender && connection.to.owner.toString() !== userId.toString()) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    // Create message
+    const message = new chatMessageModel({
+      connectionId,
+      from: userId,
+      to: recipientUserId,
+      text: text.trim(),
+      read: false,
+    });
+    await message.save();
+
+    console.log(`✅ Message saved: ${message._id}`);
+
+    // Auto-prune
+    const messageCount = await chatMessageModel.countDocuments({
+      connectionId,
+    });
+    if (messageCount > 100) {
+      const deleteCount = messageCount - 100;
+      const oldMessages = await chatMessageModel
+        .find({ connectionId })
+        .sort({ createdAt: 1 })
+        .limit(deleteCount)
+        .select("_id");
+
+      const idsToDelete = oldMessages.map((m) => m._id);
+      await chatMessageModel.deleteMany({ _id: { $in: idsToDelete } });
+      console.log(`🗑️ Pruned ${deleteCount} old messages`);
+    }
+
+    // ✅ IMPROVED: Real-time delivery via Socket.io
+    const recipientUserIdStr = String(recipientUserId);
+    const recipientSocketId = userSockets.get(recipientUserIdStr);
+
+    console.log(`\n🔍 ====== SOCKET DELIVERY ======`);
+    console.log(`   Recipient User ID (string): ${recipientUserIdStr}`);
+    console.log(`   Recipient Socket ID: ${recipientSocketId || "NOT FOUND"}`);
+    console.log(`   Total Online Users: ${userSockets.size}`);
+    console.log(`   Online User IDs:`, Array.from(userSockets.keys()));
+
+    if (recipientSocketId) {
+      const messageData = {
+        connectionId,
+        message: message.toObject(),
+      };
+
+      io.to(recipientSocketId).emit("new_message", messageData);
+      console.log(`✅ EMITTED new_message to socket ${recipientSocketId}`);
+      console.log(`   Data:`, JSON.stringify(messageData, null, 2));
+    } else {
+      console.log(
+        `⚠️ Recipient ${recipientUserIdStr} NOT ONLINE - message saved to DB only`
+      );
+    }
+
+    // Send notification (optional)
+    const notification = new notificationModel({
+      userId: recipientUserId,
+      fromUserId: userId,
+      type: "chat_message",
+      message: `${senderName}: ${text.substring(0, 50)}${
+        text.length > 50 ? "..." : ""
+      }`,
+      payload: {
+        connectionId,
+        messageId: message._id,
+        senderName,
+      },
+      read: false,
+    });
+    await notification.save();
+
+    if (recipientSocketId) {
+      io.to(recipientSocketId).emit("notification", notification);
+    }
+
+    console.log(`====== MESSAGE SEND COMPLETE ======\n`);
+
+    res.status(201).json(message);
+  } catch (err) {
+    console.error("❌ Send message error:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to send message", error: err.message });
   }
 });
 
@@ -793,4 +1042,3 @@ async function main() {
 }
 
 main();
-

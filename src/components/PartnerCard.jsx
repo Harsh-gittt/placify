@@ -9,6 +9,7 @@ function PartnerCard({
   email,
   onConnect,
   connectionStatus,
+  isConnected,
 }) {
   const { darkMode } = useTheme(); // ✅ Use theme hook
 
@@ -75,9 +76,7 @@ function PartnerCard({
           Looking For:
         </p>
         <p
-          className={`text-sm ${
-            darkMode ? "text-gray-400" : "text-gray-600"
-          }`}
+          className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}
         >
           {lookingFor}
         </p>
@@ -101,10 +100,15 @@ function PartnerCard({
           </button>
         ) : (
           <button
-            className="w-full bg-orange-400 hover:bg-orange-500 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
-            onClick={() => onConnect && onConnect(id)}
+            onClick={() => !isConnected && onConnect(id)}
+            disabled={isConnected}
+            className={`w-full font-semibold px-4 py-2 rounded-lg transition-colors ${
+              isConnected
+                ? "bg-green-500 text-white cursor-not-allowed"
+                : "bg-orange-400 hover:bg-orange-500 text-white"
+            }`}
           >
-            Connect
+            {isConnected ? "✓ Connected" : "Connect"}
           </button>
         )}
       </div>
