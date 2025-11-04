@@ -50,7 +50,7 @@ function ResourcesGrid() {
     { title: "Study Partner", subtitle: "Team up and learn together effectively", to: "/study-partner", bg: "[#59A6E8]", image: studyPartnerImg },
     { title: "Aptitude Questions", subtitle: "Sharpen your quantitative and logical skills", to: "/resources", bg: "[#3B9D91]", image: aptitudeImg },
     { title: "Core Subjects", subtitle: "OS, DBMS, CN – concise notes and Q&A", to: "/resources", bg: "[#9B7AE1]", image: coreSubjectsImg },
-    { title: "HR Round Questions", subtitle: "Prepare smart answers for behavioral rounds", to: "/resources", bg: "[#D6AE57]", image: hrImg },
+    { title: "HR Round Questions", subtitle: "Prepare smart answers for behavioral rounds", to: "/hr", bg: "[#D6AE57]", image: hrImg },
     { title: "Fix Your Resume", subtitle: "Optimize your resume to get more interviews", to: "/resources", bg: "[#D6666A]", image: resumeImg },
   ]
 

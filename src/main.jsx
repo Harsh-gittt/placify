@@ -7,6 +7,7 @@ import Dsa from "./components/Dsa.jsx";
 import StudyPartner from "./components/StudyPartner.jsx";
 import Internships from "./components/Internships.jsx";
 import Resources from "./components/Resources.jsx";
+import Hr from "./components/Hr.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { ChatProvider } from "./context/ChatContext.jsx";
 import Layout from "./components/Layout.jsx";
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   { path: "/study-partner", element: <Layout><StudyPartner /></Layout> },
   { path: "/internships", element: <Layout><Internships /></Layout> },
   { path: "/resources", element: <Layout><Resources /></Layout> },
+  { path: "/hr", element: <Layout><Hr /></Layout> },
 ]);
 
 createRoot(document.getElementById("root")).render(

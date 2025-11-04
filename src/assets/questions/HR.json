@@ -1,0 +1,466 @@
+{
+  "companies": [
+    {
+      "id": "general",
+      "name": "General HR",
+      "topics": [
+        {
+          "id": "common",
+          "name": "Common Interview Questions",
+          "questions": [
+            {
+              "id": "q1",
+              "title": "Tell me about yourself.",
+              "url": "#",
+              "answer": "I am a dedicated professional with a background in [industry/field], holding a [degree/certification]. Over the past [X] years, I have cultivated expertise in [key skills or technologies], resulting in notable achievements such as [specific achievement]. I am passionate about solving complex problems, enhancing processes, and contributing effectively to team success."
+            },
+            {
+              "id": "q2",
+              "title": "What is your greatest weakness?",
+              "url": "#",
+              "answer": "One area I have worked on is delegating tasks. I used to feel the need to handle everything myself to ensure high standards. However, I have come to realize the value in empowering team members,  which not only enhances efficiency but also fosters collaboration and trust. Today, I focus on clear communication and provide structured support when delegating responsibilities."
+            },
+            {
+              "id": "q3",
+              "title": "Describe a challenging project and how you managed it.",
+              "url": "#",
+              "answer": "While working at [previous company], I led a project with a very tight deadline and limited resources. The scope and requirements shifted multiple times. I addressed this by breaking the project into manageable phases, prioritizing tasks, and holding daily stand-up meetings for real-time coordination. As a result, the project was delivered on time and received excellent client feedback."
+            },
+            {
+              "id": "q4",
+              "title": "Why should we hire you?",
+              "url": "#",
+              "answer": "I bring a unique blend of [specific skill set] and extensive experience in [industry], supported by a proven record of success. My strengths lie in adaptability, a problem-solving mindset, and strong communication skills. These qualities, coupled with my enthusiasm for contributing to organizational success, make me a strong candidate for your team."
+            },
+            {
+              "id": "q5",
+              "title": "Where do you see yourself in five years?",
+              "url": "#",
+              "answer": "In five years, I envision myself in a role with increased leadership responsibilities, actively contributing to strategic initiatives and further enhancing my skill set. I seek to be part of a company that values innovation and growth, aligning well with the direction your organization is heading."
+            },
+            {
+              "id": "q6",
+              "title": "Why do you want to work here?",
+              "url": "#",
+              "answer": "I am drawn to your organization because of its commitment to [industry innovation/sustainability/diversity]. I admire the culture of [collaboration/continuous learning] and see a meaningful opportunity to contribute to your mission while advancing my professional journey in a supportive environment."
+            },
+            {
+              "id": "q7",
+              "title": "Describe a time you failed. What did you learn?",
+              "url": "#",
+              "answer": "Early in my career, I underestimated the timeline for a major client deliverable, resulting in a delay. I took full responsibility, communicated the setback transparently, and implemented a more robust time- management and planning system. This experience emphasized the importance of realistic estimation and proactive risk assessment."
+            },
+            {
+              "id": "q8",
+              "title": "How do you handle conflict in the workplace?",
+              "url": "#",
+              "answer": "I address conflict with a focus on fact-based dialogue and mutual respect. I practice active listening, ensure all perspectives are considered, and seek common ground. When handled constructively, I believe conflict can foster stronger collaboration and drive innovative solutions."
+            },
+            {
+              "id": "q9",
+              "title": "What is your leadership style?",
+              "url": "#",
+              "answer": "My leadership style is collaborative and empowering. I set clear expectations, support team members with resources and feedback, and promote an environment of trust and accountability. I believe in recognizing strengths and encouraging autonomy to drive performance."
+            },
+            {
+              "id": "q10",
+              "title": "How do you prioritize your work?",
+              "url": "#",
+              "answer": "I employ a structured approach using task management tools and frameworks like the Eisenhower Matrix to distinguish between urgent and important tasks. I regularly review and align priorities with key stakeholders and maintain flexibility to adjust as new priorities emerge."
+            },
+            {
+              "id": "q11",
+              "title": "How do you handle tight deadlines?",
+              "url": "#",
+              "answer": "I remain composed and organized under pressure. I start by clearly defining deliverables, then break tasks into actionable steps and set interim milestones. I ensure transparent communication with stakeholders to manage expectations and swiftly address roadblocks. Leveraging my time management skills and staying adaptable has allowed me to consistently meet tight deadlines."
+            },
+            {
+              "id": "q12",
+              "title": "Give an example of a time you demonstrated leadership.",
+              "url": "#",
+              "answer": "At [Company Name], I led a cross- functional team during a product rollout. I established clear goals, encouraged open communication, and delegated tasks based on team members' strengths. As a result, the project was completed ahead of schedule and led to a 15% increase in customer engagement within the first quarter."
+            },
+            {
+              "id": "q13",
+              "title": "Describe a time when you had to learn something quickly.",
+              "url": "#",
+              "answer": "When assigned to a project involving a new software platform, I created a structured self-learning plan, utilized available resources, and consulted with experienced colleagues. Within two weeks, I gained proficiency and successfully integrated a module that improved workflow efficiency by 20%."
+            },
+            {
+              "id": "q14",
+              "title": "How do you manage stress?",
+              "url": "#",
+              "answer": "I manage stress through structured planning, mindfulness techniques, and maintaining a balanced lifestyle. I also seek clarity early in high-pressure situations to eliminate ambiguity. When needed, I rely on teamwork and clear communication to distribute workload efficiently and maintain focus."
+            },
+            {
+              "id": "q15",
+              "title": "Tell me about a time you had to deal with an underperforming colleague.",
+              "url": "#",
+              "answer": "In a previous role, a colleague was consistently missing deadlines. I approached the issue privately and respectfully, seeking to understand the root cause. Together, we developed a performance improvement plan, and I offered mentorship throughout. Their performance improved significantly, benefiting the team as a whole."
+            },
+            {
+              "id": "q16",
+              "title": "What motivates you?",
+              "url": "#",
+              "answer": "I am driven by continuous learning, achieving tangible results, and collaborating with high-performing teams. Contributing to projects that create meaningful impact and align with my values keeps me motivated and focused."
+            },
+            {
+              "id": "q17",
+              "title": "How do you ensure quality in your work?",
+              "url": "#",
+              "answer": "I follow a detailed quality assurance process that includes planning, regular reviews, and post-completion analysis. I cross-verify deliverables against objectives and remain open to peer feedback. These steps help maintain consistency and excellence in my work."
+            },
+            {
+              "id": "q18",
+              "title": "How do you adapt to change?",
+              "url": "#",
+              "answer": "I see change as an opportunity for growth and innovation. I stay adaptable by quickly assessing new circumstances, updating my priorities, and communicating effectively with stakeholders. I also invest time in learning new tools or methods that align with the change."
+            },
+            {
+              "id": "q19",
+              "title": "How would your previous manager describe you?",
+              "url": "#",
+              "answer": "My previous manager would describe me as reliable, results-oriented, and proactive. I was recognized for taking initiative, solving problems independently, and fostering a positive team environment."
+            },
+            {
+              "id": "q20",
+              "title": "What are your salary expectations?",
+              "url": "#",
+              "answer": "I am open to discussing a compensation package that reflects the scope and responsibilities of the role, as well as my skills and experience. Based on industry benchmarks and my qualifications, a fair range would be [$X–$Y], though I value alignment and growth opportunities just as highly."
+            },
+            {
+              "id": "q21",
+              "title": "Tell me about a time you took a risk and failed.",
+              "url": "#",
+              "answer": "While leading a new product launch, I proposed using an untested marketing channel that promised quick traction. Unfortunately, it didn’t yield the expected engagement. I took accountability, conducted a post-mortem analysis, and redirected efforts toward proven channels. The experience taught me the value of calculated risk-taking and thorough vetting."
+            },
+            {
+              "id": "q22",
+              "title": "How do you stay organized?",
+              "url": "#",
+              "answer": "I use a combination of digital tools like task managers and calendars, along with traditional techniques like prioritization lists. I schedule weekly reviews to assess progress and make adjustments. This ensures I stay aligned with both short-term deliverables and long-term goals."
+            },
+            {
+              "id": "q23",
+              "title": "Describe your decision-making process.",
+              "url": "#",
+              "answer": "I begin by gathering all relevant information, assessing risks and benefits, and considering input from stakeholders. I use data-driven analysis whenever possible. Once I’ve identified the best course of action, I make a timely decision and monitor its outcomes for future learning."
+            },
+            {
+              "id": "q24",
+              "title": "How do you handle repetitive tasks?",
+              "url": "#",
+              "answer": "I look for opportunities to automate or streamline repetitive tasks using tools or scripts. If automation isn’t feasible, I maintain focus by creating structured workflows and setting small milestones to stay motivated and efficient."
+            },
+            {
+              "id": "q25",
+              "title": "Describe a time you had to persuade someone.",
+              "url": "#",
+              "answer": "In a previous role, I needed buy-in from senior leadership for a software migration. I prepared a cost-benefit analysis, highlighted long-term savings, and addressed potential concerns with supporting data. My presentation led to full approval and a successful transition."
+            },
+            {
+              "id": "q26",
+              "title": "How do you handle multitasking?",
+              "url": "#",
+              "answer": "I prioritize tasks based on urgency and impact, then allocate focused time blocks for each. I avoid context-switching as much as possible and use tools to track progress and deadlines. This method ensures I remain productive and maintain quality across all responsibilities."
+            },
+            {
+              "id": "q27",
+              "title": "What do you do when you disagree with your manager?",
+              "url": "#",
+              "answer": "I respectfully voice my concerns using evidence-based reasoning, ensuring the conversation remains constructive. I listen to their perspective and try to find common ground. If the decision stands, I align with it and execute with full commitment."
+            },
+            {
+              "id": "q28",
+              "title": "How do you keep your skills up to date?",
+              "url": "#",
+              "answer": "I regularly attend industry conferences, take online courses, and follow thought leaders in my field. I also participate in peer learning groups and seek opportunities to apply new skills in real- world projects."
+            },
+            {
+              "id": "q29",
+              "title": "Describe a time when you had to work with someone very different from you.",
+              "url": "#",
+              "answer": "I once worked on a cross-functional team where a colleague had a very different communication style. I made a conscious effort to understand their perspective and adapt my approach. Over time, we built a mutually respectful working relationship, leading to a successful project launch."
+            },
+            {
+              "id": "q30",
+              "title": "What would you do in your first 90 days in this role?",
+              "url": "#",
+              "answer": "I would focus on understanding the team dynamics, learning about the company’s objectives, and assessing current workflows. I’d identify quick wins and areas where I can add immediate"
+            },
+            {
+              "id": "q31",
+              "title": "Describe a situation where you exceeded expectations.",
+              "url": "#",
+              "answer": "In my last role, I was tasked with improving a process that was causing delays. Instead of just optimizing it, I proposed and implemented an automated solution that reduced processing time by 40%. This exceeded the original goal and was later adopted company-wide."
+            },
+            {
+              "id": "q32",
+              "title": "How do you approach problem-solving?",
+              "url": "#",
+              "answer": "I approach problems by first identifying the root cause using tools like the 5 Whys or fishbone diagrams. I then gather data, explore multiple solutions, and weigh the pros and cons. I select the most viable option, implement it, and monitor the results."
+            },
+            {
+              "id": "q33",
+              "title": "Tell me about a time you improved a process.",
+              "url": "#",
+              "answer": "At a previous company, the reporting process was manual and time- consuming. I introduced a dashboard solution using business intelligence tools, cutting report generation time from 4 hours to 15 minutes and improving decision-making speed."
+            },
+            {
+              "id": "q34",
+              "title": "How do you build relationships with team members?",
+              "url": "#",
+              "answer": "I build relationships through active listening, consistent communication, and showing genuine interest in colleagues' contributions. I also encourage collaborative problem-solving and recognize achievements publicly, which strengthens team cohesion."
+            },
+            {
+              "id": "q35",
+              "title": "Have you ever had to make a difficult ethical decision?",
+              "url": "#",
+              "answer": "Yes, I once discovered a miscalculation that could have benefited our team unfairly. I reported it immediately to my manager. While it was a tough choice, I believe integrity is non-negotiable and crucial for long-term success."
+            },
+            {
+              "id": "q36",
+              "title": "Describe a project you managed from start to finish.",
+              "url": "#",
+              "answer": "I managed the end-to-end launch of a new internal tool. Responsibilities included planning, resource allocation, stakeholder management, and testing. The launch was successful, under budget, and ahead of schedule."
+            },
+            {
+              "id": "q37",
+              "title": "How do you handle negative feedback?",
+              "url": "#",
+              "answer": "I welcome constructive feedback as an opportunity to grow. I actively listen, clarify if needed, and reflect on the input. I then take actionable steps to improve and show appreciation to the person for helping me improve."
+            },
+            {
+              "id": "q38",
+              "title": "What role do you usually play in a team?",
+              "url": "#",
+              "answer": "I often take on the role of the organizer and problem-solver, ensuring that goals are clearly defined and that tasks are aligned with those goals. I’m also a bridge- builder, helping to resolve conflicts and encourage collaboration."
+            },
+            {
+              "id": "q39",
+              "title": "Tell me about a goal you set and how you achieved it.",
+              "url": "#",
+              "answer": "I set a goal to earn a professional certification within six months. I created a study schedule, enrolled in a prep course, and consistently tracked my progress. I passed the exam on my first attempt, ahead of schedule."
+            },
+            {
+              "id": "q40",
+              "title": "How do you manage expectations when working with clients or stakeholders?",
+              "url": "#",
+              "answer": "I ensure clarity from the beginning by defining scope, timelines, and deliverables. I maintain regular communication, provide updates, and flag potential risks early. Managing expectations upfront helps build trust and avoid misunderstandings."
+            },
+            {
+              "id": "q41",
+              "title": "Tell me about a time when you had to meet a tight deadline.",
+              "url": "#",
+              "answer": "While managing a product rollout, a last-minute change compressed our schedule significantly. I quickly re-prioritized tasks, held daily standups for team coordination,  and delegated efficiently. By staying focused and maintaining open communication, we delivered on time without compromising quality."
+            },
+            {
+              "id": "q42",
+              "title": "How do you manage conflict with a coworker?",
+              "url": "#",
+              "answer": "I believe in addressing conflict early and constructively. I approach the person privately, listen to their perspective, and communicate my own calmly. I seek to understand the root of the disagreement and collaborate on a mutually beneficial resolution."
+            },
+            {
+              "id": "q43",
+              "title": "What strategies do you use to stay productive throughout the day?",
+              "url": "#",
+              "answer": "I structure my day using time- blocking, tackle high-priority tasks in the morning, and take short breaks to maintain focus. I minimize distractions by silencing notifications and regularly assess progress to stay aligned with goals."
+            },
+            {
+              "id": "q44",
+              "title": "Describe a time you had to learn a new tool or technology quickly.",
+              "url": "#",
+              "answer": "When my team adopted a new CRM platform, I had limited experience with it. I dedicated time after hours to online tutorials and reached out to experienced colleagues. Within a week, I was proficient and able to train others on best practices."
+            },
+            {
+              "id": "q45",
+              "title": "How do you handle ambiguity in the workplace?",
+              "url": "#",
+              "answer": "I stay grounded by clarifying objectives and focusing on controllable aspects. I gather available information, ask clarifying questions, and proceed iteratively, validating assumptions as I go. Flexibility and clear communication are key."
+            },
+            {
+              "id": "q46",
+              "title": "What would you do if you made a significant mistake at work?",
+              "url": "#",
+              "answer": "I would take immediate responsibility, assess the impact, and notify the relevant stakeholders. I would also work quickly to develop and implement a solution. Afterward, I’d analyze what went wrong to avoid repeating the mistake."
+            },
+            {
+              "id": "q47",
+              "title": "Describe your ideal work environment.",
+              "url": "#",
+              "answer": "My ideal environment is collaborative, transparent, and growth- oriented. I value open communication, continuous learning, and a culture that encourages innovation and mutual respect."
+            },
+            {
+              "id": "q48",
+              "title": "How do you prepare for important meetings or presentations?",
+              "url": "#",
+              "answer": "I start by understanding the audience and objectives. I then structure my content logically, support it with relevant data, and anticipate questions. I rehearse multiple times and ensure all logistics (slides, handouts, etc.) are in place."
+            },
+            {
+              "id": "q49",
+              "title": "Tell me about a project that didn’t go as planned.",
+              "url": "#",
+              "answer": "A client project was delayed due to unexpected regulatory requirements. I kept stakeholders informed, adjusted the project plan, and collaborated with the legal team to ensure compliance. We completed the project successfully, just on an extended timeline."
+            },
+            {
+              "id": "q50",
+              "title": "What makes you stand out from other candidates?",
+              "url": "#",
+              "answer": "I offer a unique blend of strategic thinking, technical expertise, and interpersonal skills. I consistently deliver high-impact results, adapt quickly to change, and foster strong team dynamics. My focus on continuous improvement helps me drive long-term value."
+            },
+            {
+              "id": "q51",
+              "title": "Describe a time you had to make a decision with incomplete information.",
+              "url": "#",
+              "answer": "During a system upgrade, we encountered a compatibility issue that threatened our timeline. Without full documentation, I consulted experienced colleagues and used vendor support to assess potential outcomes. I chose the most stable workaround, which ensured continuity. The experience taught me the importance of measured risk-taking and swift action."
+            },
+            {
+              "id": "q52",
+              "title": "How do you handle feedback from peers or subordinates?",
+              "url": "#",
+              "answer": "I welcome feedback from all directions, as it contributes to personal and team growth. I listen attentively, avoid becoming defensive, and take actionable steps to improve. I also express appreciation for constructive input."
+            },
+            {
+              "id": "q53",
+              "title": "What is your approach to delegating tasks?",
+              "url": "#",
+              "answer": "I delegate based on individual strengths and developmental goals. I ensure expectations are clear, provide resources, and check in regularly without micromanaging. This empowers team members and boosts engagement and accountability."
+            },
+            {
+              "id": "q54",
+              "title": "Have you ever identified a business opportunity others overlooked?",
+              "url": "#",
+              "answer": "Yes, while analyzing customer behavior data, I noticed a trend in demand for a specific product feature. I pitched the idea to leadership, which led to a successful product enhancement and a 12% increase in user retention."
+            },
+            {
+              "id": "q55",
+              "title": "How do you stay motivated during long projects?",
+              "url": "#",
+              "answer": "I maintain momentum by setting short-term milestones, celebrating small wins, and revisiting the broader vision. I also engage with team members regularly to keep morale high and ensure alignment."
+            },
+            {
+              "id": "q56",
+              "title": "Describe a time you worked on a cross- functional team.",
+              "url": "#",
+              "answer": "I participated in a company-wide CRM implementation involving IT, sales, and marketing. I facilitated communication between departments, aligned objectives, and tracked deliverables. The project concluded ahead of schedule and improved interdepartmental efficiency."
+            },
+            {
+              "id": "q57",
+              "title": "How do you keep team members aligned and focused?",
+              "url": "#",
+              "answer": "I start by setting clear goals and KPIs, followed by consistent check-ins and open forums for feedback. I address roadblocks quickly and keep the team connected to the larger mission, which helps maintain focus and motivation."
+            },
+            {
+              "id": "q58",
+              "title": "Tell me about a time when you had to advocate for a team member.",
+              "url": "#",
+              "answer": "A colleague's contributions were not being recognized during performance reviews. I gathered evidence of their work, presented it to our manager, and successfully ensured they received the credit and development opportunities they deserved."
+            },
+            {
+              "id": "q59",
+              "title": "How do you approach continuous improvement?",
+              "url": "#",
+              "answer": "I regularly review outcomes, seek feedback, and benchmark against industry best practices. I also encourage a culture of experimentation and share learnings to help the entire team grow."
+            },
+            {
+              "id": "q60",
+              "title": "What is your greatest professional achievement?",
+              "url": "#",
+              "answer": "Leading the redesign of our client onboarding system stands out. It reduced onboarding time by 35%, improved client satisfaction scores, and was later adopted across multiple departments. It was a rewarding blend of strategy, collaboration, and execution."
+            },
+            {
+              "id": "q61",
+              "title": "How do you manage remote teams effectively?",
+              "url": "#",
+              "answer": "I prioritize clear communication, regular video check-ins, and defined goals. I use collaboration tools to track progress and foster connection through virtual team- building activities. Transparency and availability are key to building trust and maintaining productivity."
+            },
+            {
+              "id": "q62",
+              "title": "Describe a time when you went above and beyond your job responsibilities.",
+              "url": "#",
+              "answer": "During a critical system outage, although it wasn’t within my role, I stayed after hours to coordinate between teams and assist with resolution. My involvement helped restore service faster and was recognized by senior leadership."
+            },
+            {
+              "id": "q63",
+              "title": "How do you ensure your goals align with organizational objectives?",
+              "url": "#",
+              "answer": "I start by understanding the company’s strategic goals, then align my personal goals and team KPIs accordingly. I regularly revisit objectives with leadership to stay on course and adjust tactics when needed."
+            },
+            {
+              "id": "q64",
+              "title": "What’s your approach to giving difficult feedback?",
+              "url": "#",
+              "answer": "I prepare thoroughly, focus on behavior and impact, and deliver the message respectfully and privately. I ensure the conversation is two-way and conclude with actionable suggestions for improvement."
+            },
+            {
+              "id": "q65",
+              "title": "How do you stay current on industry trends?",
+              "url": "#",
+              "answer": "I subscribe to leading publications, attend webinars and conferences, and participate in professional forums. Networking with peers and continuous learning are part of my routine."
+            },
+            {
+              "id": "q66",
+              "title": "Tell me about a time your team failed to meet a goal. What happened?",
+              "url": "#",
+              "answer": "A product release was delayed due to unforeseen technical hurdles. I facilitated a retrospective, identified process gaps, and introduced measures like early risk assessments and buffer timelines to prevent recurrence."
+            },
+            {
+              "id": "q67",
+              "title": "How do you balance multiple stakeholders' expectations?",
+              "url": "#",
+              "answer": "I communicate openly to understand their priorities, establish common objectives, and ensure transparency throughout the process. I provide regular updates and use data to support decision-making, fostering trust and alignment."
+            },
+            {
+              "id": "q68",
+              "title": "What’s your approach to mentoring or developing others?",
+              "url": "#",
+              "answer": "I assess their strengths and areas for growth, then set personalized development goals. I provide regular feedback, share resources, and create opportunities for them to lead or shadow key tasks."
+            },
+            {
+              "id": "q69",
+              "title": "How do you handle situations where priorities change frequently?",
+              "url": "#",
+              "answer": "I remain agile by maintaining a flexible task structure and staying in close communication with stakeholders. I reassess and adjust plans as needed while ensuring critical deliverables stay on track."
+            },
+            {
+              "id": "q70",
+              "title": "What values are most important to you at work?",
+              "url": "#",
+              "answer": "Integrity, accountability, continuous learning, and collaboration are my core values. They drive how I interact with others and how I approach my responsibilities."
+            },
+            {
+              "id": "q71",
+              "title": "Describe a time you led a change initiative.",
+              "url": "#",
+              "answer": "I led a transition to a new project management tool. I created a training plan, gathered feedback during the rollout, and addressed adoption challenges. The transition improved project visibility and team coordination."
+            },
+            {
+              "id": "q72",
+              "title": "What do you do when you encounter a task outside your skill set?",
+              "url": "#",
+              "answer": "I first assess the scope, then seek guidance or training if needed. I break the task into manageable parts and consult resources or experts to ensure a competent and timely delivery."
+            },
+            {
+              "id": "q73",
+              "title": "How do you manage professional development?",
+              "url": "#",
+              "answer": "I create annual learning plans based on career goals, attend relevant workshops, and seek mentorship. I also set quarterly objectives to track and reflect on progress."
+            },
+            {
+              "id": "q74",
+              "title": "Describe a time you resolved a customer or client complaint.",
+              "url": "#",
+              "answer": "A client was unhappy with a delayed deliverable. I acknowledged the issue, provided regular updates, and expedited the remaining work. The client appreciated the transparency and renewed the contract."
+            },
+            {
+              "id": "q75",
+              "title": "Why are you leaving your current job?",
+              "url": "#",
+              "answer": "I’m seeking new challenges that align with my long-term goals and offer opportunities for growth and contribution. I’m proud of what I’ve achieved but am ready for the next chapter where I can bring even greater value. 𝐆𝐞𝐭 𝐲𝐨𝐮𝐫 𝐫𝐞𝐬𝐮𝐦𝐞 𝐫𝐞𝐯𝐢𝐞𝐰 𝐝𝐨𝐧𝐞 𝐛𝐲 𝐦𝐞 https://topmate.io/neha_malhotra/951728/pay 𝐅𝐨𝐫 𝐑𝐞𝐬𝐮𝐦𝐞 𝐖𝐫𝐢𝐭𝐢𝐧𝐠 𝐒𝐞𝐫𝐯𝐢𝐜𝐞𝐬 - DM or 𝐄𝐦𝐚𝐢𝐥 𝐚𝐭 neharesumewriting@gmail.com    𝐆𝐫𝐚𝐛 𝐚 𝐜𝐨𝐩𝐲 𝐨𝐟 𝐈𝐍𝐓𝐄𝐑𝐕𝐈𝐄𝐖 𝐖𝐈𝐍𝐍𝐈𝐍𝐆 𝐓𝐎𝐎𝐋𝐊𝐈𝐓 𝐇𝐄𝐑𝐄 -- > https://topmate.io/neha_malhotra/564567 𝐆𝐞𝐭 𝐚 𝐜𝐨𝐩𝐲 𝐨𝐟 8 𝐒𝐞𝐧𝐢𝐨𝐫 / 𝐌𝐢𝐝𝐝𝐥𝐞 𝐋𝐞𝐯𝐞𝐥 𝐑𝐞𝐬𝐮𝐦𝐞 𝐭𝐞𝐦𝐩𝐥𝐚𝐭𝐞s 𝐡𝐞𝐫𝐞:https://topmate.io/neha_malhotra/86455 5 𝐁𝐨𝐨𝐤 𝐋𝐢𝐧𝐤𝐞𝐝𝐈𝐧 𝐁𝐫𝐚𝐧𝐝𝐢𝐧𝐠 𝐒𝐞𝐫𝐯𝐢𝐜𝐞𝐬 𝐡𝐞𝐫𝐞: https://topmate.io/neha_malhotra/1465366/pa y 𝐆𝐞𝐭 𝐚 𝐜𝐨𝐩𝐲 𝐨𝐟 𝐑𝐞𝐬𝐮𝐦𝐞 𝐭𝐞𝐦𝐩𝐥𝐚𝐭𝐞 𝐟𝐨𝐫 𝐅𝐫𝐞𝐬𝐡𝐞𝐫'𝐬 /𝐄𝐧𝐭𝐫𝐲 𝐋𝐞𝐯𝐞𝐥 𝐡𝐞𝐫𝐞 https://topmate.io/neha_malhotra/879759"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
