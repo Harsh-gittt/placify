@@ -259,7 +259,7 @@ function Dsa() {
         </aside>
 
         {/* Main */}
-        <main className="lg:col-span-9 h-full min-h-0 flex flex-col">
+        <main className="lg:col-span-9 h-full min-h-0 flex flex-col pb-6">
           <div className="flex items-start sm:items-center justify-between gap-3 mb-3">
             <div>
               <h1 className="text-2xl font-bold">DSA Tracker</h1>
@@ -282,7 +282,7 @@ function Dsa() {
           </div>
 
           {/* Topics accordions */}
-          <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pr-1">
+          <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pr-1 pb-4">
             {Object.entries(topics).map(([topic, list])=>{
               const { done, total, pct } = topicProgress(list)
               const open = state.openTopics.has(topic)
@@ -342,6 +342,7 @@ function Dsa() {
                 </section>
               )
             })}
+            <div className="h-6 flex-none" />
           </div>
         </main>
       </div>
