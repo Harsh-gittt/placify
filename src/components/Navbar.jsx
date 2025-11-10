@@ -793,16 +793,16 @@ function Navbar({ onLoginClick, onConnectNow }) {
                         className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
                         onClick={() => setShowResources(false)}
                       >
-                        Striver's DSA Sheet
+                        DSA Questions
                       </Link>
                     </li>
                     <li>
                       <Link
-                        to="/resources"
+                        to="/aptitude-questions"
                         className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
                         onClick={() => setShowResources(false)}
                       >
-                        System Design Sheet
+                        Aptitude Questions
                       </Link>
                     </li>
                     <li>
@@ -816,11 +816,29 @@ function Navbar({ onLoginClick, onConnectNow }) {
                     </li>
                     <li>
                       <Link
+                        to="/hr"
+                        className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
+                        onClick={() => setShowResources(false)}
+                      >
+                        Hr Round Questions
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
                         to="/resources"
                         className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
                         onClick={() => setShowResources(false)}
                       >
-                        Interview Experiences
+                        Fix Your Resume
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/study-partner"
+                        className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
+                        onClick={() => setShowResources(false)}
+                      >
+                        Study Partner
                       </Link>
                     </li>
                   </ul>

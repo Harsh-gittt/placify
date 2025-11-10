@@ -113,17 +113,6 @@ function HeroSection() {
           Master DSA with curated resources and expert guidance – Learn the skills that set you apart and join the Top 1% of coding achievers!
         </p>
 
-        {/* Call-to-Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-          <button className={`${darkMode ? 'bg-gray-800 border-gray-600' : 'bg-gray-200 border-gray-300'} border ${darkMode ? 'text-white' : 'text-black'} px-8 py-4 rounded-lg ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-300'} flex items-center space-x-2 transition-colors duration-300`}>
-            <span>Start for Free</span>
-            <span>⌄</span>
-          </button>
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold">
-            Explore Plus
-          </button>
-        </div>
-
         {/* Conditional Rendering for logged in users */}
         {checking ? (
           <div className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} mt-8`}>Checking user...</div>

@@ -20,7 +20,7 @@ const router = createBrowserRouter([
   { path: "/internships", element: <Layout><Internships /></Layout> },
   { path: "/resources", element: <Layout><Resources /></Layout> },
   { path: "/hr", element: <Layout><Hr /></Layout> },
-  { path: "/AptitudeQuestions", element: <Layout><AptitudeQuestions /></Layout> },
+  { path: "/aptitude-questions", element: <Layout><AptitudeQuestions /></Layout> },
 ]);
 
 createRoot(document.getElementById("root")).render(
