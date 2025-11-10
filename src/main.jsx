@@ -11,6 +11,7 @@ import Hr from "./components/Hr.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { ChatProvider } from "./context/ChatContext.jsx";
 import Layout from "./components/Layout.jsx";
+import AptitudeQuestions from "./components/AptitudeQuestions.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Layout><App /></Layout> },
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
   { path: "/internships", element: <Layout><Internships /></Layout> },
   { path: "/resources", element: <Layout><Resources /></Layout> },
   { path: "/hr", element: <Layout><Hr /></Layout> },
+  { path: "/AptitudeQuestions", element: <Layout><AptitudeQuestions /></Layout> },
 ]);
 
 createRoot(document.getElementById("root")).render(

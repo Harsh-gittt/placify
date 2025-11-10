@@ -5,55 +5,261 @@
   "answer_length": "50-70 words",
   "companies": ["Infosys", "TCS", "Wipro", "Accenture", "HCL", "Cognizant", "Capgemini", "Deloitte", "Amazon", "Microsoft", "Google", "Adobe", "Flipkart", "Oracle", "IBM"],
   "questions": [
-    {"id": 1, "question": "What is OSI Model?", "answer": "OSI (Open Systems Interconnection): 7-layer theoretical model. Layers: Physical (bits), Data Link (frames, MAC), Network (routing, IP), Transport (TCP/UDP), Session (connections), Presentation (encryption, compression), Application (HTTP, SMTP). Data flows down sending, up receiving. Educational framework. Modular design. Guides protocol design. Each layer independent, provides services to above, uses below."},
-    {"id": 2, "question": "What is TCP/IP Model?", "answer": "TCP/IP: 4-layer practical model. Layers: Application (HTTP, SMTP, DNS), Transport (TCP, UDP), Internet (IP, ICMP), Link (Ethernet, WiFi). Foundation internet communication. Simpler than OSI. Widely implemented. Mapping: OSI App+Presentation+Session = TCP/IP Application; Transport = Transport; Network = Internet; Data Link+Physical = Link. De facto standard replacing OSI."},
-    {"id": 3, "question": "OSI vs TCP/IP?", "answer": "OSI: 7 layers, theoretical framework, protocol independent, educational. TCP/IP: 4 layers, practical implementation, protocol dependent, widely deployed. OSI explains concepts, TCP/IP actual internet. Mapping combines OSI layers. TCP/IP simpler, easier understand practical. OSI comprehensive, academic. Both useful: OSI learning, TCP/IP real-world. Modern systems typically TCP/IP."},
-    {"id": 4, "question": "What is TCP?", "answer": "TCP (Transmission Control Protocol): connection-oriented, reliable protocol. Features: 3-way handshake (SYN, SYN-ACK, ACK), ordered delivery (sequence numbers), reliability (retransmits), flow control, error checking (checksum), congestion control, graceful close (4-way). Slower due overhead. Uses: email, web, file transfer, databases. Any accuracy-critical application."},
-    {"id": 5, "question": "What is UDP?", "answer": "UDP (User Datagram Protocol): connectionless, unreliable protocol. Features: no handshake, unordered, no retransmits, minimal overhead (8-byte header), optional checksum, no flow control, no congestion. Fast, low latency. Uses: streaming, gaming, DNS, VoIP. Speed priority over accuracy. Broadcast/multicast capable."},
-    {"id": 6, "question": "TCP vs UDP?", "answer": "TCP: connection-oriented, reliable, ordered, slower, overhead. Uses: email, web, files. UDP: connectionless, unreliable, unordered, faster, minimal overhead. Uses: streaming, gaming, DNS. Choose TCP accuracy-critical, UDP speed-critical. TCP guarantees delivery, UDP fire-and-forget. Trade-off reliability vs performance."},
-    {"id": 7, "question": "What is IP Address?", "answer": "IP address: unique numerical label identifying device network. IPv4: 32-bit (xxx.xxx.xxx.xxx) ~4.3 billion. IPv6: 128-bit (~340 undecillion) future-proof. Identifies network (portion) and host (portion). Subnet mask determines split. Routable globally. Static/dynamic assignment. Essential network identification."},
-    {"id": 8, "question": "What is DNS?", "answer": "DNS (Domain Name System): translates domain names IP addresses. Process: browser → resolver → root NS → TLD NS → authoritative NS → IP. Records: A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), NS. Uses port 53, UDP/TCP. Critical internet. Caching speeds lookups. Hierarchical structure."},
-    {"id": 9, "question": "What are Ports?", "answer": "Port: 16-bit number identifying process/service. Range 0-65535. Well-known (0-1023): SSH(22), HTTP(80), HTTPS(443), SMTP(25), DNS(53). Registered (1024-49151). Dynamic (49152-65535). Enable multiplexing services single IP. Client ephemeral, server well-known. Essential network communication identification."},
-    {"id": 10, "question": "What is Subnet Mask?", "answer": "Subnet mask: 32-bit number dividing IP network/host portions. Format: 255.255.255.0 or CIDR /24. AND operation IP gives network. Subnetting: divide large network smaller. Example: 192.168.1.0/24 = network 192.168.1.0, hosts 1-254. Enables efficient allocation, management."},
-    {"id": 11, "question": "What is NAT?", "answer": "NAT (Network Address Translation): translates private IPs public/vice versa. Purpose: multiple devices share public IP, security (hide internal), IPv4 scarcity solution. Types: static (1-to-1), dynamic (pool), PAT (port translation). Example: home network private IPs (192.168.x.x) translate ISP public. Router maintains mapping."},
-    {"id": 12, "question": "What is DHCP?", "answer": "DHCP (Dynamic Host Configuration Protocol): automatically assigns IPs. Process: DISCOVER → OFFER → REQUEST → ACK. Provides: IP, subnet mask, gateway, DNS, lease time. Port 67/68. Benefits: no manual config, prevents conflicts, easy management. Default lease ~24 hours. Reduces admin overhead. Dynamic allocation."},
-    {"id": 13, "question": "What is HTTP?", "answer": "HTTP (HyperText Transfer Protocol): application protocol web. Unsecured, port 80, plain text, no encryption, stateless. Methods: GET, POST, PUT, DELETE. Request-response model. Headers + body. Vulnerable attacks. Replaced HTTPS. Used web browsers, servers."},
-    {"id": 14, "question": "What is HTTPS?", "answer": "HTTPS: HTTP secured SSL/TLS encryption. Port 443, encrypted data, certificate-verified. Protection: eavesdropping, tampering, man-in-middle. Requires certificate. Slight performance overhead. Modern web default. PCI-DSS requirement. Trusted green lock browser. Essential sensitive data."},
-    {"id": 15, "question": "HTTP vs HTTPS?", "answer": "HTTP: unsecured, port 80, plain text. HTTPS: secured, port 443, encrypted. HTTPS: protects data, prevents attacks, builds trust, required compliance. HTTP legacy, HTTPS modern standard. Performance difference minimal. All sensitive transactions HTTPS. Modern web HTTPS-only."},
-    {"id": 16, "question": "What is Firewall?", "answer": "Firewall: security device filtering traffic. Types: hardware (network-level), software (host-level). Functions: packet filtering, stateful inspection, application filtering, NAT. Benefits: blocks unauthorized, prevents malware, logs activity. Limitations: cannot stop insider, encrypted threats, configuration complexity."},
-    {"id": 17, "question": "What is SSL/TLS?", "answer": "SSL/TLS: cryptographic protocols securing communication. TLS newer version. Features: encryption, authentication (certificate), integrity check, non-repudiation. Handshake: exchange hellos, verify certificate, exchange keys. Used HTTPS, SMTP, IMAP. Protects eavesdropping, tampering. Standard internet security."},
-    {"id": 18, "question": "What is Bandwidth?", "answer": "Bandwidth: maximum data transfer rate. Measured: bps, Mbps, Gbps. Example 100 Mbps = 100 million bits/second. Limited infrastructure. Like pipeline diameter. Important throughput. Higher bandwidth faster. Shared resource affected congestion."},
-    {"id": 19, "question": "What is Latency?", "answer": "Latency: time data travels source destination. Measured milliseconds. Lower faster response. Affected: distance, routing, congestion, medium. Critical real-time (gaming, video calls). Like distance traveled. Accumulated hops. Jitter variation problematic."},
-    {"id": 20, "question": "What is Packet Loss?", "answer": "Packet loss: packets not reaching destination. Causes: congestion, hardware failure, interference, buffers. Measured percentage. Acceptable: wired <0.1%, wireless <2%. Effects: performance degradation, quality issues, lag. Solutions: optimization, error correction, upgrade. TCP retransmits, UDP continues."},
-    {"id": 21, "question": "What is Jitter?", "answer": "Jitter: variation packet arrival time. Causes: variable latency, routing paths, queuing. Effects: audio distortion, video stuttering, poor VoIP. Measured milliseconds. Acceptable <20ms. Real-time apps sensitive. Caused congestion. Buffer helps mitigate."},
-    {"id": 22, "question": "What is MAC Address?", "answer": "MAC address: physical address device on LAN. 48-bit hexadecimal (00:1A:2B:3C:4D:5E). Format: manufacturer ID (3 bytes) + device ID (3 bytes). Layer 2 (data link). Local network scope. ARP converts IP MAC. Unique LAN. Broadcast LAN."},
-    {"id": 23, "question": "What is ARP?", "answer": "ARP (Address Resolution Protocol): maps IP addresses MAC addresses. Process: broadcast ARP request IP, device with IP responds MAC, cache updated. Used first-time communication LAN. Cache speeds future. ARP spoofing attack (fake mapping). Security concern. Fundamental LAN communication."},
-    {"id": 24, "question": "What is ICMP?", "answer": "ICMP (Internet Control Message Protocol): network diagnostics, error reporting. Uses: echo (ping), traceroute, error messages (unreachable, timeout). ICMP echo reply = ping response. Important troubleshooting. Often blocked firewalls. No direct data. Carries no user data."},
-    {"id": 25, "question": "What is Ping?", "answer": "Ping: utility testing connectivity ICMP echo. Sends echo request, measures response. Shows: connectivity, latency, packet loss. Output: response time (ms), TTL. Diagnostic tool. Commonly blocked firewalls. Simple connectivity check. Quick network validation."},
-    {"id": 26, "question": "What is Traceroute?", "answer": "Traceroute: tool showing packet route. ICMP increasing TTL. Shows: hops, latency per hop, delays. Helps: identify problems, locate failures. Variants: tracert (Windows), traceroute (Linux). Diagnostic network issues. Reveals path taken routing."},
-    {"id": 27, "question": "What is VPN?", "answer": "VPN (Virtual Private Network): encrypted tunnel public network. Benefits: privacy, security, bypass restrictions, remote access. Protocols: IPsec, OpenVPN, L2TP, PPTP. Secure connection. Appears different location. Protects traffic encryption. Used corporate, privacy-conscious users."},
-    {"id": 28, "question": "What is Proxy?", "answer": "Proxy: intermediary client server. Types: forward (client's proxy), reverse (server's proxy), transparent. Benefits: anonymity, caching, access control, filtering. Acts substitute. Modifies requests/responses. Web proxies filter content. Load balancing uses."},
-    {"id": 29, "question": "What is CDN?", "answer": "CDN (Content Delivery Network): distributed network serving content nearest location. Benefits: faster delivery, reduced latency, bandwidth savings, redundancy. Works: cache globally, serve locally. Used static, videos, files. Improves user experience. Geographically distributed."},
-    {"id": 30, "question": "What is Load Balancing?", "answer": "Load balancing: distributing traffic across servers. Algorithms: round robin, least connections, IP hash, weighted. Benefits: availability, performance, scalability, failover. Methods: hardware, software, DNS. Essential scaling. Prevents single point failure."},
-    {"id": 31, "question": "What is BGP?", "answer": "BGP (Border Gateway Protocol): routing protocol between autonomous systems (ISPs). Exterior gateway. Dynamically selects routes. Path vector algorithm. Critical internet routing. Scales globally. Complex configuration. Enables internet interconnection. Announcements/withdrawals."},
-    {"id": 32, "question": "What is OSPF?", "answer": "OSPF (Open Shortest Path First): interior gateway protocol within autonomous systems. Link-state algorithm. Convergence faster RIP. Supports hierarchical. Metric: cost (bandwidth-based). Scales well. Industry standard. Faster RIP. More complex."},
-    {"id": 33, "question": "What is RIP?", "answer": "RIP (Routing Information Protocol): interior gateway protocol. Older, simpler. Metric: hop count (max 15). Broadcast routing periodically. Convergence slow. Limited scalability. Largely replaced. Less efficient. Educational mainly."},
-    {"id": 34, "question": "What is Spanning Tree Protocol?", "answer": "STP: prevents loops switched networks. Selects bridges, disables redundant links. Port states: listening, learning, forwarding, blocking. Convergence 50 seconds. RSTP (rapid) faster (6 seconds). Important switch redundancy. Prevents broadcast storms. Loop detection."},
-    {"id": 35, "question": "What is VLAN?", "answer": "VLAN (Virtual LAN): logically grouping devices different physical networks. Segmentation: department, function, security. Benefits: segmentation, security, broadcast containment, management. Tagged frames carry VLAN ID. Reduces broadcast domain. Logical organization."},
-    {"id": 36, "question": "What is Multicast?", "answer": "Multicast: one-to-many communication. IP range 224.0.0.0-239.255.255.255. Groups: well-known, transient. Benefits: efficient bandwidth, scalable, selective delivery. Uses: video streaming, IPTV, routing protocols. More efficient broadcast."},
-    {"id": 37, "question": "What is Anycast?", "answer": "Anycast: one-to-nearest communication. Multiple devices share address. Packets route nearest. Uses: DNS (root servers), CDN, load distribution. Improves performance. Transparent client. Efficient routing."},
-    {"id": 38, "question": "What is Broadcast?", "answer": "Broadcast: one-to-all communication. Destination 255.255.255.255 (IPv4). Local network scope. Packets flood LAN. Inefficient: all receive. Limited range. Used ARP, DHCP, discovery. Vs multicast: targeted."},
-    {"id": 39, "question": "What is TTL?", "answer": "TTL (Time To Live): field IP header. Decremented hop. Prevents infinite loops. Original value: usually 64/128. Reaches 0: discarded. Used traceroute increases. Cross-network communication. Essential IP."},
-    {"id": 40, "question": "What is Checksum?", "answer": "Checksum: error detection mechanism. Calculated header/data. Receiver recalculates, compares. Detects corruption. Not corrects. Simple detection. IP header has checksum. TCP/UDP optional (IPv4) required (IPv6). Data integrity."},
-    {"id": 41, "question": "What is CRC?", "answer": "CRC (Cyclic Redundancy Check): polynomial division error detection. More robust checksum. Detects burst errors. Used Ethernet, storage. Trade-off computation accuracy. Stronger checksum. Doesn't correct."},
-    {"id": 42, "question": "What is Handshake?", "answer": "Handshake: initial exchange establishing connection. TCP 3-way: SYN, SYN-ACK, ACK. SSL/TLS similar. Establishes parameters. Authenticates parties. Negotiates capabilities. Overhead: RTT latency. Essential reliable."},
-    {"id": 43, "question": "What is Congestion Control?", "answer": "Congestion control: TCP managing network overload. Algorithms: slow start, congestion avoidance, fast retransmit, recovery. Adjusts window size. Reduces sending rate. Prevents collapse. Dynamic adjustment. Improves fairness."},
-    {"id": 44, "question": "What is Flow Control?", "answer": "Flow control: preventing sender overwhelming receiver. TCP advertises window size. Sender respects. Receiver buffers. Prevents loss. Adjustable. Different congestion (network vs receiver). Prevents overrun."},
-    {"id": 45, "question": "What is Sliding Window?", "answer": "Sliding window: flow control mechanism. Sender transmits up window size before ACK. Window slides each ACK. Allows pipelined. Improves efficiency. TCP uses. Balances throughput buffering."},
-    {"id": 46, "question": "What is Retransmission?", "answer": "Retransmission: resending lost packets. Timeout detects loss. Sequence number identifies. TCP retransmits. Exponential backoff increases timeout. Duplicate detection ignores. Ensures reliability. Adds latency. Accuracy-latency trade."},
-    {"id": 47, "question": "What is 3-Way Handshake?", "answer": "3-way handshake: TCP connection establishment. 1) Client SYN (seq=x); 2) Server SYN-ACK (seq=y, ack=x+1); 3) Client ACK (seq=x+1, ack=y+1). Establishes sequence numbers. Synchronizes. Acknowledges. Enables ordered delivery."},
-    {"id": 48, "question": "What is 4-Way Termination?", "answer": "4-way termination: TCP closing. 1) Client FIN; 2) Server ACK; 3) Server FIN; 4) Client ACK. TIME_WAIT ensures delayed packets. Allows reuse after. Graceful close. Orderly termination."},
-    {"id": 49, "question": "What is MSS?", "answer": "MSS (Maximum Segment Size): largest data TCP sends. Negotiated handshake. Calculated MTU - headers. Default 536 bytes (minimum), typically 1460 (Ethernet). Avoids fragmentation. Improves efficiency. Per-connection."},
-    {"id": 50, "question": "What is MTU?", "answer": "MTU (Maximum Transmission Unit): largest frame network sends. Default 1500 bytes (Ethernet). Includes header. Large: fragmentation. Small: overhead. Path discovery finds minimum. Affects performance. Can adjust typically standard."}
+  {
+    "id": 1,
+    "question": "What is OSI Model?",
+    "answer": "The OSI (Open Systems Interconnection) Model is a seven-layer conceptual framework that standardizes network communication functions. Its layers include Physical, Data Link, Network, Transport, Session, Presentation, and Application. Each layer performs specific roles, such as data transmission, routing, encryption, and user interaction. The model promotes interoperability, modular design, and protocol independence, serving as an essential reference for understanding and designing network communication systems."
+  },
+  {
+    "id": 2,
+    "question": "What is TCP/IP Model?",
+    "answer": "The TCP/IP (Transmission Control Protocol/Internet Protocol) Model is a four-layer framework guiding real-world network communication. Layers include Application, Transport, Internet, and Link. It underpins the modern Internet and simplifies data exchange across diverse systems. It maps to the OSI Model, merging several OSI layers. The TCP/IP Model is practical, widely implemented, and forms the basis for protocols like HTTP, FTP, and DNS, ensuring reliable global connectivity."
+  },
+  {
+    "id": 3,
+    "question": "OSI vs TCP/IP?",
+    "answer": "The OSI Model has seven layers and serves as a theoretical guide for understanding network communication, whereas the TCP/IP Model has four layers and is practically implemented in real-world networks. OSI is protocol-independent and mainly educational, while TCP/IP is protocol-specific and operational. OSI provides a detailed conceptual framework, while TCP/IP is simpler, efficient, and forms the backbone of the Internet’s communication architecture."
+  },
+  {
+    "id": 4,
+    "question": "What is TCP?",
+    "answer": "TCP (Transmission Control Protocol) is a reliable, connection-oriented protocol ensuring ordered and error-free data delivery. It uses a three-way handshake to establish connections and employs flow control, sequencing, error detection, and congestion management. Though slower due to overhead, it guarantees accurate transmission. Common applications include web browsing, email, and file transfer—any service where data accuracy and completeness are more important than speed."
+  },
+  {
+    "id": 5,
+    "question": "What is UDP?",
+    "answer": "UDP (User Datagram Protocol) is a lightweight, connectionless protocol offering minimal overhead and fast data transmission. It sends packets without establishing a connection or guaranteeing delivery, making it unreliable but efficient. UDP is ideal for real-time applications like gaming, video streaming, VoIP, and DNS, where speed and low latency outweigh reliability. It supports broadcast and multicast communication across networks."
+  },
+  {
+    "id": 6,
+    "question": "TCP vs UDP?",
+    "answer": "TCP is a connection-oriented, reliable protocol ensuring ordered and error-checked data delivery, making it suitable for tasks like email, web browsing, and file transfers. UDP, on the other hand, is connectionless and faster but unreliable, with no retransmission or ordering guarantees. It’s used for streaming, gaming, and voice communication where real-time performance matters more than perfect accuracy. TCP prioritizes reliability; UDP prioritizes speed."
+  },
+  {
+    "id": 7,
+    "question": "What is IP Address?",
+    "answer": "An IP address is a unique numeric identifier assigned to each device connected to a network. It allows devices to locate and communicate with each other. IPv4 uses 32-bit addressing (e.g., 192.168.1.1), while IPv6 uses 128 bits for a much larger address space. Each address contains network and host portions, defined by a subnet mask, enabling efficient routing and device identification across networks."
+  },
+  {
+    "id": 8,
+    "question": "What is DNS?",
+    "answer": "DNS (Domain Name System) translates human-readable domain names into IP addresses, enabling browsers to locate web servers. It operates hierarchically through root, TLD, and authoritative name servers. Common record types include A, AAAA, MX, and CNAME. DNS uses ports 53 (UDP/TCP) and supports caching to speed lookups. It’s fundamental to Internet functionality, simplifying user access to websites without remembering numeric IPs."
+  },
+  {
+    "id": 9,
+    "question": "What are Ports?",
+    "answer": "A port is a 16-bit logical number used to identify specific processes or services on a device. They range from 0 to 65535, categorized as well-known (0–1023), registered (1024–49151), and dynamic (49152–65535). Examples include HTTP (80), HTTPS (443), and DNS (53). Ports enable multiple services to operate simultaneously on the same IP, facilitating organized and efficient communication across networked applications."
+  },
+  {
+    "id": 10,
+    "question": "What is Subnet Mask?",
+    "answer": "A subnet mask is a 32-bit number that separates the network and host portions of an IP address. It determines which part identifies the network and which specifies individual devices. Expressed in dotted-decimal (e.g., 255.255.255.0) or CIDR notation (/24), it enables subnetting—dividing large networks into smaller, manageable segments. Subnet masks enhance routing efficiency, network organization, and IP address utilization."
+  },
+  {
+    "id": 11,
+    "question": "What is NAT?",
+    "answer": "NAT (Network Address Translation) is a technique that converts private IP addresses to a public one, enabling multiple devices within a local network to share a single public IP. It enhances security by masking internal addresses and conserves IPv4 space. Types include static, dynamic, and PAT (Port Address Translation). NAT is widely used in routers to connect private networks to the Internet seamlessly."
+  },
+  {
+    "id": 12,
+    "question": "What is DHCP?",
+    "answer": "DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses and network configuration parameters to devices. The process includes four steps: Discover, Offer, Request, and Acknowledge. It provides essential details such as IP, subnet mask, gateway, and DNS. DHCP simplifies network management, reduces configuration errors, and prevents IP conflicts by dynamically allocating addresses. It operates using ports 67 (server) and 68 (client)."
+  },
+  {
+    "id": 13,
+    "question": "What is HTTP?",
+    "answer": "HTTP (HyperText Transfer Protocol) is an application-layer protocol that governs data communication on the World Wide Web. It uses port 80 and functions through a request–response model between clients and servers. HTTP methods include GET, POST, PUT, and DELETE. Being stateless and unencrypted, it’s vulnerable to interception. Despite that, HTTP remains essential for web communication, though now mostly replaced by HTTPS."
+  },
+  {
+    "id": 14,
+    "question": "What is HTTPS?",
+    "answer": "HTTPS (HyperText Transfer Protocol Secure) is an encrypted version of HTTP that ensures secure data transmission between web clients and servers. It uses SSL/TLS protocols on port 443, providing confidentiality, integrity, and authentication. HTTPS protects against eavesdropping, tampering, and man-in-the-middle attacks. It requires digital certificates from trusted authorities and is now the global standard for safe online communication and transactions."
+  },
+  {
+    "id": 15,
+    "question": "HTTP vs HTTPS?",
+    "answer": "HTTP and HTTPS both enable web communication, but HTTPS adds encryption and authentication through SSL/TLS. HTTP operates on port 80, while HTTPS uses port 443. HTTPS safeguards data from interception and builds user trust, making it essential for banking, e-commerce, and logins. Although HTTPS has slight overhead, modern systems optimize it efficiently, making it the default protocol for secure web browsing."
+  },
+  {
+    "id": 16,
+    "question": "What is Firewall?",
+    "answer": "A firewall is a network security device that monitors and controls incoming and outgoing traffic based on predefined rules. It can be hardware-based or software-based and filters packets using methods like stateful inspection or proxying. Firewalls protect against unauthorized access, malware, and network attacks. However, they cannot prevent insider threats or encrypted exploits without proper configuration and additional security layers."
+  },
+  {
+    "id": 17,
+    "question": "What is SSL/TLS?",
+    "answer": "SSL (Secure Sockets Layer) and TLS (Transport Layer Security) are cryptographic protocols that secure network communication. TLS is the modern, more secure version of SSL. They provide encryption, authentication, and data integrity using digital certificates. The handshake process negotiates keys and verifies identities. SSL/TLS is widely used in HTTPS, email, and VPNs to protect data from interception and unauthorized modification."
+  },
+  {
+    "id": 18,
+    "question": "What is Bandwidth?",
+    "answer": "Bandwidth refers to the maximum amount of data that can be transmitted over a network connection in a given period. It is measured in bits per second (bps), typically Mbps or Gbps. Higher bandwidth allows faster data transfer and supports multiple simultaneous users or devices. Limited bandwidth can cause congestion and slow performance, making it a key factor in network efficiency."
+  },
+  {
+    "id": 19,
+    "question": "What is Latency?",
+    "answer": "Latency is the time delay between sending and receiving data over a network, measured in milliseconds. It is influenced by distance, routing paths, and network congestion. Lower latency ensures faster responsiveness, crucial for real-time applications like gaming, video conferencing, and online trading. High latency causes lag or delays, while jitter—its variation—affects consistent communication quality across data transmissions."
+  },
+  {
+    "id": 20,
+    "question": "What is Packet Loss?",
+    "answer": "Packet loss occurs when data packets fail to reach their destination, leading to incomplete or distorted communication. Causes include network congestion, faulty hardware, interference, or buffer overflows. It is measured as a percentage of total packets lost. Even small losses affect voice, video, or gaming quality. TCP mitigates loss through retransmission, whereas UDP continues without recovery, prioritizing speed over reliability."
+  },
+  {
+    "id": 21,
+    "question": "What is Jitter?",
+    "answer": "Jitter refers to the variation in time delay between data packet arrivals over a network connection. It is measured in milliseconds and is often caused by network congestion, route changes, or queuing delays. High jitter leads to poor quality in real-time applications like VoIP, video conferencing, and streaming. Acceptable jitter levels are generally below 20ms. Buffering techniques and traffic optimization help minimize jitter."
+  },
+  {
+    "id": 22,
+    "question": "What is MAC Address?",
+    "answer": "A MAC (Media Access Control) address is a unique 48-bit hardware identifier assigned to a network interface card. Represented in hexadecimal format, such as 00:1A:2B:3C:4D:5E, it operates at the Data Link Layer of the OSI Model. The first half represents the manufacturer, and the second half identifies the device. MAC addresses are essential for local network communication and data frame delivery."
+  },
+  {
+    "id": 23,
+    "question": "What is ARP?",
+    "answer": "ARP (Address Resolution Protocol) is used to map an IP address to its corresponding MAC address within a local area network. When a device wants to communicate, it broadcasts an ARP request, and the device with the matching IP responds with its MAC address. The mapping is stored in the ARP cache for faster access. ARP spoofing attacks can exploit this mechanism to intercept data."
+  },
+  {
+    "id": 24,
+    "question": "What is ICMP?",
+    "answer": "ICMP (Internet Control Message Protocol) is a network-layer protocol used for error reporting and diagnostics. It sends messages like ‘destination unreachable’ or ‘time exceeded’ to indicate issues in packet delivery. Tools like ping and traceroute use ICMP to test connectivity and path information. Although crucial for troubleshooting, ICMP does not carry application data and may be blocked by firewalls for security reasons."
+  },
+  {
+    "id": 25,
+    "question": "What is Ping?",
+    "answer": "Ping is a network utility that tests connectivity between two devices using ICMP echo requests and replies. It measures response time, packet loss, and round-trip delay in milliseconds, helping diagnose network issues or latency problems. A successful ping confirms that the target host is reachable. It’s widely used for quick troubleshooting, though some networks disable ICMP to prevent misuse or flooding attacks."
+  },
+  {
+    "id": 26,
+    "question": "What is Traceroute?",
+    "answer": "Traceroute is a network diagnostic tool that displays the path packets take from the source to the destination. It works by sending packets with increasing TTL (Time To Live) values and recording responses from intermediate routers (hops). Each hop’s latency is measured, helping locate network delays or failures. Tools like tracert (Windows) and traceroute (Linux) are vital for identifying routing issues and bottlenecks."
+  },
+  {
+    "id": 27,
+    "question": "What is VPN?",
+    "answer": "A VPN (Virtual Private Network) creates an encrypted connection, or tunnel, over a public network like the Internet. It ensures secure and private data transfer, protecting users from eavesdropping and cyberattacks. VPNs also allow remote access to corporate networks and help bypass geographical restrictions. Common protocols include IPsec, OpenVPN, and L2TP. VPNs are widely used for security, anonymity, and remote connectivity."
+  },
+  {
+    "id": 28,
+    "question": "What is Proxy?",
+    "answer": "A proxy server acts as an intermediary between a client and the destination server, forwarding requests and responses. Types include forward proxies, reverse proxies, and transparent proxies. Proxies improve security, enable content filtering, provide anonymity, and cache frequently accessed data to enhance performance. Reverse proxies also balance load and protect backend servers from direct exposure to external traffic or threats."
+  },
+  {
+    "id": 29,
+    "question": "What is CDN?",
+    "answer": "A CDN (Content Delivery Network) is a distributed system of servers that deliver web content from locations geographically closer to users. It reduces latency, improves load times, and decreases bandwidth usage. CDNs cache static resources like images, scripts, and videos. They enhance performance, reliability, and availability, especially during high traffic. Popular CDNs include Cloudflare, Akamai, and Amazon CloudFront, widely used by modern websites."
+  },
+  {
+    "id": 30,
+    "question": "What is Load Balancing?",
+    "answer": "Load balancing distributes network or application traffic evenly across multiple servers to ensure optimal performance, reliability, and availability. It prevents any single server from being overloaded. Common algorithms include round robin, least connections, and IP hash. Load balancers can be hardware-based or software-based. They enhance scalability, minimize downtime, and are vital for handling large-scale systems, cloud services, and enterprise applications."
+  },
+  {
+    "id": 31,
+    "question": "What is BGP?",
+    "answer": "BGP (Border Gateway Protocol) is an inter-domain routing protocol used to exchange routing information between autonomous systems on the Internet. It determines the best path based on policies and path attributes, not just distance. BGP uses a path-vector mechanism, making it scalable for global routing. It is essential for ISPs and large networks, enabling internet connectivity and efficient traffic management between different networks."
+  },
+  {
+    "id": 32,
+    "question": "What is OSPF?",
+    "answer": "OSPF (Open Shortest Path First) is a link-state interior gateway protocol used for routing within an autonomous system. It dynamically calculates the shortest path using Dijkstra’s algorithm and assigns costs based on bandwidth. OSPF supports hierarchical design through areas, leading to faster convergence and scalability. It’s more efficient and reliable than older protocols like RIP and is widely implemented in enterprise networks."
+  },
+  {
+    "id": 33,
+    "question": "What is RIP?",
+    "answer": "RIP (Routing Information Protocol) is a distance-vector routing protocol used within smaller networks. It uses hop count as its metric, with a maximum of 15 hops allowed. Routers periodically exchange their routing tables to maintain updates. While simple to configure, RIP converges slowly and lacks scalability, making it less suitable for large networks. It has been largely replaced by more advanced protocols like OSPF and EIGRP."
+  },
+  {
+    "id": 34,
+    "question": "What is Spanning Tree Protocol?",
+    "answer": "The Spanning Tree Protocol (STP) prevents network loops in switched Ethernet environments. It identifies redundant paths and disables unnecessary links while maintaining network redundancy. Ports transition through states like Listening, Learning, Forwarding, and Blocking. STP ensures a loop-free topology but converges slowly. Its successor, RSTP (Rapid Spanning Tree Protocol), provides faster convergence, improving reliability in networks with multiple interconnected switches."
+  },
+  {
+    "id": 35,
+    "question": "What is VLAN?",
+    "answer": "A VLAN (Virtual Local Area Network) allows devices from different physical networks to be grouped logically into a single broadcast domain. It enhances network segmentation, improves security, and reduces congestion by limiting broadcast traffic. VLANs are identified using tags in Ethernet frames. They simplify management, isolate departments or functions, and enable flexible network design. Managed switches commonly support VLAN configuration through 802.1Q tagging."
+  },
+  {
+    "id": 36,
+    "question": "What is Multicast?",
+    "answer": "Multicast is a network communication method where data is sent from one source to multiple specific receivers simultaneously. It efficiently conserves bandwidth by delivering a single stream to multiple subscribers. IP multicast uses the address range 224.0.0.0 to 239.255.255.255. It is commonly used in applications like live video streaming, IPTV, and conferencing systems, providing scalable and optimized one-to-many communication."
+  },
+  {
+    "id": 37,
+    "question": "What is Anycast?",
+    "answer": "Anycast is a network addressing and routing method where multiple servers share the same IP address. Data packets are routed to the nearest or best-performing server based on routing metrics. This approach enhances performance, redundancy, and load distribution. Anycast is widely used in DNS root servers, CDNs, and DDoS mitigation systems, ensuring high availability and reduced latency for global users."
+  },
+  {
+    "id": 38,
+    "question": "What is Broadcast?",
+    "answer": "Broadcast is a one-to-all communication method where a single packet is sent to all devices within a local network. The destination address 255.255.255.255 identifies broadcast messages in IPv4. It’s used for protocols like ARP and DHCP during network discovery. While simple and useful for local communication, broadcasting increases network load and is limited to a single subnet to prevent unnecessary traffic."
+  },
+  {
+    "id": 39,
+    "question": "What is TTL?",
+    "answer": "TTL (Time To Live) is a field in an IP packet header that determines the maximum number of hops a packet can take before being discarded. Each router decreases the TTL value by one; when it reaches zero, the packet is dropped to prevent infinite loops. Common initial values are 64 or 128. TTL also aids in network diagnostics, particularly in traceroute operations."
+  },
+  {
+    "id": 40,
+    "question": "What is Checksum?",
+    "answer": "A checksum is an error-detection mechanism used to verify data integrity during transmission. It is computed by summing or processing data bits at the sender’s end and re-evaluated by the receiver. If values differ, corruption is detected. Checksums are simple yet effective for detecting errors, commonly used in IP, TCP, and UDP headers. However, they do not correct errors—only identify them."
+  },
+  {
+    "id": 31,
+    "question": "What is BGP?",
+    "answer": "BGP (Border Gateway Protocol) is an inter-domain routing protocol used to exchange routing information between autonomous systems on the Internet. It determines the best path based on policies and path attributes, not just distance. BGP uses a path-vector mechanism, making it scalable for global routing. It is essential for ISPs and large networks, enabling internet connectivity and efficient traffic management between different networks."
+  },
+  {
+    "id": 32,
+    "question": "What is OSPF?",
+    "answer": "OSPF (Open Shortest Path First) is a link-state interior gateway protocol used for routing within an autonomous system. It dynamically calculates the shortest path using Dijkstra’s algorithm and assigns costs based on bandwidth. OSPF supports hierarchical design through areas, leading to faster convergence and scalability. It’s more efficient and reliable than older protocols like RIP and is widely implemented in enterprise networks."
+  },
+  {
+    "id": 33,
+    "question": "What is RIP?",
+    "answer": "RIP (Routing Information Protocol) is a distance-vector routing protocol used within smaller networks. It uses hop count as its metric, with a maximum of 15 hops allowed. Routers periodically exchange their routing tables to maintain updates. While simple to configure, RIP converges slowly and lacks scalability, making it less suitable for large networks. It has been largely replaced by more advanced protocols like OSPF and EIGRP."
+  },
+  {
+    "id": 34,
+    "question": "What is Spanning Tree Protocol?",
+    "answer": "The Spanning Tree Protocol (STP) prevents network loops in switched Ethernet environments. It identifies redundant paths and disables unnecessary links while maintaining network redundancy. Ports transition through states like Listening, Learning, Forwarding, and Blocking. STP ensures a loop-free topology but converges slowly. Its successor, RSTP (Rapid Spanning Tree Protocol), provides faster convergence, improving reliability in networks with multiple interconnected switches."
+  },
+  {
+    "id": 35,
+    "question": "What is VLAN?",
+    "answer": "A VLAN (Virtual Local Area Network) allows devices from different physical networks to be grouped logically into a single broadcast domain. It enhances network segmentation, improves security, and reduces congestion by limiting broadcast traffic. VLANs are identified using tags in Ethernet frames. They simplify management, isolate departments or functions, and enable flexible network design. Managed switches commonly support VLAN configuration through 802.1Q tagging."
+  },
+  {
+    "id": 36,
+    "question": "What is Multicast?",
+    "answer": "Multicast is a network communication method where data is sent from one source to multiple specific receivers simultaneously. It efficiently conserves bandwidth by delivering a single stream to multiple subscribers. IP multicast uses the address range 224.0.0.0 to 239.255.255.255. It is commonly used in applications like live video streaming, IPTV, and conferencing systems, providing scalable and optimized one-to-many communication."
+  },
+  {
+    "id": 37,
+    "question": "What is Anycast?",
+    "answer": "Anycast is a network addressing and routing method where multiple servers share the same IP address. Data packets are routed to the nearest or best-performing server based on routing metrics. This approach enhances performance, redundancy, and load distribution. Anycast is widely used in DNS root servers, CDNs, and DDoS mitigation systems, ensuring high availability and reduced latency for global users."
+  },
+  {
+    "id": 38,
+    "question": "What is Broadcast?",
+    "answer": "Broadcast is a one-to-all communication method where a single packet is sent to all devices within a local network. The destination address 255.255.255.255 identifies broadcast messages in IPv4. It’s used for protocols like ARP and DHCP during network discovery. While simple and useful for local communication, broadcasting increases network load and is limited to a single subnet to prevent unnecessary traffic."
+  },
+  {
+    "id": 39,
+    "question": "What is TTL?",
+    "answer": "TTL (Time To Live) is a field in an IP packet header that determines the maximum number of hops a packet can take before being discarded. Each router decreases the TTL value by one; when it reaches zero, the packet is dropped to prevent infinite loops. Common initial values are 64 or 128. TTL also aids in network diagnostics, particularly in traceroute operations."
+  },
+  {
+    "id": 40,
+    "question": "What is Checksum?",
+    "answer": "A checksum is an error-detection mechanism used to verify data integrity during transmission. It is computed by summing or processing data bits at the sender’s end and re-evaluated by the receiver. If values differ, corruption is detected. Checksums are simple yet effective for detecting errors, commonly used in IP, TCP, and UDP headers. However, they do not correct errors—only identify them."
+  }
+
+
+
+  
   ]
+
+
 }
