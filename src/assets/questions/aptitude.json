@@ -1,0 +1,2111 @@
+{
+  "metadata": {
+    "total_questions": 400,
+    "total_topics": 20,
+    "questions_per_topic": 20,
+    "difficulty": "Medium",
+    "purpose": "Placement Preparation"
+  },
+  "topics": [
+    {
+      "topic": "Time and Work",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "A and B together can complete a work in 12 days. B alone can complete it in 18 days. In how many days can A alone finish the work?",
+          "answer": "36 days"
+        },
+        {
+          "q_no": 2,
+          "question": "If 24 men can complete a work in 15 days, how many men are required to complete the same work in 10 days?",
+          "answer": "36 men"
+        },
+        {
+          "q_no": 3,
+          "question": "A does half as much work as B in three-fourths of the time. If together they take 18 days to complete a work, how many days will A alone take?",
+          "answer": "48 days"
+        },
+        {
+          "q_no": 4,
+          "question": "If A works alone for 3 days and then B joins him, they complete the remaining work in 4 days. If B alone takes 30 days to complete the work, how many days will A take?",
+          "answer": "20 days"
+        },
+        {
+          "q_no": 5,
+          "question": "A, B and C can complete a work in 10, 15 and 20 days respectively. How long will they take to complete the work if all three work together?",
+          "answer": "60/11 days"
+        },
+        {
+          "q_no": 6,
+          "question": "A completes a work in 8 days. B is 60% more efficient than A. In how many days will B complete the same work?",
+          "answer": "5 days"
+        },
+        {
+          "q_no": 7,
+          "question": "If 4 men working 6 hours a day can dig a ditch in 8 days, how many men will be required to dig it in 4 days working 12 hours a day?",
+          "answer": "4 men"
+        },
+        {
+          "q_no": 8,
+          "question": "A and B working together can complete a job in 7.5 days. B and C working together can complete it in 5 days. A and C working together can complete it in 10 days. How long will A take working alone?",
+          "answer": "16.67 days"
+        },
+        {
+          "q_no": 9,
+          "question": "A can do a work in 25 days. B can do it in 20 days. If A, B and C working together can finish it in 8 days, in how many days can C alone do it?",
+          "answer": "40 days"
+        },
+        {
+          "q_no": 10,
+          "question": "A starts work and leaves after 3 days. B starts after A leaves and works for 5 days. The remaining work is completed by C in 2 days. If A, B and C working together can complete the work in 8 days, how many days will it take if A works alone?",
+          "answer": "24 days"
+        },
+        {
+          "q_no": 11,
+          "question": "Two workers A and B working together can complete a task in 12 hours. If A works alone for 2 hours and then B joins, they finish in 8 more hours. How long will A take working alone?",
+          "answer": "20 hours"
+        },
+        {
+          "q_no": 12,
+          "question": "A can complete 1/4 of a work in 10 days. B can complete 1/3 of the work in 12 days. In how many days will both complete the work together?",
+          "answer": "15.43 days"
+        },
+        {
+          "q_no": 13,
+          "question": "If A does 3/5 of the work in 9 days, how many days will be required to complete the whole work?",
+          "answer": "15 days"
+        },
+        {
+          "q_no": 14,
+          "question": "A completes a work in 12 days, B in 15 days. They start together but A leaves after 4 days. In how many more days will B complete the remaining work?",
+          "answer": "7.33 days"
+        },
+        {
+          "q_no": 15,
+          "question": "A, B and C can complete a project in 20, 30 and 60 days respectively. In how many days will they complete it if they work on alternate days starting with A?",
+          "answer": "16 days"
+        },
+        {
+          "q_no": 16,
+          "question": "If 10 workers can build a wall in 12 days, how many workers are needed to build it in 8 days?",
+          "answer": "15 workers"
+        },
+        {
+          "q_no": 17,
+          "question": "A works twice as fast as B. If together they complete a work in 6 days, how many days will A take?",
+          "answer": "9 days"
+        },
+        {
+          "q_no": 18,
+          "question": "A takes 6 days to complete a work and B takes 9 days. A leaves after 2 days, B continues. In how many more days will B complete?",
+          "answer": "6 days"
+        },
+        {
+          "q_no": 19,
+          "question": "A, B and C working together earn Rs. 1200 for a job. A, B and C's work rate is 4:3:2. How much should A get?",
+          "answer": "Rs. 545.45"
+        },
+        {
+          "q_no": 20,
+          "question": "A can do a piece of work in 10 days, B in 12 days and C in 15 days. They work for 2 days and then C leaves. In how many more days will A and B complete it?",
+          "answer": "4.4 days"
+        }
+      ]
+    },
+    {
+      "topic": "Ratio and Proportion",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "The ratio of the ages of A and B is 4:5. After 8 years, the ratio becomes 5:6. What is A's present age?",
+          "answer": "32 years"
+        },
+        {
+          "q_no": 2,
+          "question": "If A:B = 3:4 and B:C = 5:6, find A:B:C",
+          "answer": "15:20:24"
+        },
+        {
+          "q_no": 3,
+          "question": "The ratio of two numbers is 5:8. If their sum is 65, find the numbers.",
+          "answer": "25 and 40"
+        },
+        {
+          "q_no": 4,
+          "question": "A sum of money is divided between A and B in the ratio 4:7. If B gets Rs. 350 more than A, what is the total amount?",
+          "answer": "Rs. 1100"
+        },
+        {
+          "q_no": 5,
+          "question": "The ratio of boys to girls in a class is 3:2. If there are 120 students in total, how many girls are there?",
+          "answer": "48 girls"
+        },
+        {
+          "q_no": 6,
+          "question": "If A:B = 2:3 and B:C = 4:5, find A:C",
+          "answer": "8:15"
+        },
+        {
+          "q_no": 7,
+          "question": "The ages of A and B are in the ratio 7:5. In 10 years, the ratio will be 9:7. Find their current ages.",
+          "answer": "A is 35, B is 25"
+        },
+        {
+          "q_no": 8,
+          "question": "A number is divided into two parts such that one part is 4 times the other. If the smaller part is 25, what is the number?",
+          "answer": "125"
+        },
+        {
+          "q_no": 9,
+          "question": "If x:y = 5:3 and y:z = 6:4, find x:z",
+          "answer": "5:2"
+        },
+        {
+          "q_no": 10,
+          "question": "The ratio of length to width of a rectangle is 5:3. If the perimeter is 80 cm, find the length.",
+          "answer": "25 cm"
+        },
+        {
+          "q_no": 11,
+          "question": "A sum of Rs. 1320 is divided among A, B, and C in the ratio 2:3:5. How much does C get?",
+          "answer": "Rs. 660"
+        },
+        {
+          "q_no": 12,
+          "question": "If the ratio of A to B to C is 3:4:5 and their sum is 360, find B.",
+          "answer": "120"
+        },
+        {
+          "q_no": 13,
+          "question": "Two friends A and B have money in the ratio 5:7. After A receives Rs. 100 and B receives Rs. 50, the ratio becomes 4:5. How much money did each have initially?",
+          "answer": "A: Rs. 500, B: Rs. 700"
+        },
+        {
+          "q_no": 14,
+          "question": "In a bag, the ratio of red to blue balls is 3:2. If there are 60 balls in total, how many red balls are there?",
+          "answer": "36 red balls"
+        },
+        {
+          "q_no": 15,
+          "question": "The ratio of A's income to B's income is 5:4. A's income is Rs. 40,000. What is B's income?",
+          "answer": "Rs. 32,000"
+        },
+        {
+          "q_no": 16,
+          "question": "If a:b = 3:2 and b:c = 4:5, find a:b:c",
+          "answer": "6:4:5"
+        },
+        {
+          "q_no": 17,
+          "question": "A number is divided in the ratio 7:5. If the difference between the parts is 24, find the number.",
+          "answer": "144"
+        },
+        {
+          "q_no": 18,
+          "question": "The ratio of zinc to copper in an alloy is 7:3. If the alloy weighs 500 kg, how much zinc is in it?",
+          "answer": "350 kg"
+        },
+        {
+          "q_no": 19,
+          "question": "A and B have money in the ratio 8:5. If both lose Rs. 20, the ratio becomes 5:3. How much did each have?",
+          "answer": "A: Rs. 160, B: Rs. 100"
+        },
+        {
+          "q_no": 20,
+          "question": "If p:q = 2:3, q:r = 4:5, and r:s = 3:2, find p:s",
+          "answer": "8:15"
+        }
+      ]
+    },
+    {
+      "topic": "Time, Speed and Distance",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "A car covers a distance of 120 km at a speed of 60 km/h and returns at a speed of 40 km/h. What is the average speed for the whole journey?",
+          "answer": "48 km/h"
+        },
+        {
+          "q_no": 2,
+          "question": "A person walks at 5 km/h and covers a certain distance in 6 hours. If he walks at 6 km/h, how long will it take?",
+          "answer": "5 hours"
+        },
+        {
+          "q_no": 3,
+          "question": "Two trains start from the same station at the same time. One goes north at 60 km/h and the other goes south at 80 km/h. How far apart will they be after 2 hours?",
+          "answer": "280 km"
+        },
+        {
+          "q_no": 4,
+          "question": "A cyclist travels 15 km in the first hour and 20 km in the second hour. What is the average speed?",
+          "answer": "17.5 km/h"
+        },
+        {
+          "q_no": 5,
+          "question": "If a car travels 100 km in 2 hours and 150 km in the next 3 hours, what is the average speed?",
+          "answer": "50 km/h"
+        },
+        {
+          "q_no": 6,
+          "question": "A boat goes downstream 16 km and upstream 8 km. If the boat takes 1.5 hours for both, find the speed of the boat in still water.",
+          "answer": "8 km/h"
+        },
+        {
+          "q_no": 7,
+          "question": "A man walks at 4 km/h. How far will he walk in 5 hours 30 minutes?",
+          "answer": "22 km"
+        },
+        {
+          "q_no": 8,
+          "question": "Two cyclists start from the same point. One travels at 15 km/h and the other at 20 km/h. If they travel in the same direction, how far apart will they be after 3 hours?",
+          "answer": "15 km"
+        },
+        {
+          "q_no": 9,
+          "question": "A train 200 m long passes a pole in 10 seconds. What is its speed?",
+          "answer": "72 km/h"
+        },
+        {
+          "q_no": 10,
+          "question": "If the ratio of speeds of A and B is 4:5 and A covers 80 km, how much does B cover in the same time?",
+          "answer": "100 km"
+        },
+        {
+          "q_no": 11,
+          "question": "A person travels 50 km at 10 km/h and 50 km at 20 km/h. What is the average speed?",
+          "answer": "13.33 km/h"
+        },
+        {
+          "q_no": 12,
+          "question": "Two runners start running in opposite directions from the same point. Their speeds are 8 km/h and 6 km/h respectively. After how long will they be 28 km apart?",
+          "answer": "2 hours"
+        },
+        {
+          "q_no": 13,
+          "question": "A car travels at 60 km/h for the first half of the journey and 40 km/h for the second half. What is the average speed?",
+          "answer": "48 km/h"
+        },
+        {
+          "q_no": 14,
+          "question": "If a person walks 2 km in 30 minutes, what is his speed in km/h?",
+          "answer": "4 km/h"
+        },
+        {
+          "q_no": 15,
+          "question": "A train travels 240 km in 4 hours. If it covers 60 km more, how long will the journey take?",
+          "answer": "5 hours"
+        },
+        {
+          "q_no": 16,
+          "question": "A ship travels at 20 km/h in still water. The current speed is 4 km/h. How long will it take to travel 96 km upstream?",
+          "answer": "6 hours"
+        },
+        {
+          "q_no": 17,
+          "question": "Two places are 150 km apart. A train covers the distance in 3 hours. What is its speed?",
+          "answer": "50 km/h"
+        },
+        {
+          "q_no": 18,
+          "question": "If a man travels 3/4 of a journey at 50 km/h and the remaining at 60 km/h, what is the average speed?",
+          "answer": "51.43 km/h"
+        },
+        {
+          "q_no": 19,
+          "question": "A cyclist travels 12 km in 1.5 hours. How far will he travel in 4 hours at the same speed?",
+          "answer": "32 km"
+        },
+        {
+          "q_no": 20,
+          "question": "Two trains are moving towards each other at 40 km/h and 50 km/h respectively. If they are 270 km apart, after how long will they meet?",
+          "answer": "3 hours"
+        }
+      ]
+    },
+    {
+      "topic": "Percentages",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "If the price of a book is increased by 20%, by what percent must its consumption be reduced so that the expenditure remains the same?",
+          "answer": "16.67%"
+        },
+        {
+          "q_no": 2,
+          "question": "What is 15% of 200?",
+          "answer": "30"
+        },
+        {
+          "q_no": 3,
+          "question": "If 40% of a number is 120, what is the number?",
+          "answer": "300"
+        },
+        {
+          "q_no": 4,
+          "question": "A student scored 75% in an exam. If the total marks are 500, how many marks did he score?",
+          "answer": "375 marks"
+        },
+        {
+          "q_no": 5,
+          "question": "If A's salary is 30% more than B's, then B's salary is what percent less than A's?",
+          "answer": "23.08%"
+        },
+        {
+          "q_no": 6,
+          "question": "The price of an item increases from Rs. 200 to Rs. 250. What is the percentage increase?",
+          "answer": "25%"
+        },
+        {
+          "q_no": 7,
+          "question": "If 60% of the students passed an exam and 200 students failed, how many students took the exam?",
+          "answer": "500 students"
+        },
+        {
+          "q_no": 8,
+          "question": "A shirt costs Rs. 400. If it is sold at 25% discount, what is the selling price?",
+          "answer": "Rs. 300"
+        },
+        {
+          "q_no": 9,
+          "question": "If a quantity is decreased by 10% and then increased by 10%, what is the net change?",
+          "answer": "1% decrease"
+        },
+        {
+          "q_no": 10,
+          "question": "Out of 1000 people, 45% like cricket and 55% like football. How many people like each sport?",
+          "answer": "Cricket: 450, Football: 550"
+        },
+        {
+          "q_no": 11,
+          "question": "If 8% of a number is 64, what is the number?",
+          "answer": "800"
+        },
+        {
+          "q_no": 12,
+          "question": "A value increases from 500 to 750. What is the percentage increase?",
+          "answer": "50%"
+        },
+        {
+          "q_no": 13,
+          "question": "If 70% of x is 140, what is x?",
+          "answer": "200"
+        },
+        {
+          "q_no": 14,
+          "question": "A laptop is sold at 20% discount for Rs. 16,000. What was the original price?",
+          "answer": "Rs. 20,000"
+        },
+        {
+          "q_no": 15,
+          "question": "If a quantity increases by 25% and then decreases by 20%, what is the net change?",
+          "answer": "0% (no change)"
+        },
+        {
+          "q_no": 16,
+          "question": "25% of 80 is what percent of 320?",
+          "answer": "6.25%"
+        },
+        {
+          "q_no": 17,
+          "question": "If 12% of an amount is Rs. 60, what is 25% of that amount?",
+          "answer": "Rs. 125"
+        },
+        {
+          "q_no": 18,
+          "question": "The population of a city increases by 10% annually. If the current population is 1,00,000, what will it be after 2 years?",
+          "answer": "121,000"
+        },
+        {
+          "q_no": 19,
+          "question": "If a number is increased by 50% and then decreased by 50%, what is the net result?",
+          "answer": "25% decrease"
+        },
+        {
+          "q_no": 20,
+          "question": "An item costs Rs. 500. Its price is increased by 10% and then by another 5%. What is the final price?",
+          "answer": "Rs. 577.50"
+        }
+      ]
+    },
+    {
+      "topic": "Profit and Loss",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "A man sells an article at a gain of 10%. If he had bought it at 10% less and sold it for Rs. 6 less, his profit would have been 20%. Find the cost price of the article.",
+          "answer": "Rs. 60"
+        },
+        {
+          "q_no": 2,
+          "question": "The cost price of 20 articles is equal to the selling price of 15 articles. Find the profit/loss percent.",
+          "answer": "33.33% profit"
+        },
+        {
+          "q_no": 3,
+          "question": "If an article is bought at Rs. 100 and sold at Rs. 125, what is the profit percent?",
+          "answer": "25%"
+        },
+        {
+          "q_no": 4,
+          "question": "A shopkeeper buys 10 items for Rs. 1000 and sells 8 items for Rs. 1000. What is his profit/loss percent?",
+          "answer": "25% profit"
+        },
+        {
+          "q_no": 5,
+          "question": "An item is sold at Rs. 300 with a loss of 25%. What is its cost price?",
+          "answer": "Rs. 400"
+        },
+        {
+          "q_no": 6,
+          "question": "If the selling price of an item is Rs. 750 and profit is 25%, find the cost price.",
+          "answer": "Rs. 600"
+        },
+        {
+          "q_no": 7,
+          "question": "A trader sells 50 kg of sugar at Rs. 20 per kg and makes a profit of 25%. What was the cost price per kg?",
+          "answer": "Rs. 16 per kg"
+        },
+        {
+          "q_no": 8,
+          "question": "An article costs Rs. 200. If it is sold at 15% profit, what is the selling price?",
+          "answer": "Rs. 230"
+        },
+        {
+          "q_no": 9,
+          "question": "If cost price is Rs. 500 and selling price is Rs. 450, find the loss percent.",
+          "answer": "10%"
+        },
+        {
+          "q_no": 10,
+          "question": "A man buys an article for Rs. 400 and sells it at a loss of 20%. What is the selling price?",
+          "answer": "Rs. 320"
+        },
+        {
+          "q_no": 11,
+          "question": "If profit is Rs. 50 and cost price is Rs. 200, find the profit percent.",
+          "answer": "25%"
+        },
+        {
+          "q_no": 12,
+          "question": "An article is bought for Rs. 1200. At what price should it be sold to make a profit of 30%?",
+          "answer": "Rs. 1560"
+        },
+        {
+          "q_no": 13,
+          "question": "If the ratio of cost price to selling price is 4:5, find the profit percent.",
+          "answer": "25%"
+        },
+        {
+          "q_no": 14,
+          "question": "A person buys 100 items at Rs. 10 each and sells 80 items at Rs. 12 each and 20 items at Rs. 8 each. What is the profit/loss?",
+          "answer": "Rs. 40 loss"
+        },
+        {
+          "q_no": 15,
+          "question": "If cost price is 80% of selling price, find the profit/loss percent.",
+          "answer": "25% profit"
+        },
+        {
+          "q_no": 16,
+          "question": "An article is marked at Rs. 500. After giving a 20% discount, it is sold. If the cost price is Rs. 350, find the profit percent.",
+          "answer": "14.29%"
+        },
+        {
+          "q_no": 17,
+          "question": "A shopkeeper buys articles at Rs. 80 per dozen and sells at Rs. 10 per piece. Find profit percent.",
+          "answer": "50%"
+        },
+        {
+          "q_no": 18,
+          "question": "If an article is sold at 4/5 of its cost price, what is the loss percent?",
+          "answer": "20%"
+        },
+        {
+          "q_no": 19,
+          "question": "A dealer marks up goods at 40% above cost price. He then gives a 20% discount. What is his profit percent?",
+          "answer": "12%"
+        },
+        {
+          "q_no": 20,
+          "question": "Two articles are bought for Rs. 500 each. One is sold at 20% profit and the other at 10% loss. Find the overall profit/loss.",
+          "answer": "Rs. 50 profit"
+        }
+      ]
+    },
+    {
+      "topic": "Simple Interest",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "What sum will amount to Rs. 815 in 3 years at 6% per annum simple interest?",
+          "answer": "Rs. 700"
+        },
+        {
+          "q_no": 2,
+          "question": "Find the simple interest on Rs. 5000 at 8% per annum for 2 years.",
+          "answer": "Rs. 800"
+        },
+        {
+          "q_no": 3,
+          "question": "What principal will amount to Rs. 1050 in 5 years at 2% per annum simple interest?",
+          "answer": "Rs. 1000"
+        },
+        {
+          "q_no": 4,
+          "question": "At what rate percent per annum will Rs. 2000 amount to Rs. 2360 in 3 years?",
+          "answer": "6%"
+        },
+        {
+          "q_no": 5,
+          "question": "In how many years will Rs. 3000 become Rs. 3900 at 5% per annum simple interest?",
+          "answer": "6 years"
+        },
+        {
+          "q_no": 6,
+          "question": "Calculate simple interest on Rs. 8000 at 7.5% per annum for 4 years.",
+          "answer": "Rs. 2400"
+        },
+        {
+          "q_no": 7,
+          "question": "What is the simple interest on Rs. 1200 for 2.5 years at 4% per annum?",
+          "answer": "Rs. 120"
+        },
+        {
+          "q_no": 8,
+          "question": "A sum of money becomes 4 times in 20 years at simple interest. Find the rate of interest.",
+          "answer": "15%"
+        },
+        {
+          "q_no": 9,
+          "question": "Find the amount on Rs. 500 at 10% per annum for 3 years.",
+          "answer": "Rs. 650"
+        },
+        {
+          "q_no": 10,
+          "question": "Simple interest on a sum for 5 years at 8% per annum is Rs. 1600. Find the principal.",
+          "answer": "Rs. 4000"
+        },
+        {
+          "q_no": 11,
+          "question": "In what time will Rs. 6000 earn simple interest of Rs. 1200 at 5% per annum?",
+          "answer": "4 years"
+        },
+        {
+          "q_no": 12,
+          "question": "The simple interest on a certain sum is 1/4 of the principal and the rate percent per annum equals the time in years. Find the rate.",
+          "answer": "5%"
+        },
+        {
+          "q_no": 13,
+          "question": "What sum becomes Rs. 2400 in 4 years at 8% simple interest per annum?",
+          "answer": "Rs. 1923.08"
+        },
+        {
+          "q_no": 14,
+          "question": "Calculate SI on Rs. 3500 at 12% per annum for 18 months.",
+          "answer": "Rs. 630"
+        },
+        {
+          "q_no": 15,
+          "question": "If simple interest for 8 years on Rs. 1000 is Rs. 800, what is the rate?",
+          "answer": "10%"
+        },
+        {
+          "q_no": 16,
+          "question": "A person invests Rs. 10000 for 3 years at 5% per annum SI. What is the total amount?",
+          "answer": "Rs. 11500"
+        },
+        {
+          "q_no": 17,
+          "question": "At 6% per annum SI, a sum becomes Rs. 4300 in 5 years. What was the original sum?",
+          "answer": "Rs. 3307.69"
+        },
+        {
+          "q_no": 18,
+          "question": "Simple interest on Rs. 600 for 3 years is Rs. 108. Find the rate of interest.",
+          "answer": "6%"
+        },
+        {
+          "q_no": 19,
+          "question": "In what time will Rs. 400 amount to Rs. 480 at 8% per annum SI?",
+          "answer": "2.5 years"
+        },
+        {
+          "q_no": 20,
+          "question": "The SI on a sum for 3 years at 7.5% per annum is Rs. 1350. Find the sum.",
+          "answer": "Rs. 6000"
+        }
+      ]
+    },
+    {
+      "topic": "Compound Interest",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "Find the compound interest on Rs. 10000 for 2 years at 5% per annum, compounded annually.",
+          "answer": "Rs. 1025"
+        },
+        {
+          "q_no": 2,
+          "question": "What is the compound interest on Rs. 8000 for 3 years at 10% per annum?",
+          "answer": "Rs. 2648"
+        },
+        {
+          "q_no": 3,
+          "question": "A sum of Rs. 5000 is invested at 8% per annum for 2 years, compounded half-yearly. Find the amount.",
+          "answer": "Rs. 5864.65"
+        },
+        {
+          "q_no": 4,
+          "question": "Find the rate of interest if Rs. 2000 becomes Rs. 2662 in 3 years at compound interest.",
+          "answer": "10%"
+        },
+        {
+          "q_no": 5,
+          "question": "In how many years will Rs. 3000 become Rs. 3993.60 at 10% per annum compounded annually?",
+          "answer": "3 years"
+        },
+        {
+          "q_no": 6,
+          "question": "Calculate the amount on Rs. 1500 for 2 years at 12% per annum compounded annually.",
+          "answer": "Rs. 1881.60"
+        },
+        {
+          "q_no": 7,
+          "question": "What principal will become Rs. 4500 in 2 years at 5% per annum compound interest?",
+          "answer": "Rs. 4077.73"
+        },
+        {
+          "q_no": 8,
+          "question": "Find CI on Rs. 6000 for 1.5 years at 20% per annum compounded half-yearly.",
+          "answer": "Rs. 1956"
+        },
+        {
+          "q_no": 9,
+          "question": "A sum becomes 4 times in 3 years at compound interest. Find the rate of interest.",
+          "answer": "58.74%"
+        },
+        {
+          "q_no": 10,
+          "question": "Rs. 12500 is invested at 8% per annum for 2 years compounded annually. Find amount and CI.",
+          "answer": "Amount: Rs. 14580, CI: Rs. 2080"
+        },
+        {
+          "q_no": 11,
+          "question": "Find the difference between SI and CI on Rs. 5000 for 2 years at 5% per annum.",
+          "answer": "Rs. 12.50"
+        },
+        {
+          "q_no": 12,
+          "question": "What will Rs. 50000 become in 3 years at 6% per annum compounded annually?",
+          "answer": "Rs. 59550.80"
+        },
+        {
+          "q_no": 13,
+          "question": "CI on a sum for 2 years at 10% per annum is Rs. 2100. Find the principal.",
+          "answer": "Rs. 10000"
+        },
+        {
+          "q_no": 14,
+          "question": "A sum of Rs. 2000 is invested at 10% per annum for 2 years compounded quarterly. Find amount.",
+          "answer": "Rs. 2436.33"
+        },
+        {
+          "q_no": 15,
+          "question": "Find compound interest on Rs. 7500 for 2 years at 4% per annum.",
+          "answer": "Rs. 612"
+        },
+        {
+          "q_no": 16,
+          "question": "In how many years will Rs. 4000 double at 12% per annum compound interest?",
+          "answer": "6.12 years"
+        },
+        {
+          "q_no": 17,
+          "question": "What is the amount on Rs. 3000 for 3 years at 5% per annum compounded annually?",
+          "answer": "Rs. 3472.88"
+        },
+        {
+          "q_no": 18,
+          "question": "Find CI on Rs. 9000 at 5% per annum for 2 years compounded annually.",
+          "answer": "Rs. 922.50"
+        },
+        {
+          "q_no": 19,
+          "question": "A principal becomes Rs. 5832 in 3 years at 10% per annum compound interest. Find principal.",
+          "answer": "Rs. 4380"
+        },
+        {
+          "q_no": 20,
+          "question": "Calculate amount on Rs. 20000 at 7% per annum for 2 years compounded annually.",
+          "answer": "Rs. 22898"
+        }
+      ]
+    },
+    {
+      "topic": "Averages",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "The average of 5 consecutive even numbers is 26. What is the smallest of these numbers?",
+          "answer": "22"
+        },
+        {
+          "q_no": 2,
+          "question": "The average weight of 10 students is 50 kg. If a new student of weight 55 kg joins, what is the new average?",
+          "answer": "50.45 kg"
+        },
+        {
+          "q_no": 3,
+          "question": "Find the average of first 10 natural numbers.",
+          "answer": "5.5"
+        },
+        {
+          "q_no": 4,
+          "question": "The average of 4 numbers is 30. If 3 numbers are 20, 25, 35, find the 4th number.",
+          "answer": "40"
+        },
+        {
+          "q_no": 5,
+          "question": "What is the average of first 5 odd numbers?",
+          "answer": "5"
+        },
+        {
+          "q_no": 6,
+          "question": "The average age of A, B, and C is 25 years. If A is 24 and B is 26, what is C's age?",
+          "answer": "25 years"
+        },
+        {
+          "q_no": 7,
+          "question": "The average of 6 numbers is 45. If one number is increased by 12, what is the new average?",
+          "answer": "47"
+        },
+        {
+          "q_no": 8,
+          "question": "Find the average of all prime numbers between 10 and 20.",
+          "answer": "15.5"
+        },
+        {
+          "q_no": 9,
+          "question": "A cricketer's average runs in 5 matches is 40. He scores 60 runs in the 6th match. What is the new average?",
+          "answer": "43.33"
+        },
+        {
+          "q_no": 10,
+          "question": "The average of 3 numbers is 15. The first number is 10. The sum of the other two is how much?",
+          "answer": "35"
+        },
+        {
+          "q_no": 11,
+          "question": "If average of n numbers is A and one number is replaced by B, what is the new average?",
+          "answer": "A + (B - replaced)/n"
+        },
+        {
+          "q_no": 12,
+          "question": "The average score in an exam is 75. There are 40 students. What is the total score?",
+          "answer": "3000"
+        },
+        {
+          "q_no": 13,
+          "question": "Find average of 2, 4, 6, 8, 10",
+          "answer": "6"
+        },
+        {
+          "q_no": 14,
+          "question": "The average of first n natural numbers is how much?",
+          "answer": "(n+1)/2"
+        },
+        {
+          "q_no": 15,
+          "question": "Average of 5 numbers is 20. If 5 is added to each, what is the new average?",
+          "answer": "25"
+        },
+        {
+          "q_no": 16,
+          "question": "The average height of boys is 170 cm and of girls is 160 cm. If there are 10 boys and 5 girls, what is the overall average?",
+          "answer": "166.67 cm"
+        },
+        {
+          "q_no": 17,
+          "question": "A number is added to three numbers 15, 20, 25. The new average becomes 22. What is the number?",
+          "answer": "32"
+        },
+        {
+          "q_no": 18,
+          "question": "Find average of 11, 23, 35, 47",
+          "answer": "29"
+        },
+        {
+          "q_no": 19,
+          "question": "The average age of 3 people is 30 years. One person leaves and the average becomes 28. What was the age of the person who left?",
+          "answer": "34 years"
+        },
+        {
+          "q_no": 20,
+          "question": "Average of 8 numbers is 50. If each number is multiplied by 2, what is the new average?",
+          "answer": "100"
+        }
+      ]
+    },
+    {
+      "topic": "Mixtures and Alligation",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "How many litres of water should be added to 60 litres of milk at 30% concentration to make it 20% concentration?",
+          "answer": "30 litres"
+        },
+        {
+          "q_no": 2,
+          "question": "Two liquids A and B have concentrations of 50% and 80% respectively. In what ratio should they be mixed to get 60% concentration?",
+          "answer": "2:1"
+        },
+        {
+          "q_no": 3,
+          "question": "A mixture contains milk and water in the ratio 3:2. How much milk is in 20 litres of mixture?",
+          "answer": "12 litres"
+        },
+        {
+          "q_no": 4,
+          "question": "Two solutions with 10% and 20% concentration are mixed in equal quantities. What is the resulting concentration?",
+          "answer": "15%"
+        },
+        {
+          "q_no": 5,
+          "question": "In a mixture of 40 litres, milk is 70%. How much water is there?",
+          "answer": "12 litres"
+        },
+        {
+          "q_no": 6,
+          "question": "A container has tea and water in ratio 4:5. If total is 180 litres, how much tea is there?",
+          "answer": "80 litres"
+        },
+        {
+          "q_no": 7,
+          "question": "How much pure milk must be added to 10 litres of milk that is 70% pure to make it 90% pure?",
+          "answer": "10 litres"
+        },
+        {
+          "q_no": 8,
+          "question": "Three liquids of concentrations 50%, 60%, 70% are mixed in equal quantities. What is the resulting concentration?",
+          "answer": "60%"
+        },
+        {
+          "q_no": 9,
+          "question": "A mixture of 50 litres contains 40% alcohol. How much water should be added to make it 25% alcohol?",
+          "answer": "30 litres"
+        },
+        {
+          "q_no": 10,
+          "question": "Two oils with prices Rs. 100 and Rs. 150 per litre are mixed. In what ratio should they be mixed to get Rs. 120 per litre?",
+          "answer": "3:2"
+        },
+        {
+          "q_no": 11,
+          "question": "A mixture has acid and water in 3:7. In 20 litres, how much is acid?",
+          "answer": "6 litres"
+        },
+        {
+          "q_no": 12,
+          "question": "Pure gold is mixed with copper in ratio 3:2. What percentage of gold is in the mixture?",
+          "answer": "60%"
+        },
+        {
+          "q_no": 13,
+          "question": "A mixture of 100 litres has sugar concentration of 30%. How much sugar is there?",
+          "answer": "30 litres"
+        },
+        {
+          "q_no": 14,
+          "question": "Two solutions are mixed in ratio 2:3. If first has 40% salt, what is the ratio of salt quantities?",
+          "answer": "Depends on second solution"
+        },
+        {
+          "q_no": 15,
+          "question": "From 50 litres of 60% solution, 10 litres is removed and replaced with water. What is new concentration?",
+          "answer": "48%"
+        },
+        {
+          "q_no": 16,
+          "question": "A container has coffee and milk in 2:3. Total is 100 litres. How much milk should be added to make it 1:1?",
+          "answer": "20 litres"
+        },
+        {
+          "q_no": 17,
+          "question": "Two alloys have copper 40% and 60%. They are mixed in ratio 3:1. What % copper in mixture?",
+          "answer": "45%"
+        },
+        {
+          "q_no": 18,
+          "question": "A mixture of 80 litres has juice:water = 3:5. How much juice is there?",
+          "answer": "30 litres"
+        },
+        {
+          "q_no": 19,
+          "question": "How much water should be added to 10 litres of 50% salt solution to make it 10% salt?",
+          "answer": "40 litres"
+        },
+        {
+          "q_no": 20,
+          "question": "Three components A, B, C are in ratio 1:2:3 in 60 litres. How much is B?",
+          "answer": "20 litres"
+        }
+      ]
+    },
+    {
+      "topic": "Partnerships",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "A invests Rs. 4000 for 6 months and B invests Rs. 6000 for 4 months. What is the ratio of their profits?",
+          "answer": "2:3"
+        },
+        {
+          "q_no": 2,
+          "question": "A and B start a business with Rs. 3000 and Rs. 4000. After 1 year, profit is Rs. 2100. What is A's share?",
+          "answer": "Rs. 900"
+        },
+        {
+          "q_no": 3,
+          "question": "A and B invest in ratio 3:5 and they work for 2 and 3 years respectively. What is profit ratio?",
+          "answer": "3:5 (investment based)"
+        },
+        {
+          "q_no": 4,
+          "question": "Two partners A and B share profit in ratio 2:3. If total profit is Rs. 5000, what is B's share?",
+          "answer": "Rs. 3000"
+        },
+        {
+          "q_no": 5,
+          "question": "A invests Rs. 5000 for whole year and B invests Rs. 6000 for 8 months. Profit ratio?",
+          "answer": "5:4"
+        },
+        {
+          "q_no": 6,
+          "question": "A, B, C invest Rs. 2000, 3000, 5000 for 1 year. If profit is Rs. 2000, find C's share.",
+          "answer": "Rs. 1000"
+        },
+        {
+          "q_no": 7,
+          "question": "Two partners share losses in ratio 1:2. If total loss is Rs. 900, what is each partner's loss?",
+          "answer": "Rs. 300 and Rs. 600"
+        },
+        {
+          "q_no": 8,
+          "question": "A and B invest money and work for same time. If A invests 2 times B, profit ratio?",
+          "answer": "2:1"
+        },
+        {
+          "q_no": 9,
+          "question": "Three partners invest capitals in ratio 5:6:7 for equal time. Share of B in Rs. 3600?",
+          "answer": "Rs. 1200"
+        },
+        {
+          "q_no": 10,
+          "question": "A invests Rs. 3000 for 12 months. B invests Rs. 6000 for 6 months. Profit ratio?",
+          "answer": "1:1"
+        },
+        {
+          "q_no": 11,
+          "question": "A, B, C invest in ratio 2:3:4 for same time. Total profit Rs. 1800. Find B's profit.",
+          "answer": "Rs. 600"
+        },
+        {
+          "q_no": 12,
+          "question": "X and Y are partners. X gets 60% of profit. If profit is Rs. 2000, Y's share?",
+          "answer": "Rs. 800"
+        },
+        {
+          "q_no": 13,
+          "question": "A invests Rs. 4000 for 9 months. B invests Rs. 5000 for 6 months. Profit ratio?",
+          "answer": "6:5"
+        },
+        {
+          "q_no": 14,
+          "question": "Three partners share profit 1:2:3. If total is Rs. 1200, find second partner's share.",
+          "answer": "Rs. 400"
+        },
+        {
+          "q_no": 15,
+          "question": "A works for 3 years with Rs. 6000. B works for 2 years with Rs. 5000. Capital ratio?",
+          "answer": "9:5"
+        },
+        {
+          "q_no": 16,
+          "question": "Two partners' profit ratio is 3:2. If total profit Rs. 2500, first gets?",
+          "answer": "Rs. 1500"
+        },
+        {
+          "q_no": 17,
+          "question": "A, B invest 5:7. Time ratio 2:3. Capital contribution ratio?",
+          "answer": "5:7 (at same time reference)"
+        },
+        {
+          "q_no": 18,
+          "question": "Total capital Rs. 50000 in ratio 2:3. A's capital?",
+          "answer": "Rs. 20000"
+        },
+        {
+          "q_no": 19,
+          "question": "Profit ratio 4:5. If difference is Rs. 150, total profit?",
+          "answer": "Rs. 1350"
+        },
+        {
+          "q_no": 20,
+          "question": "Three partners' shares are in ratio 1:2:3. If total loss Rs. 1200, C loses?",
+          "answer": "Rs. 600"
+        }
+      ]
+    },
+    {
+      "topic": "Number Series",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "What is the next term in the series: 2, 6, 12, 20, 30, ?",
+          "answer": "42"
+        },
+        {
+          "q_no": 2,
+          "question": "Find missing number: 3, 8, 15, 24, 35, ?",
+          "answer": "48"
+        },
+        {
+          "q_no": 3,
+          "question": "What comes next: 1, 1, 2, 3, 5, 8, 13, ?",
+          "answer": "21"
+        },
+        {
+          "q_no": 4,
+          "question": "Series: 5, 10, 20, 40, 80, ?",
+          "answer": "160"
+        },
+        {
+          "q_no": 5,
+          "question": "Find the pattern: 2, 4, 8, 16, 32, ?",
+          "answer": "64"
+        },
+        {
+          "q_no": 6,
+          "question": "Next in series: 1, 4, 9, 16, 25, ?",
+          "answer": "36"
+        },
+        {
+          "q_no": 7,
+          "question": "Series: 100, 50, 25, 12.5, ?",
+          "answer": "6.25"
+        },
+        {
+          "q_no": 8,
+          "question": "Find next: 11, 22, 44, 88, ?",
+          "answer": "176"
+        },
+        {
+          "q_no": 9,
+          "question": "Pattern: 1, 3, 6, 10, 15, ?",
+          "answer": "21"
+        },
+        {
+          "q_no": 10,
+          "question": "Series: 2, 3, 5, 7, 11, 13, ?",
+          "answer": "17"
+        },
+        {
+          "q_no": 11,
+          "question": "Find next: 1, 8, 27, 64, 125, ?",
+          "answer": "216"
+        },
+        {
+          "q_no": 12,
+          "question": "Series: 3, 6, 12, 24, 48, ?",
+          "answer": "96"
+        },
+        {
+          "q_no": 13,
+          "question": "Next in series: 5, 15, 45, 135, ?",
+          "answer": "405"
+        },
+        {
+          "q_no": 14,
+          "question": "Pattern: 144, 72, 36, 18, 9, ?",
+          "answer": "4.5"
+        },
+        {
+          "q_no": 15,
+          "question": "Find next: 1, 2, 4, 7, 11, 16, ?",
+          "answer": "22"
+        },
+        {
+          "q_no": 16,
+          "question": "Series: 1, 10, 100, 1000, ?",
+          "answer": "10000"
+        },
+        {
+          "q_no": 17,
+          "question": "Next term: 2, 6, 18, 54, ?",
+          "answer": "162"
+        },
+        {
+          "q_no": 18,
+          "question": "Find pattern: 1, 4, 16, 64, ?",
+          "answer": "256"
+        },
+        {
+          "q_no": 19,
+          "question": "Series: 7, 14, 28, 56, ?",
+          "answer": "112"
+        },
+        {
+          "q_no": 20,
+          "question": "Next: 1, 3, 9, 27, 81, ?",
+          "answer": "243"
+        }
+      ]
+    },
+    {
+      "topic": "Data Interpretation",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "If the sales of a company increase by 10% every year, what will be the sales after 3 years, if the present sales is Rs. 100000?",
+          "answer": "Rs. 133100"
+        },
+        {
+          "q_no": 2,
+          "question": "A pie chart shows 30% for sales, 25% for marketing, 20% for R&D. What % is for others?",
+          "answer": "25%"
+        },
+        {
+          "q_no": 3,
+          "question": "Bar chart shows Jan: 50, Feb: 60, Mar: 75, Apr: 90 sales. Average sales?",
+          "answer": "68.75"
+        },
+        {
+          "q_no": 4,
+          "question": "Revenue in Q1: 100 crores, Q2: 120 crores, Q3: 140 crores. Growth rate Q1 to Q3?",
+          "answer": "40%"
+        },
+        {
+          "q_no": 5,
+          "question": "A table shows production: 2020: 100, 2021: 120, 2022: 150. Increase 2020-2022?",
+          "answer": "50%"
+        },
+        {
+          "q_no": 6,
+          "question": "If 40% of employees are in sales and total 500, how many in sales?",
+          "answer": "200"
+        },
+        {
+          "q_no": 7,
+          "question": "Chart shows profit margins: Jan 10%, Feb 12%, Mar 15%. Average margin?",
+          "answer": "12.33%"
+        },
+        {
+          "q_no": 8,
+          "question": "A company's expenses: Salaries 40%, Rent 25%, Others 35%. If total Rs. 1,00,000, salary cost?",
+          "answer": "Rs. 40000"
+        },
+        {
+          "q_no": 9,
+          "question": "Table data: Product A: 1000 units, Product B: 1500 units. A as % of total?",
+          "answer": "40%"
+        },
+        {
+          "q_no": 10,
+          "question": "Line graph shows profits increasing from 50 to 200 in 4 years. Average increase per year?",
+          "answer": "37.5"
+        },
+        {
+          "q_no": 11,
+          "question": "Chart shows 60% pass rate out of 1000 students. How many failed?",
+          "answer": "400"
+        },
+        {
+          "q_no": 12,
+          "question": "Bar chart: Jan 500, Feb 400, Mar 600, Apr 700 visits. Average visits?",
+          "answer": "550"
+        },
+        {
+          "q_no": 13,
+          "question": "Pie chart: Education 45%, Healthcare 30%, Others 25%. If budget is 1000, education allocation?",
+          "answer": "450"
+        },
+        {
+          "q_no": 14,
+          "question": "Table shows: 2021: 80, 2022: 96, 2023: 120. Growth rate 2022-2023?",
+          "answer": "25%"
+        },
+        {
+          "q_no": 15,
+          "question": "If males are 60% and females 40% of 250 employees, how many females?",
+          "answer": "100"
+        },
+        {
+          "q_no": 16,
+          "question": "Sales data: Q1 250K, Q2 300K, Q3 360K, Q4 432K. Quarterly growth rate?",
+          "answer": "20%"
+        },
+        {
+          "q_no": 17,
+          "question": "Chart shows market share: Company A 35%, B 40%, C 25%. If market is 10000 units, C's share?",
+          "answer": "2500 units"
+        },
+        {
+          "q_no": 18,
+          "question": "Expense breakdown: Food 40%, Transport 30%, Other 30% of Rs. 2000. Food expense?",
+          "answer": "Rs. 800"
+        },
+        {
+          "q_no": 19,
+          "question": "Graph shows positive correlation between hours studied and scores. What type?",
+          "answer": "Positive correlation"
+        },
+        {
+          "q_no": 20,
+          "question": "If 70 out of 100 completed survey, 80% preferred option A. How many preferred A?",
+          "answer": "56"
+        }
+      ]
+    },
+    {
+      "topic": "Permutations and Combinations",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "How many ways can the letters of the word 'APPLE' be arranged?",
+          "answer": "60"
+        },
+        {
+          "q_no": 2,
+          "question": "In how many ways can 5 people be arranged in a line?",
+          "answer": "120"
+        },
+        {
+          "q_no": 3,
+          "question": "How many 3-digit numbers can be formed from 1, 2, 3, 4, 5?",
+          "answer": "60"
+        },
+        {
+          "q_no": 4,
+          "question": "In how many ways can 4 items be selected from 8?",
+          "answer": "70"
+        },
+        {
+          "q_no": 5,
+          "question": "How many ways to arrange the word 'BOOK'?",
+          "answer": "12"
+        },
+        {
+          "q_no": 6,
+          "question": "From 6 students, in how many ways can a committee of 3 be formed?",
+          "answer": "20"
+        },
+        {
+          "q_no": 7,
+          "question": "Permutations of 'LETTER'?",
+          "answer": "360"
+        },
+        {
+          "q_no": 8,
+          "question": "Number of 4-digit numbers from 2,3,4,5 without repetition?",
+          "answer": "24"
+        },
+        {
+          "q_no": 9,
+          "question": "Ways to select 2 cards from 52?",
+          "answer": "1326"
+        },
+        {
+          "q_no": 10,
+          "question": "Arrangements of 'STATISTICS'?",
+          "answer": "50400"
+        },
+        {
+          "q_no": 11,
+          "question": "Ways to arrange 3 boys and 2 girls in a line?",
+          "answer": "120"
+        },
+        {
+          "q_no": 12,
+          "question": "Select 3 fruits from 8 available?",
+          "answer": "56"
+        },
+        {
+          "q_no": 13,
+          "question": "Circular permutations of 5 people?",
+          "answer": "24"
+        },
+        {
+          "q_no": 14,
+          "question": "In how many ways can a president, vice-president, secretary be chosen from 10 candidates?",
+          "answer": "720"
+        },
+        {
+          "q_no": 15,
+          "question": "Ways to arrange n distinct objects in a circle?",
+          "answer": "(n-1)!"
+        },
+        {
+          "q_no": 16,
+          "question": "From 10 items, select 5. How many ways?",
+          "answer": "252"
+        },
+        {
+          "q_no": 17,
+          "question": "Permutations of 'MISSISSIPPI'?",
+          "answer": "34650"
+        },
+        {
+          "q_no": 18,
+          "question": "Number of diagonals in a hexagon?",
+          "answer": "9"
+        },
+        {
+          "q_no": 19,
+          "question": "Ways to distribute 5 distinct balls into 3 distinct boxes?",
+          "answer": "243"
+        },
+        {
+          "q_no": 20,
+          "question": "In a group of 8, how many ways to form a team of at least 2?",
+          "answer": "247"
+        }
+      ]
+    },
+    {
+      "topic": "Probability",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "A box contains 3 red, 5 blue, and 2 green balls. What is the probability of drawing a blue ball?",
+          "answer": "1/2"
+        },
+        {
+          "q_no": 2,
+          "question": "What is the probability of getting a 6 when rolling a die?",
+          "answer": "1/6"
+        },
+        {
+          "q_no": 3,
+          "question": "Probability of drawing a king from a deck of 52 cards?",
+          "answer": "1/13"
+        },
+        {
+          "q_no": 4,
+          "question": "If 2 coins are tossed, what is the probability of getting at least one head?",
+          "answer": "3/4"
+        },
+        {
+          "q_no": 5,
+          "question": "Probability of drawing a red card from a standard deck?",
+          "answer": "1/2"
+        },
+        {
+          "q_no": 6,
+          "question": "A bag has 4 white and 6 black balls. Probability of drawing white?",
+          "answer": "2/5"
+        },
+        {
+          "q_no": 7,
+          "question": "Probability of getting a sum of 7 when rolling 2 dice?",
+          "answer": "1/6"
+        },
+        {
+          "q_no": 8,
+          "question": "If 3 coins are tossed, probability of all heads?",
+          "answer": "1/8"
+        },
+        {
+          "q_no": 9,
+          "question": "Probability of drawing 2 red cards without replacement from 52 cards?",
+          "answer": "25/442"
+        },
+        {
+          "q_no": 10,
+          "question": "In a class of 30, if 18 are boys, what is P(selecting a girl)?",
+          "answer": "2/5"
+        },
+        {
+          "q_no": 11,
+          "question": "Probability of getting a number less than 4 on a die?",
+          "answer": "1/2"
+        },
+        {
+          "q_no": 12,
+          "question": "A box has 5 red, 4 green, 3 yellow balls. P(not drawing red)?",
+          "answer": "7/12"
+        },
+        {
+          "q_no": 13,
+          "question": "If P(A) = 1/3 and P(B) = 1/4, find P(A\u2229B) if independent?",
+          "answer": "1/12"
+        },
+        {
+          "q_no": 14,
+          "question": "Probability that a number selected from 1-20 is prime?",
+          "answer": "2/5"
+        },
+        {
+          "q_no": 15,
+          "question": "P(A) = 0.6, P(A') = ?",
+          "answer": "0.4"
+        },
+        {
+          "q_no": 16,
+          "question": "Probability of drawing an ace or king from 52 cards?",
+          "answer": "2/13"
+        },
+        {
+          "q_no": 17,
+          "question": "If P(A) = 0.4 and P(B) = 0.3 (independent), P(A\u222aB)?",
+          "answer": "0.58"
+        },
+        {
+          "q_no": 18,
+          "question": "Probability of getting an even number when rolling 2 dice?",
+          "answer": "1/4"
+        },
+        {
+          "q_no": 19,
+          "question": "In 20 balls (5 red, 15 others), probability of drawing 2 reds without replacement?",
+          "answer": "1/38"
+        },
+        {
+          "q_no": 20,
+          "question": "If a die is rolled twice, P(at least one 6)?",
+          "answer": "11/36"
+        }
+      ]
+    },
+    {
+      "topic": "Boats and Streams",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "A boat takes 6 hours to go downstream from A to B and 9 hours to return upstream. If the speed of the stream is 2 km/h, what is the distance between A and B?",
+          "answer": "36 km"
+        },
+        {
+          "q_no": 2,
+          "question": "Speed of boat in still water is 10 km/h and stream speed is 3 km/h. Find downstream speed.",
+          "answer": "13 km/h"
+        },
+        {
+          "q_no": 3,
+          "question": "Upstream speed is 8 km/h, downstream is 12 km/h. Speed in still water?",
+          "answer": "10 km/h"
+        },
+        {
+          "q_no": 4,
+          "question": "A boat covers 24 km downstream in 3 hours. Stream speed is 1 km/h. Find boat speed.",
+          "answer": "7 km/h"
+        },
+        {
+          "q_no": 5,
+          "question": "Boat takes 2 hours to go 20 km upstream. Stream speed 2 km/h. Distance downstream in 2 hours?",
+          "answer": "28 km"
+        },
+        {
+          "q_no": 6,
+          "question": "Downstream speed 15 km/h, upstream 9 km/h. Average speed for round trip of 20 km?",
+          "answer": "10.8 km/h"
+        },
+        {
+          "q_no": 7,
+          "question": "A boat's speed in still water is 12 km/h. It takes same time for 30 km downstream and 18 km upstream. Stream speed?",
+          "answer": "3 km/h"
+        },
+        {
+          "q_no": 8,
+          "question": "Time for 100 km downstream is 4 hours, upstream is 5 hours. Stream speed?",
+          "answer": "2.5 km/h"
+        },
+        {
+          "q_no": 9,
+          "question": "Boat takes 8 hours to cover 64 km downstream. Upstream takes 16 hours for same distance. Stream speed?",
+          "answer": "2 km/h"
+        },
+        {
+          "q_no": 10,
+          "question": "Speed in still water is 7 km/h, downstream speed 9 km/h. What is stream speed?",
+          "answer": "2 km/h"
+        },
+        {
+          "q_no": 11,
+          "question": "A man takes 3 hours to row 24 km downstream. If stream speed is 1 km/h, time upstream?",
+          "answer": "4 hours"
+        },
+        {
+          "q_no": 12,
+          "question": "Effective speed downstream 20 km/h, upstream 15 km/h. Boat speed?",
+          "answer": "17.5 km/h"
+        },
+        {
+          "q_no": 13,
+          "question": "Distance between two places is 50 km. Boat covers it downstream in 2 hours. Upstream in 2.5 hours. Stream speed?",
+          "answer": "2.5 km/h"
+        },
+        {
+          "q_no": 14,
+          "question": "Boat's speed = 10 km/h, stream = 2.5 km/h. Time to cover 30 km downstream?",
+          "answer": "2.4 hours"
+        },
+        {
+          "q_no": 15,
+          "question": "Upstream takes 6 hours for 30 km. Stream speed 1 km/h. Boat speed?",
+          "answer": "6 km/h"
+        },
+        {
+          "q_no": 16,
+          "question": "A boat can cover 100 km in 10 hours downstream and 12 hours upstream. Stream speed?",
+          "answer": "5/6 km/h"
+        },
+        {
+          "q_no": 17,
+          "question": "Boat moves 48 km downstream in 3 hours, 48 km upstream in 4 hours. Speed in still water?",
+          "answer": "14 km/h"
+        },
+        {
+          "q_no": 18,
+          "question": "Effective downstream speed is 18 km/h, upstream 12 km/h. Distance between two places if time difference is 1 hour?",
+          "answer": "36 km"
+        },
+        {
+          "q_no": 19,
+          "question": "A river current flows at 4 km/h. Boat takes equal time to go 20 km downstream and 12 km upstream. Boat speed?",
+          "answer": "16 km/h"
+        },
+        {
+          "q_no": 20,
+          "question": "Downstream speed 22 km/h, upstream 14 km/h. Total time for 110 km downstream and back?",
+          "answer": "10 hours"
+        }
+      ]
+    },
+    {
+      "topic": "Pipes and Cisterns",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "Pipe A can fill a tank in 12 hours, Pipe B can fill it in 8 hours. If both pipes are opened together, in how many hours will the tank be filled?",
+          "answer": "4.8 hours"
+        },
+        {
+          "q_no": 2,
+          "question": "A pipe can fill a tank in 6 hours. Another pipe can empty it in 9 hours. If both are opened, time to fill?",
+          "answer": "18 hours"
+        },
+        {
+          "q_no": 3,
+          "question": "Pipe A fills in 10 hours, Pipe B in 15 hours. How long to fill if both work?",
+          "answer": "6 hours"
+        },
+        {
+          "q_no": 4,
+          "question": "A tank has inlet pipe (fills in 12 hrs) and outlet pipe (empties in 18 hrs). Time to fill tank?",
+          "answer": "36 hours"
+        },
+        {
+          "q_no": 5,
+          "question": "Two pipes can fill a tank in 12 and 15 hours. After both work for 3 hours, first is closed. How long for second to fill?",
+          "answer": "5 hours"
+        },
+        {
+          "q_no": 6,
+          "question": "A pipe fills 1/5 tank in 4 hours. Time to fill completely?",
+          "answer": "20 hours"
+        },
+        {
+          "q_no": 7,
+          "question": "Three pipes A, B, C fill in 10, 15, 20 hours respectively. Together?",
+          "answer": "60/11 hours"
+        },
+        {
+          "q_no": 8,
+          "question": "A pipe empties a full tank in 8 hours. How much in 3 hours?",
+          "answer": "3/8"
+        },
+        {
+          "q_no": 9,
+          "question": "Pipe fills 1/3 in 6 hours. Rate of filling per hour?",
+          "answer": "1/18 per hour"
+        },
+        {
+          "q_no": 10,
+          "question": "Two filling pipes and one outlet. Fills: 6, 8 hours. Outlet empties in 12 hours. Time to fill with all open?",
+          "answer": "3.43 hours"
+        },
+        {
+          "q_no": 11,
+          "question": "A pipe fills 1/4 tank in 2 hours. Rate per hour?",
+          "answer": "1/8 per hour"
+        },
+        {
+          "q_no": 12,
+          "question": "Tank capacity is 100 litres. Pipe fills at 10 litres/hour. Time to fill 75 litres?",
+          "answer": "7.5 hours"
+        },
+        {
+          "q_no": 13,
+          "question": "Inlet fills in 5 hours, outlet empties in 7 hours. Net time to fill?",
+          "answer": "17.5 hours"
+        },
+        {
+          "q_no": 14,
+          "question": "Four pipes fill a tank in 10, 15, 20, 30 hours. Together?",
+          "answer": "40/13 hours"
+        },
+        {
+          "q_no": 15,
+          "question": "A fills 1/2 in 4 hours. B fills remaining 1/2 in 6 hours. Total time if starting together?",
+          "answer": "4.8 hours"
+        },
+        {
+          "q_no": 16,
+          "question": "Outlet empties full tank in 12 hours. If inlet fills in 8 hours, time to fill?",
+          "answer": "24 hours"
+        },
+        {
+          "q_no": 17,
+          "question": "Pipe A fills 60% in 6 hours. Rate per hour?",
+          "answer": "10% per hour"
+        },
+        {
+          "q_no": 18,
+          "question": "Tank filled by two pipes in 20 minutes. First fills 3/4, second fills 1/4. Time by first alone?",
+          "answer": "26.67 minutes"
+        },
+        {
+          "q_no": 19,
+          "question": "Three pipes: fills in 6, 8, 10 hours. All work for 2 hours, then third closed. Time to fill?",
+          "answer": "2 + 1.05 = 3.05 hours"
+        },
+        {
+          "q_no": 20,
+          "question": "Pipe A fills 1/6 per hour. Pipe B fills 1/8 per hour. Together per hour?",
+          "answer": "7/24 per hour"
+        }
+      ]
+    },
+    {
+      "topic": "Logarithms",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "If log 2 = 0.3010 and log 3 = 0.4771, find log 18.",
+          "answer": "1.2552"
+        },
+        {
+          "q_no": 2,
+          "question": "Find the value of log\u2081\u2080 1000",
+          "answer": "3"
+        },
+        {
+          "q_no": 3,
+          "question": "If log x = 2, find x",
+          "answer": "100"
+        },
+        {
+          "q_no": 4,
+          "question": "Simplify: log 2 + log 5",
+          "answer": "1"
+        },
+        {
+          "q_no": 5,
+          "question": "Find log\u2082 8",
+          "answer": "3"
+        },
+        {
+          "q_no": 6,
+          "question": "If log 5 = 0.6990, find log 50",
+          "answer": "1.6990"
+        },
+        {
+          "q_no": 7,
+          "question": "Evaluate: log 10 - log 5",
+          "answer": "log 2 = 0.3010"
+        },
+        {
+          "q_no": 8,
+          "question": "Find log\u2083 27",
+          "answer": "3"
+        },
+        {
+          "q_no": 9,
+          "question": "If log 4 = 0.6021, find log 40",
+          "answer": "1.6021"
+        },
+        {
+          "q_no": 10,
+          "question": "Solve: log x = 0.5",
+          "answer": "x \u2248 3.162"
+        },
+        {
+          "q_no": 11,
+          "question": "Find log\u2085 25",
+          "answer": "2"
+        },
+        {
+          "q_no": 12,
+          "question": "If ln x = 2, find x",
+          "answer": "e\u00b2 \u2248 7.389"
+        },
+        {
+          "q_no": 13,
+          "question": "Simplify: 3 log 2 + 2 log 5",
+          "answer": "2"
+        },
+        {
+          "q_no": 14,
+          "question": "Find log\u2081\u2080 0.001",
+          "answer": "-3"
+        },
+        {
+          "q_no": 15,
+          "question": "If log\u2082 x = 4, find x",
+          "answer": "16"
+        },
+        {
+          "q_no": 16,
+          "question": "Evaluate: log 100 + log 1",
+          "answer": "2"
+        },
+        {
+          "q_no": 17,
+          "question": "Find log\u2087 7",
+          "answer": "1"
+        },
+        {
+          "q_no": 18,
+          "question": "If log x = 1.5, find x",
+          "answer": "x \u2248 31.62"
+        },
+        {
+          "q_no": 19,
+          "question": "Simplify: log (a\u00b2/b) + log (b\u00b2/a)",
+          "answer": "log a/b"
+        },
+        {
+          "q_no": 20,
+          "question": "If log 6 = 0.7782, find log 600",
+          "answer": "2.7782"
+        }
+      ]
+    },
+    {
+      "topic": "Surds and Indices",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "Simplify: (27)^(1/3) x (81)^(1/4)",
+          "answer": "18"
+        },
+        {
+          "q_no": 2,
+          "question": "Find: 2^5 / 2^3",
+          "answer": "4"
+        },
+        {
+          "q_no": 3,
+          "question": "Simplify: (\u221a5 + \u221a3)(\u221a5 - \u221a3)",
+          "answer": "2"
+        },
+        {
+          "q_no": 4,
+          "question": "If 2^x = 32, find x",
+          "answer": "5"
+        },
+        {
+          "q_no": 5,
+          "question": "Rationalize: 1/(\u221a3)",
+          "answer": "\u221a3/3"
+        },
+        {
+          "q_no": 6,
+          "question": "Simplify: (3^(1/2))^4",
+          "answer": "9"
+        },
+        {
+          "q_no": 7,
+          "question": "Find: \u221b(64)",
+          "answer": "4"
+        },
+        {
+          "q_no": 8,
+          "question": "Evaluate: 5^0 + 5^1 + 5^2",
+          "answer": "31"
+        },
+        {
+          "q_no": 9,
+          "question": "Simplify: 2\u221a8 + 3\u221a2",
+          "answer": "7\u221a2"
+        },
+        {
+          "q_no": 10,
+          "question": "If (2^3)^x = 64, find x",
+          "answer": "2"
+        },
+        {
+          "q_no": 11,
+          "question": "Rationalize: 1/(\u221a7 - \u221a2)",
+          "answer": "(\u221a7 + \u221a2)/5"
+        },
+        {
+          "q_no": 12,
+          "question": "Find: (1/2)^(-3)",
+          "answer": "8"
+        },
+        {
+          "q_no": 13,
+          "question": "Simplify: \u221a18 - \u221a8 + \u221a2",
+          "answer": "3\u221a2"
+        },
+        {
+          "q_no": 14,
+          "question": "If 3^(2x) = 81, find x",
+          "answer": "2"
+        },
+        {
+          "q_no": 15,
+          "question": "Evaluate: 16^(3/4)",
+          "answer": "8"
+        },
+        {
+          "q_no": 16,
+          "question": "Simplify: (a^(1/2) \u00d7 b^(1/3))^6",
+          "answer": "a\u00b3b\u00b2"
+        },
+        {
+          "q_no": 17,
+          "question": "Find: \u221a(16/25)",
+          "answer": "4/5"
+        },
+        {
+          "q_no": 18,
+          "question": "Simplify: 5\u221a3 \u00d7 2\u221a3",
+          "answer": "30"
+        },
+        {
+          "q_no": 19,
+          "question": "If x^(1/2) = 5, find x",
+          "answer": "25"
+        },
+        {
+          "q_no": 20,
+          "question": "Rationalize: 3/(2\u221a5)",
+          "answer": "3\u221a5/10"
+        }
+      ]
+    },
+    {
+      "topic": "Heights and Distances",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "The angle of elevation of the top of a tower from a point on the ground is 30\u00b0. If the tower is 100 m high, what is the distance of the point from the foot of the tower? (Take \u221a3 = 1.732)",
+          "answer": "173.2 m"
+        },
+        {
+          "q_no": 2,
+          "question": "From a point, the angle of elevation to a building is 45\u00b0. If the distance is 50 m, what is the height?",
+          "answer": "50 m"
+        },
+        {
+          "q_no": 3,
+          "question": "Angle of elevation from point A is 30\u00b0 and from point B (10 m closer) is 45\u00b0. Height of object?",
+          "answer": "13.66 m"
+        },
+        {
+          "q_no": 4,
+          "question": "A ladder leans against a wall. Angle with ground is 60\u00b0. If ladder is 8 m, height on wall?",
+          "answer": "4\u221a3 \u2248 6.93 m"
+        },
+        {
+          "q_no": 5,
+          "question": "Two poles of height 10 m and 15 m are 20 m apart. Angle of elevation from top of first to second?",
+          "answer": "tan\u207b\u00b9(1/4) \u2248 14.04\u00b0"
+        },
+        {
+          "q_no": 6,
+          "question": "From a boat, angle of elevation to cliff is 30\u00b0. If cliff is 60 m, distance of boat?",
+          "answer": "60\u221a3 \u2248 103.9 m"
+        },
+        {
+          "q_no": 7,
+          "question": "Angle of depression from top of building to point on ground is 45\u00b0. Height is 80 m. Distance?",
+          "answer": "80 m"
+        },
+        {
+          "q_no": 8,
+          "question": "Two buildings: A height 20 m, B height 30 m, 50 m apart. Angle of elevation between tops?",
+          "answer": "tan\u207b\u00b9(1/5) \u2248 11.31\u00b0"
+        },
+        {
+          "q_no": 9,
+          "question": "From a point, angle to top of tree is 45\u00b0, to bottom is 30\u00b0. Height of tree if point is 50 m away?",
+          "answer": "50(1 - 1/\u221a3) \u2248 21.13 m"
+        },
+        {
+          "q_no": 10,
+          "question": "Angle of elevation 60\u00b0, distance 100 m. Height?",
+          "answer": "100\u221a3 \u2248 173.2 m"
+        },
+        {
+          "q_no": 11,
+          "question": "Shadow of 5 m pole is 5\u221a3 m. Angle of sun?",
+          "answer": "30\u00b0"
+        },
+        {
+          "q_no": 12,
+          "question": "From window 20 m high, angle of depression to object is 30\u00b0. Horizontal distance?",
+          "answer": "20\u221a3 \u2248 34.64 m"
+        },
+        {
+          "q_no": 13,
+          "question": "Two observers 100 m apart see object at angles 30\u00b0 and 45\u00b0. Height?",
+          "answer": "36.6 m"
+        },
+        {
+          "q_no": 14,
+          "question": "Angle of elevation from ground to top of tower is 30\u00b0. From 50 m closer, it's 60\u00b0. Height?",
+          "answer": "25\u221a3 \u2248 43.3 m"
+        },
+        {
+          "q_no": 15,
+          "question": "Ladder 10 m long makes 60\u00b0 with ground. Height on wall?",
+          "answer": "5\u221a3 \u2248 8.66 m"
+        },
+        {
+          "q_no": 16,
+          "question": "Observer sees tower top at 45\u00b0. Goes 100 m closer, angle becomes 60\u00b0. Height?",
+          "answer": "100(\u221a3 + 1) \u2248 273.2 m"
+        },
+        {
+          "q_no": 17,
+          "question": "Bird at height h, angles from two points 100 m apart are 30\u00b0 and 45\u00b0. Height?",
+          "answer": "36.6 m"
+        },
+        {
+          "q_no": 18,
+          "question": "Angle of elevation 30\u00b0, after walking 100 m, angle 60\u00b0. Height of object?",
+          "answer": "50\u221a3 \u2248 86.6 m"
+        },
+        {
+          "q_no": 19,
+          "question": "Two poles height 12 m and 8 m are 10 m apart. Angle between their tops?",
+          "answer": "tan\u207b\u00b9(2/5) \u2248 21.8\u00b0"
+        },
+        {
+          "q_no": 20,
+          "question": "From 40 m away, angle to top is 30\u00b0. Moving 20 m closer, new angle?",
+          "answer": "tan\u207b\u00b9(\u221a3/2) \u2248 40.9\u00b0"
+        }
+      ]
+    },
+    {
+      "topic": "Trains",
+      "questions": [
+        {
+          "q_no": 1,
+          "question": "A train 120 m long is running at a speed of 54 km/h. How much time will it take to pass a platform 80 m long?",
+          "answer": "13.33 seconds"
+        },
+        {
+          "q_no": 2,
+          "question": "Two trains of lengths 120 m and 80 m approach each other at 40 km/h and 50 km/h. Time to pass?",
+          "answer": "7.2 seconds"
+        },
+        {
+          "q_no": 3,
+          "question": "A train passes a pole in 8 seconds. If it runs at 72 km/h, what is its length?",
+          "answer": "160 m"
+        },
+        {
+          "q_no": 4,
+          "question": "Train A (100 m) at 60 km/h and Train B (150 m) at 40 km/h move in same direction. Time to cross?",
+          "answer": "45 seconds"
+        },
+        {
+          "q_no": 5,
+          "question": "A 200 m train passes a platform in 25 seconds. What is its speed?",
+          "answer": "28.8 km/h"
+        },
+        {
+          "q_no": 6,
+          "question": "Two trains start from same station. One at 40 km/h, other at 50 km/h. After 2 hours, distance?",
+          "answer": "20 km"
+        },
+        {
+          "q_no": 7,
+          "question": "Train passes a pole in 6 seconds at 90 km/h. Length of train?",
+          "answer": "150 m"
+        },
+        {
+          "q_no": 8,
+          "question": "200 m train passes 400 m bridge in 30 seconds. Speed?",
+          "answer": "72 km/h"
+        },
+        {
+          "q_no": 9,
+          "question": "Trains approaching each other at 50 and 60 km/h. Time to meet if 220 km apart?",
+          "answer": "2 hours"
+        },
+        {
+          "q_no": 10,
+          "question": "Train A passes train B (same direction) in 20 seconds. Lengths 100 m each. Relative speed?",
+          "answer": "10 m/s"
+        },
+        {
+          "q_no": 11,
+          "question": "A 150 m train at 45 km/h. Time to pass a 250 m platform?",
+          "answer": "32 seconds"
+        },
+        {
+          "q_no": 12,
+          "question": "Two trains 120 m and 100 m long meet at 60 km/h combined. Time?",
+          "answer": "7.92 seconds"
+        },
+        {
+          "q_no": 13,
+          "question": "Train 180 m long at 54 km/h passes a 120 m bridge. Time?",
+          "answer": "20 seconds"
+        },
+        {
+          "q_no": 14,
+          "question": "Train moves at 72 km/h. To cover 300 m?",
+          "answer": "15 seconds"
+        },
+        {
+          "q_no": 15,
+          "question": "A 250 m train takes 50 seconds to cross a platform. Speed in km/h?",
+          "answer": "36 km/h"
+        },
+        {
+          "q_no": 16,
+          "question": "Two trains approach at 40 and 50 km/h, lengths 120 and 80 m. Time to cross?",
+          "answer": "7.2 seconds"
+        },
+        {
+          "q_no": 17,
+          "question": "Train overtakes another in 40 seconds, lengths 200 and 180 m. Relative speed?",
+          "answer": "9.5 m/s"
+        },
+        {
+          "q_no": 18,
+          "question": "A 160 m train passes a pole in 10 seconds. Speed in km/h?",
+          "answer": "57.6 km/h"
+        },
+        {
+          "q_no": 19,
+          "question": "Two trains, lengths 130 and 170 m, crossing in 12 seconds (opposite). Combined speed?",
+          "answer": "25 m/s"
+        },
+        {
+          "q_no": 20,
+          "question": "Train takes 18 seconds to pass 200 m platform. If train is 100 m, speed?",
+          "answer": "60 km/h"
+        }
+      ]
+    }
+  ]
+}

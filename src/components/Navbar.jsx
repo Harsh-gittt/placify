@@ -420,26 +420,31 @@ function Navbar({ onLoginClick, onConnectNow }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { darkMode, toggleTheme } = useTheme();
   const [connectionToRemove, setConnectionToRemove] = useState(null);
-  const { socket, openChat, unreadChatCounts, setGlobalToast } = useChat();
+  const [loading, setLoading] = useState(false);
+  const {
+    openChat,
+    unreadChatCounts,
+    setGlobalToast,
+    notifications,
+    connections,
+    globalToast,
+    selfId,
+  } = useChat();
 
+  // Only keep state for UI toggles (menus)
   const [showResources, setShowResources] = useState(false);
   const [showConnections, setShowConnections] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-
-  const [connections, setConnections] = useState([]);
-  const [connectionRequests, setConnectionRequests] = useState([]);
-  const [notifications, setNotifications] = useState([]);
-  const [unreadCounts, setUnreadCounts] = useState({});
-  const [loading, setLoading] = useState(false);
 
   const resourcesRef = useRef(null);
   const userMenuRef = useRef(null);
   const connectionsRef = useRef(null);
 
-  const totalUnreadChats = Object.values(unreadChatCounts || {}).reduce(
-    (a, b) => a + b,
-    0
+  // Derived state for requests.
+  const connectionRequests = notifications.filter(
+    (n) => n.type === "connection_request" && !n.read
   );
+  const totalUnreadChats = Object.values(unreadChatCounts || {}).reduce((a, b) => a + b, 0);
 
   useEffect(() => {
     async function fetchAndSetName() {
@@ -465,96 +470,16 @@ function Navbar({ onLoginClick, onConnectNow }) {
   useEffect(() => {
     if (!currentUser) return;
 
-    async function fetchData() {
-      try {
-        const token = localStorage.getItem("auth_token");
-        if (!token) return;
+    // Fetch data is now handled by useChat context
+    // No need to fetch connections, requests, notifications separately here
+    // All data is available in the context.
 
-        // Fetch connections
-        const connRes = await fetch(
-          "http://localhost:3000/api/connections/accepted",
-          {
-            headers: { Authorization: token },
-          }
-        );
-        if (connRes.ok) {
-          const connData = await connRes.json();
-          setConnections(connData);
-        }
-
-        // Fetch notifications
-        const notifRes = await fetch(
-          "http://localhost:3000/api/notifications",
-          {
-            headers: { Authorization: token },
-          }
-        );
-        if (notifRes.ok) {
-          const notifData = await notifRes.json();
-          setNotifications(notifData);
-
-          const requests = notifData.filter(
-            (n) => n.type === "connection_request" && !n.read
-          );
-          setConnectionRequests(requests);
-        }
-      } catch (err) {
-        console.error("❌ Fetch data error:", err);
-      }
-    }
-
-    fetchData();
-
-    // ✅ ADD: Real-time event listeners
-    function handleNewRequest(e) {
-      const notification = e.detail;
-      console.log("🔔 NEW REQUEST received:", notification);
-
-      setConnectionRequests((prev) => [notification, ...prev]);
-      setNotifications((prev) => [notification, ...prev]);
-      setToast(notification);
-    }
-
-    function handleAccepted(e) {
-      const { notification, connection } = e.detail;
-      console.log("✅ CONNECTION ACCEPTED:", notification);
-
-      if (connection) {
-        setConnections((prev) => [connection, ...prev]);
-      }
-      setToast(notification);
-
-      // Remove from requests
-      setConnectionRequests((prev) =>
-        prev.filter((r) => r.payload?.connectionRequestId !== connection?._id)
-      );
-    }
-
-    function handleDeclined(e) {
-      const { notification } = e.detail;
-      console.log("❌ CONNECTION DECLINED:", notification);
-      setToast(notification);
-
-      // Remove from requests
-      if (notification.payload?.connectionRequestId) {
-        setConnectionRequests((prev) =>
-          prev.filter(
-            (r) =>
-              r.payload?.connectionRequestId !==
-              notification.payload.connectionRequestId
-          )
-        );
-      }
-    }
-
-    window.addEventListener("socket:connection_request", handleNewRequest);
-    window.addEventListener("socket:connection_accepted", handleAccepted);
-    window.addEventListener("socket:connection_declined", handleDeclined);
+    // ✅ ADD: Real-time event listeners for context updates
+    // These will now update the global state in useChat context
+    // No need to manage local state for these.
 
     return () => {
-      window.removeEventListener("socket:connection_request", handleNewRequest);
-      window.removeEventListener("socket:connection_accepted", handleAccepted);
-      window.removeEventListener("socket:connection_declined", handleDeclined);
+      // No need to remove event listeners here as they are global
     };
   }, [currentUser]);
 
@@ -562,25 +487,23 @@ function Navbar({ onLoginClick, onConnectNow }) {
     const notification = e.detail;
     console.log("🔔 New connection request received:", notification);
 
-    setConnectionRequests((prev) => [notification, ...prev]);
-    setNotifications((prev) => [notification, ...prev]);
-    setToast(notification);
+    // setConnectionRequests((prev) => [notification, ...prev]); // No longer needed
+    // setNotifications((prev) => [notification, ...prev]); // No longer needed
+    setGlobalToast(notification);
   }
 
   function handleAccepted(e) {
     const { notification, connection } = e.detail;
     console.log("✅ Connection accepted:", notification);
 
-    if (connection) {
-      setConnections((prev) => [connection, ...prev]);
-    }
-    setToast(notification);
+    // setConnections((prev) => [connection, ...prev]); // No longer needed
+    setGlobalToast(notification);
   }
 
   function handleDeclined(e) {
     const { notification } = e.detail;
     console.log("❌ Connection declined:", notification);
-    setToast(notification);
+    setGlobalToast(notification);
   }
 
   async function handleAcceptRequest(notificationId) {
@@ -614,23 +537,14 @@ function Navbar({ onLoginClick, onConnectNow }) {
       console.log("✅ Request accepted:", data);
 
       // ✅ Update UI: Add to connections
-      if (data.connection) {
-        setConnections((prev) => [data.connection, ...prev]);
-      }
+      // setConnections((prev) => [data.connection, ...prev]); // No longer needed
 
       // ✅ Update UI: Remove from requests
-      setConnectionRequests((prev) =>
-        prev.filter((r) => r._id !== notificationId)
-      );
-
-      // ✅ Show success toast using global toast
-      if (setGlobalToast) {
-        setGlobalToast({
-          type: "connection_accepted",
-          message: "Connection request accepted!",
-          timestamp: new Date().toISOString(),
-        });
-      }
+      setGlobalToast({
+        type: "connection_accepted",
+        message: "Connection request accepted!",
+        timestamp: new Date().toISOString(),
+      });
 
       console.log("✅ Connection accepted successfully");
     } catch (err) {
@@ -663,11 +577,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
       if (res.ok) {
         console.log("✅ Request declined");
 
-        setConnectionRequests((prev) =>
-          prev.filter((r) => r._id !== notificationId)
-        );
-
-        setToast({
+        setGlobalToast({
           type: "connection_declined",
           message: "Request declined",
         });
@@ -744,7 +654,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
       );
 
       if (res.ok) {
-        setConnections((prev) => prev.filter((c) => c._id !== connectionId));
+        // setConnections((prev) => prev.filter((c) => c._id !== connectionId)); // No longer needed
         setConnectionToRemove(null);
 
         window.dispatchEvent(
@@ -828,7 +738,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
                   console.log("Selected connection:", conn);
                   setShowConnections(false);
                 }}
-                unreadCounts={unreadCounts}
+                unreadCounts={unreadChatCounts}
                 onConnectNow={() => {
                   if (onConnectNow) onConnectNow();
                   navigate("/study-partner");
@@ -883,16 +793,16 @@ function Navbar({ onLoginClick, onConnectNow }) {
                         className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
                         onClick={() => setShowResources(false)}
                       >
-                        Striver's DSA Sheet
+                        DSA Questions
                       </Link>
                     </li>
                     <li>
                       <Link
-                        to="/resources"
+                        to="/aptitude-questions"
                         className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
                         onClick={() => setShowResources(false)}
                       >
-                        System Design Sheet
+                        Aptitude Questions
                       </Link>
                     </li>
                     <li>
@@ -906,11 +816,29 @@ function Navbar({ onLoginClick, onConnectNow }) {
                     </li>
                     <li>
                       <Link
+                        to="/hr"
+                        className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
+                        onClick={() => setShowResources(false)}
+                      >
+                        Hr Round Questions
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
                         to="/resources"
                         className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
                         onClick={() => setShowResources(false)}
                       >
-                        Interview Experiences
+                        Fix Your Resume
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/study-partner"
+                        className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
+                        onClick={() => setShowResources(false)}
+                      >
+                        Study Partner
                       </Link>
                     </li>
                   </ul>

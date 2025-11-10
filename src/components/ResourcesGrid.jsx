@@ -58,6 +58,7 @@ function ResourcesGrid() {
   const { darkMode } = useTheme();
 
   const items = [
+<<<<<<< HEAD
     {
       title: "DSA Questions",
       subtitle: "Practice structured DSA questions and level up",
@@ -101,6 +102,15 @@ function ResourcesGrid() {
       image: resumeImg,
     },
   ];
+=======
+    { title: "DSA Questions", subtitle: "Practice structured DSA questions and level up", to: "/dsa", bg: "[#E57C54]", image: dsaImg },
+    { title: "Study Partner", subtitle: "Team up and learn together effectively", to: "/study-partner", bg: "[#59A6E8]", image: studyPartnerImg },
+    { title: "Aptitude Questions", subtitle: "Sharpen your quantitative and logical skills", to: "/aptitude-questions", bg: "[#3B9D91]", image: aptitudeImg },
+    { title: "Core Subjects", subtitle: "OS, DBMS, CN – concise notes and Q&A", to: "/resources", bg: "[#9B7AE1]", image: coreSubjectsImg },
+    { title: "HR Round Questions", subtitle: "Prepare smart answers for behavioral rounds", to: "/hr", bg: "[#D6AE57]", image: hrImg },
+    { title: "Fix Your Resume", subtitle: "Optimize your resume to get more interviews", to: "/resources", bg: "[#D6666A]", image: resumeImg },
+  ]
+>>>>>>> origin/main
 
   return (
     <section

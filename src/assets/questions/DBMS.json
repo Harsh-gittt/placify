@@ -5,55 +5,259 @@
   "answer_length": "50-70 words",
   "companies": ["Infosys", "TCS", "Wipro", "Accenture", "HCL", "Cognizant", "Capgemini", "Deloitte", "Amazon", "Microsoft", "Google", "Adobe", "Flipkart", "Oracle", "IBM"],
   "questions": [
-    {"id": 1, "question": "What is DBMS?", "answer": "DBMS (Database Management System): software managing database creation, manipulation, storage, retrieval. Functions: data storage, integrity enforcement, concurrent access, security, backup/recovery, query processing, transaction management. Advantages over file systems: reduced redundancy, consistency, efficient access, security, concurrent support, recovery capability. Examples: MySQL, Oracle, PostgreSQL, MongoDB. Essential for data-centric applications managing large complex datasets."},
-    {"id": 2, "question": "What is Normalization?", "answer": "Normalization: process organizing data reducing redundancy, improving integrity. Normal forms: 1NF (atomic values), 2NF (full key dependency), 3NF (no transitive dependencies), BCNF (every determinant is candidate key). Benefits: eliminates anomalies, ensures consistency. Trade-off: higher forms reduce redundancy but increase query complexity. Essential for relational database design."},
-    {"id": 3, "question": "What is 1NF?", "answer": "First Normal Form (1NF): all attributes contain atomic values (indivisible). No repeating groups, multi-valued attributes, or nested tables. Each cell single value. Example: StudentCourse(StudentID, CourseID) instead of Student(StudentID, Courses) where Courses multi-valued. Eliminates repeating group anomalies. Foundation for higher normal forms. Required before applying 2NF."},
-    {"id": 4, "question": "What is 2NF?", "answer": "Second Normal Form (2NF): must be 1NF AND all non-key attributes fully depend on entire primary key. Removes partial dependencies. Example: Table(StudentID, CourseID, InstructorName) where InstructorName depends only on CourseID (partial). Solution: separate tables. Ensures composite key dependencies correct. Prevents update anomalies from partial key dependencies."},
-    {"id": 5, "question": "What is 3NF?", "answer": "Third Normal Form (3NF): must be 2NF AND no transitive dependencies. Non-key attributes shouldn't depend on other non-key attributes. Example: StudentCourse(StudentID, CourseID, DepartmentID, DepartmentName) where DepartmentName depends on DepartmentID. Solution: separate Department table. Most practical form. Handles majority real-world scenarios. Balances efficiency and consistency."},
-    {"id": 6, "question": "PRIMARY KEY vs FOREIGN KEY?", "answer": "PRIMARY KEY: uniquely identifies each record, not NULL, one per table, enforces entity integrity. FOREIGN KEY: references primary key of another table, can be NULL, multiple allowed, enforces referential integrity, establishes relationships. Together ensure database integrity. Example: StudentID PK in Student, StudentID FK in Enrollment. Enable relational model."},
-    {"id": 7, "question": "What is ACID?", "answer": "ACID: properties ensuring reliable transactions. Atomicity (all-or-nothing), Consistency (valid state transition), Isolation (independent execution), Durability (persistent after commit). Together guarantee: no partial updates, consistent state maintained, concurrent transactions don't interfere, committed data survives failures. Essential for database reliability. Trade-off: overhead reduces performance. Balance required for system."},
-    {"id": 8, "question": "What is Atomicity?", "answer": "Atomicity: transaction completely succeeds or completely fails (all-or-nothing). No partial updates. Implementation: uses UNDO logs. Before modifying, old values logged. If failure, values restored. Example: transfer $100 account A to B. Either A decreased and B increased, or neither. Never A decreased, B unchanged. Ensures consistency."},
-    {"id": 9, "question": "What is Consistency?", "answer": "Consistency: database transitions from one valid state to another. All constraints, rules maintained. Database never inconsistent intermediate state. Implementation: constraints, triggers, validation. Example: account balance never negative. All business rules enforced. If operation violates constraint, transaction aborts. Ensures valid database state always maintained."},
-    {"id": 10, "question": "What is Isolation?", "answer": "Isolation: concurrent transactions don't interfere. Each isolated. Results as if sequential (serializability). Prevents: dirty reads (uncommitted data), non-repeatable reads (value changes), phantom reads (new rows). Levels: read uncommitted (all problems), read committed, repeatable read, serializable (no problems). Trade-off: higher isolation slower. Default varies DBMS."},
-    {"id": 11, "question": "What is Durability?", "answer": "Durability: once committed, data persists. Survives failures (crashes, power loss, disk errors). Implementation: write-ahead logging (WAL). Before commit, log written to disk. If failure, recovery replays log. Committed transactions re-executed (redo). Ensures committed data never lost. Critical for reliability. Slight performance overhead justified."},
-    {"id": 12, "question": "What are SQL JOINs?", "answer": "JOINs combine rows from multiple tables. Types: INNER (matching both), LEFT (all left + matching right), RIGHT (all right + matching left), FULL OUTER (all both), CROSS (Cartesian product), SELF (table itself). Essential for relational queries. Example: SELECT * FROM Students INNER JOIN Courses ON Students.StudentID = Courses.StudentID. Multiple joins enable complex queries."},
-    {"id": 13, "question": "DELETE vs TRUNCATE vs DROP?", "answer": "DELETE: specific rows via WHERE, DML command, slow (row-by-row), fires triggers, rollback possible. TRUNCATE: all rows, DDL command, fast (deallocates), no triggers, limited rollback. DROP: entire table + structure, DDL, fastest, removes definition. Use: DELETE specific rows, TRUNCATE clear table, DROP remove table. Different purposes require different commands."},
-    {"id": 14, "question": "What are Indexes?", "answer": "Index: data structure improving retrieval speed. Types: primary, unique, composite, full-text. Advantages: faster SELECT, sorting (ORDER BY), uniqueness enforcement. Disadvantages: slows INSERT/UPDATE/DELETE, extra disk, maintenance overhead, limited benefit small tables. Trade-off: read speed vs write performance. Essential for large tables, frequently queried columns."},
-    {"id": 15, "question": "What is Denormalization?", "answer": "Denormalization: intentionally introducing redundancy improving query performance. Opposite normalization. Reasons: improve performance, reduce JOINs, simplify queries. Disadvantages: redundancy, update anomalies, inconsistency risk, complex maintenance. Use judiciously in read-heavy systems. Monitor integrity. Balance performance vs consistency. Selective denormalization practical approach."},
-    {"id": 16, "question": "What is Transaction?", "answer": "Transaction: sequence of SQL operations as single unit (ACID). TCL commands: COMMIT (save permanently), ROLLBACK (undo), SAVEPOINT (intermediate checkpoint). Ensures: atomicity, consistency, isolation, durability. Example: BEGIN; UPDATE account SET balance=balance-100; COMMIT; All-or-nothing execution. Prevents partial updates. Essential for data consistency."},
-    {"id": 17, "question": "WHERE vs HAVING?", "answer": "WHERE: filters rows before grouping, used without GROUP BY, cannot use aggregates. Example: SELECT * FROM sales WHERE amount > 1000. HAVING: filters groups after grouping, used with GROUP BY, uses aggregates. Example: SELECT dept, SUM(salary) FROM emp GROUP BY dept HAVING SUM(salary) > 100000. Different filtering stages. WHERE applied first (rows), HAVING applied later (groups)."},
-    {"id": 18, "question": "What are Subqueries?", "answer": "Subquery (inner query): query within another query. Types: correlated (references outer), non-correlated (independent). Locations: SELECT, FROM (derived table), WHERE. Operators: IN, EXISTS, ALL, ANY. Advantages: modularity, reusability. Example: SELECT name FROM students WHERE studentID IN (SELECT studentID FROM enrollment WHERE courseID=5). Flexible query construction."},
-    {"id": 19, "question": "What is Data Redundancy?", "answer": "Data redundancy: duplicate data multiple places. Types: controlled (intentional), uncontrolled (anomalies). Problems: update anomalies (inconsistency), insertion anomalies (cannot insert), deletion anomalies (data loss). Solutions: normalization, referential integrity (FK), proper design. Balance needed: reduce redundancy vs performance. Normalization primary solution."},
-    {"id": 20, "question": "What is View?", "answer": "View: virtual table from query result. No physical storage. Advantages: security (hide columns), simplify complex queries, abstraction, maintenance, restrict data. Types: simple (single table), complex (JOINs/multiple). Creation: CREATE VIEW name AS SELECT ... Cannot always UPDATE/DELETE. Enables logical organization."},
-    {"id": 21, "question": "What is Trigger?", "answer": "Trigger: stored procedure automatically executing on events. Events: INSERT, UPDATE, DELETE. Timing: BEFORE, AFTER. Advantages: enforce rules, audit trails, prevent invalid, automate. Disadvantages: debug difficult, performance impact, hidden logic, maintenance complex. Example: update last_modified on record change. Hidden execution important consideration."},
-    {"id": 22, "question": "What is Concurrency Control?", "answer": "Concurrency control: manages simultaneous transactions maintaining integrity. Problems: dirty reads, non-repeatable reads, phantom reads, lost updates. Levels: read uncommitted, read committed, repeatable read, serializable. Techniques: locking, MVCC, timestamp. Trade-off: concurrency vs consistency. Essential for multi-user systems. Different DBMS default levels."},
-    {"id": 23, "question": "What is Locking?", "answer": "Locking: concurrency control preventing simultaneous modifications. Types: shared (read, multiple), exclusive (write, single), intent. Deadlock prevention: timeout, ordering, detection. Problems: deadlock, reduced concurrency, overhead. Lock granularity: row, page, table. Pessimistic approach: assume conflict. Limits performance but ensures correctness."},
-    {"id": 24, "question": "What is MVCC?", "answer": "MVCC (Multi-Version Concurrency Control): optimistic concurrency, multiple versions coexist. Benefits: high concurrency, readers/writers don't block, snapshot consistency. Implementation: version tracking, visibility rules, garbage collection. Examples: PostgreSQL, Oracle. Read latest committed. Improves scalability vs locking. More complex but better performance."},
-    {"id": 25, "question": "What is Query Optimization?", "answer": "Query optimization: improving execution efficiency. Techniques: index usage, join order, predicate pushdown, redundancy elimination. Optimizer decides plan. Cost-based: estimates costs, chooses minimum. EXPLAIN shows plans. Helps identify inefficiencies. Index design critical. Query rewrites help. Significant performance impact."},
-    {"id": 26, "question": "What is Backup and Recovery?", "answer": "Backup/recovery: protecting against data loss. Backup types: full, incremental, differential. Recovery: restore from backup, apply transaction logs, return consistent state. RPO (recovery point): data loss tolerance. RTO (recovery time): downtime tolerance. Critical business continuity. Regular testing important. Off-site backups recommended."},
-    {"id": 27, "question": "What is Replication?", "answer": "Replication: copying data across databases/servers. Types: master-slave (one source), master-master (bidirectional), logical, physical. Benefits: availability, load distribution, geographic redundancy, disaster recovery. Challenges: consistency, latency, complexity. Used scalability, reliability. Synchronous/asynchronous trade-offs."},
-    {"id": 28, "question": "What is Connection Pooling?", "answer": "Connection pooling: managing database connections efficiently. Process: create pool, reuse connections, avoid overhead. Benefits: better performance, resource efficiency, simplified management, scalability. Configuration: pool size, timeout, validation. Significantly reduces overhead. Essential web applications. Examples: HikariCP, C3P0."},
-    {"id": 29, "question": "What is Partitioning?", "answer": "Partitioning: dividing table smaller parts. Types: range (value ranges), list (specific values), hash (hash function), composite. Benefits: better performance, easier maintenance, parallel queries, smaller indexes. Trade-offs: complexity, overhead. Improves scalability large tables. Particularly helpful frequently accessed tables."},
-    {"id": 30, "question": "What is Sharding?", "answer": "Sharding: horizontal partitioning across servers. Data distributed shard key. Benefits: scalability, improved performance, geographic distribution, parallelization. Challenges: complex implementation, cross-shard queries difficult, rebalancing complex. Shard selection critical. Used distributed systems. Examples: MongoDB, Cassandra support."},
-    {"id": 31, "question": "What is CAP Theorem?", "answer": "CAP theorem: distributed systems guarantee 3 properties. Consistency (all read same), Availability (always responsive), Partition tolerance (survives failures). Can guarantee only 2 of 3. CP: consistent, partition tolerant (availability sacrificed). AP: available, partition tolerant (consistency sacrificed). Explains design decisions distributed systems."},
-    {"id": 32, "question": "What is Eventual Consistency?", "answer": "Eventual consistency: replicas eventually consistent. Temporary inconsistency allowed. Benefits: high availability, partition tolerance, performance. Trade-off: consistency delayed. Applications handle. Example: social media updates eventually visible. Contrast strong consistency. Practical web scale. NoSQL systems often implement."},
-    {"id": 33, "question": "What is Schema?", "answer": "Schema: database structure definition. Contains: tables, columns, data types, constraints, relationships, indexes. Represents business logic structure. Physical schema: how stored. Logical schema: abstract. External schema: user view. Design critical performance, maintainability. Schema migration: changing structure. Versioning helps changes."},
-    {"id": 34, "question": "What is Constraint?", "answer": "Constraint: rule enforcing data validity. Types: NOT NULL (required), UNIQUE (distinct), PRIMARY KEY (unique identifier), FOREIGN KEY (referential), CHECK (condition), DEFAULT (default value). Benefits: data integrity, prevents invalid, enforces relationships. Implementation: database enforced (preferred), application enforced. Enforces business rules."},
-    {"id": 35, "question": "What is Cascade Delete?", "answer": "Cascade delete: parent deletion triggers child deletion. Referential integrity enforcement. Implementation: FOREIGN KEY ... ON DELETE CASCADE. Benefits: maintains consistency, prevents orphans, automatic cleanup. Risks: unexpected deletions, data loss. Alternatives: SET NULL, RESTRICT. Careful consideration needed. Document cascade relationships."},
-    {"id": 36, "question": "What is Entity-Relationship Model?", "answer": "ER model: conceptual model representing entities, attributes, relationships. Components: entity (object), attribute (property), relationship (association). Cardinality: one-to-one, one-to-many, many-to-many. ER diagram: visual. Used database design planning. Maps relational model. Intermediate requirements-schema. Helps stakeholder communication."},
-    {"id": 37, "question": "What is Aggregation?", "answer": "Aggregation: combining rows single result. Functions: COUNT (rows), SUM (total), AVG (average), MIN/MAX. Usage: SELECT COUNT(*) FROM table GROUP BY department. Used GROUP BY. Produces summary data. Important reporting. Performance considerations: large groups. Indexing helps."},
-    {"id": 38, "question": "What is Transaction Log?", "answer": "Transaction log: record all modifications. Contains: transaction ID, operation type, before/after values, timestamp. Benefits: recovery, audit trail, replication, forensics. Ensures durability (ACID). Flushed disk before commit. Recovery: redo committed, undo uncommitted. Circular logs systems. Important reliability."},
-    {"id": 39, "question": "What is Checkpoint?", "answer": "Checkpoint: point where database state saved disk. Process: flush dirty pages, write checkpoint, update info. Benefits: faster recovery (start checkpoint), log truncation, reduced recovery time. Trade-offs: I/O overhead, pause. Periodic/triggered checkpoints. Critical recovery efficiency. Modern DBMS implement regularly."},
-    {"id": 40, "question": "What is WAL (Write-Ahead Logging)?", "answer": "Write-Ahead Logging: logging before actual write. Process: log written, flushed disk, data modified, committed logged. Ensures: no data loss, durability, consistent recovery. ACID guarantee. Essential reliability. Slight overhead justified. Implemented universally modern DBMS. Enables crash recovery safety."},
-    {"id": 41, "question": "What is Redo and Undo?", "answer": "Redo: replaying committed transactions after failure. Ensures durability. Undo: reverting uncommitted. Ensures atomicity. Combined: redo log (redo entries), undo log (old values). Recovery: undo uncommitted, redo committed. Ensures consistency crash. Important reliability. Proper logging essential."},
-    {"id": 42, "question": "What is Stored Procedure?", "answer": "Stored procedure: reusable SQL program stored database. Benefits: performance (preprocessed), security (access control), reusability, reduced bandwidth, encapsulation. Parameters: IN, OUT, INOUT. Returns sets/status. Control flow support. Disadvantages: database dependent, complex testing, maintenance. Used complex operations."},
-    {"id": 43, "question": "What is Function?", "answer": "Function: similar stored procedure returns value. Scalar functions single value. Table functions result. Benefits: reusability, performance, security. Used expressions: SELECT name, dbo.GetAge(birthdate) FROM emp. Deterministic reliable. Non-deterministic complex. Different stored procedures (no OUT params)."},
-    {"id": 44, "question": "What is Cursor?", "answer": "Cursor: mechanism processing query results row-by-row. Types: forward only, scrollable. Operations: OPEN, FETCH, UPDATE/DELETE, CLOSE. Disadvantages: overhead, resource consumption, complexity. Modern systems prefer set-based. Appropriate specific scenarios: batch, complex logic. Largely replaced better approaches. Performance consideration."},
-    {"id": 45, "question": "What is Deadlock in DBMS?", "answer": "Deadlock: two+ transactions waiting each other's locks. Circular wait stalemate. Example: T1 locks A wants B; T2 locks B wants A. Both wait indefinitely. Prevention: lock ordering, timeouts, detection. Detection: wait-for graph detects cycles. Victim selection rollback. Rare well-designed systems. Automatically handled DBMS."},
-    {"id": 46, "question": "What is Isolation Level?", "answer": "Isolation level: concurrency problem degree allowed. Levels: read uncommitted (all), read committed (no dirty), repeatable read (no dirty/non-repeatable), serializable (no problems). Higher stronger consistency, lower concurrency. Default varies DBMS. Trade-off consistency performance. Select appropriate requirement."},
-    {"id": 47, "question": "What is Dirty Read?", "answer": "Dirty read: reading uncommitted data another transaction. Problem: rolled back = invalid. Prevention: read committed+ isolation. Avoided locking, MVCC. Most applications require least read committed. Concurrency problem. Causes incorrect results. Security concern data integrity."},
-    {"id": 48, "question": "What is Non-Repeatable Read?", "answer": "Non-repeatable read: two reads same data return different. Cause: another transaction modified between. Prevention: repeatable read+ isolation. Locks/MVCC. Affects consistency. Problematic calculations. Example: read value 100, modify, read again 50. Different reads same transaction."},
-    {"id": 49, "question": "What is Phantom Read?", "answer": "Phantom read: new rows appear repeated query. Cause: another transaction inserted between. Prevention: serializable isolation. Range locks required. Serious concurrency problem. Affects counts, aggregates. Example: SELECT COUNT(*) different values repeated. Most serious concurrency issue."},
-    {"id": 50, "question": "What is Normalization vs Denormalization Trade-off?", "answer": "Normalization: reduces redundancy, improves consistency, saves space, increases JOINs (slower reads). Denormalization: increases redundancy, improves read speed, complex maintenance, requires sync. Decision: OLTP normalize (consistency), OLAP denormalize (performance), data warehouse denormalize. Must workload. Monitoring adjustments."}
-  ]
+    
+  {
+    "id": 1,
+    "question": "What is DBMS?",
+    "answer": "A Database Management System (DBMS) is software used to store, organize, and manage data efficiently. It handles operations like data storage, retrieval, integrity, and security while reducing redundancy. Common types include relational and NoSQL systems. DBMS ensures easy access, sharing, and control of large datasets. Example: MySQL or Oracle Database used by companies to manage customer and transaction data."
+  },
+  {
+    "id": 2,
+    "question": "What is Normalization?",
+    "answer": "Normalization organizes data in a database to reduce redundancy and improve consistency. It divides large tables into smaller, related ones based on dependencies. The process follows stages called Normal Forms (1NF, 2NF, 3NF, etc.). This helps prevent anomalies during insert, update, or delete operations. Example: Splitting a 'Student' table into 'Student' and 'Course' tables to avoid repeated course data."
+  },
+  {
+    "id": 3,
+    "question": "What is 1NF?",
+    "answer": "First Normal Form (1NF) ensures that every column in a table contains atomic (indivisible) values. It removes repeating groups and multi-valued attributes, making data easier to handle. Each record should be unique and properly structured. Example: Instead of storing subjects as 'Math, English', store separate rows for each subject under the same student ID."
+  },
+  {
+    "id": 4,
+    "question": "What is 2NF?",
+    "answer": "Second Normal Form (2NF) applies when a table is already in 1NF and all non-key attributes depend on the entire primary key, not just part of it. It removes partial dependencies in tables with composite keys. This ensures better organization and prevents redundancy. Example: In a 'Course_Enrollment' table, separating 'Course_Details' ensures each course’s info is stored only once."
+  },
+  {
+    "id": 5,
+    "question": "What is 3NF?",
+    "answer": "Third Normal Form (3NF) ensures that non-key attributes depend only on the primary key and not on other non-key attributes. It eliminates transitive dependencies to avoid anomalies. This makes databases cleaner and easier to maintain. Example: Instead of storing 'Department_Name' and 'Department_Head' in the 'Employee' table, create a separate 'Department' table linked by Department_ID."
+  },
+  {
+    "id": 6,
+    "question": "PRIMARY KEY vs FOREIGN KEY?",
+    "answer": "A Primary Key uniquely identifies each record in a table and cannot contain null values. A Foreign Key links one table to another, referencing the Primary Key of the related table to maintain referential integrity. Together, they establish relational connections. Example: In a 'Student' and 'Department' table, Department_ID is a Primary Key in 'Department' and a Foreign Key in 'Student'."
+  },
+  {
+    "id": 7,
+    "question": "What is ACID?",
+    "answer": "ACID stands for Atomicity, Consistency, Isolation, and Durability—principles ensuring reliable transactions in databases. Atomicity ensures all-or-nothing execution, Consistency maintains valid data states, Isolation keeps transactions independent, and Durability ensures data persists after completion. Together, they guarantee data integrity. Example: During money transfer, both debit and credit actions must succeed, or the entire transaction is rolled back."
+  },
+  {
+    "id": 8,
+    "question": "What is Atomicity?",
+    "answer": "Atomicity means a transaction executes completely or not at all. If one step fails, all previous steps are undone to maintain consistency. It prevents partial data updates that could corrupt information. Example: In an online purchase, if payment fails, the system cancels the order instead of recording incomplete transaction data."
+  },
+  {
+    "id": 9,
+    "question": "What is Consistency?",
+    "answer": "Consistency ensures that every transaction transforms the database from one valid state to another, maintaining all constraints and rules. Invalid transactions are automatically rolled back. This property keeps data accurate and meaningful. Example: In a banking system, a withdrawal cannot exceed the current balance—ensuring the rule of non-negative account balances is upheld."
+  },
+  {
+    "id": 10,
+    "question": "What is Isolation?",
+    "answer": "Isolation ensures that multiple transactions occurring at the same time do not affect each other’s results. Each transaction behaves as if it’s running alone, preventing issues like dirty or phantom reads. Different isolation levels control this behavior. Example: When two users book the same seat online, isolation ensures only one booking succeeds, maintaining accuracy."
+  },
+  
+  {
+    "id": 11,
+    "question": "What is Durability?",
+    "answer": "Durability ensures that once a transaction is committed, its changes are permanently saved in the database, even in case of power failure or crash. It guarantees that completed transactions are not lost. This is achieved through backup logs and recovery mechanisms. Example: After a successful online payment, even if the system restarts, the payment record remains safely stored."
+  },
+  {
+    "id": 12,
+    "question": "What is a Transaction?",
+    "answer": "A transaction is a sequence of database operations that performs a single logical task, such as inserting, updating, or deleting data. Transactions follow the ACID properties to ensure reliability. They either complete fully or are rolled back on failure. Example: Transferring money between two accounts involves withdrawing from one and depositing into another within a single transaction."
+  },
+  {
+    "id": 13,
+    "question": "What is a View?",
+    "answer": "A view is a virtual table based on the result of a SQL query. It displays data from one or more tables without physically storing it. Views simplify complex queries, enhance security, and restrict user access to sensitive columns. Example: Creating a view 'Active_Students' that shows only students with active status from the 'Students' table."
+  },
+  {
+    "id": 14,
+    "question": "What is a Trigger?",
+    "answer": "A trigger is a stored procedure that automatically executes in response to specific database events like INSERT, UPDATE, or DELETE. Triggers help enforce rules, maintain logs, or update related tables. They enhance automation but should be used carefully to avoid performance issues. Example: A trigger that logs every new record added to the 'Orders' table for auditing."
+  },
+  {
+    "id": 15,
+    "question": "What is a Cursor?",
+    "answer": "A cursor is a database object used to retrieve and manipulate query results row by row. It’s helpful when complex operations can’t be done using standard SQL statements. Cursors can be static, dynamic, or forward-only. Example: Using a cursor to process each student’s marks and update their grade one by one in a result table."
+  },
+  {
+    "id": 16,
+    "question": "What is an Index?",
+    "answer": "An index is a database structure that improves data retrieval speed by creating a reference to records in a table. It works like a book’s index, helping the system locate information faster without scanning the entire table. However, it can slow down insertions or deletions. Example: Creating an index on 'Student_ID' to quickly search for specific student records."
+  },
+  {
+    "id": 17,
+    "question": "What is SQL?",
+    "answer": "SQL (Structured Query Language) is used to manage and manipulate relational databases. It allows users to create tables, insert data, and query information efficiently. SQL includes commands like SELECT, INSERT, UPDATE, and DELETE. It is standardized across most database systems. Example: Using 'SELECT * FROM Students WHERE Age > 18;' to retrieve records of students above 18 years old."
+  },
+  {
+    "id": 18,
+    "question": "What is DDL?",
+    "answer": "DDL (Data Definition Language) defines and modifies the structure of a database. It includes commands like CREATE, ALTER, and DROP, which create or change tables and schemas. DDL affects the database schema permanently once executed. Example: The command 'CREATE TABLE Employee (ID INT, Name VARCHAR(50));' creates a new table named Employee with defined columns."
+  },
+  {
+    "id": 19,
+    "question": "What is DML?",
+    "answer": "DML (Data Manipulation Language) is used to handle and modify data stored in a database. It includes commands like INSERT, UPDATE, DELETE, and SELECT. DML operations allow users to interact with the database without changing its structure. Example: Using 'UPDATE Employee SET Salary = 40000 WHERE ID = 2;' updates the salary of an employee with ID 2."
+  },
+  {
+    "id": 20,
+    "question": "What is DCL?",
+    "answer": "DCL (Data Control Language) manages user permissions and access control in a database. It ensures that only authorized users can perform certain actions. Common commands include GRANT and REVOKE. Example: 'GRANT SELECT ON Student TO user1;' gives user1 permission to view the Student table, while 'REVOKE' removes that access when needed."
+  },
+  {
+    "id": 21,
+    "question": "What is JOIN in SQL?",
+    "answer": "A JOIN in SQL is used to combine data from two or more tables based on a related column between them. It helps retrieve meaningful information spread across multiple tables. Types include INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL JOIN. Example: 'SELECT Students.Name, Courses.CourseName FROM Students INNER JOIN Courses ON Students.CourseID = Courses.ID;' shows which student is enrolled in which course."
+  },
+  {
+    "id": 22,
+    "question": "What is Normalization?",
+    "answer": "Normalization is the process of organizing database tables to reduce redundancy and improve data integrity. It divides data into smaller related tables and uses foreign keys to link them. Common normal forms include 1NF, 2NF, and 3NF. Example: Splitting a single 'Student' table into 'Students' and 'Departments' tables, ensuring each department name is stored only once, avoiding duplicate entries."
+  },
+  {
+    "id": 23,
+    "question": "What is Denormalization?",
+    "answer": "Denormalization is the process of combining tables to improve read performance by reducing the need for complex JOINs. It introduces controlled redundancy for faster queries. Often used in data warehousing or reporting systems. Example: Merging ‘Orders’ and ‘Customers’ tables into one table so reports can be generated quickly without multiple JOIN operations."
+  },
+  {
+    "id": 24,
+    "question": "What is a Primary Key?",
+    "answer": "A Primary Key is a unique identifier for each record in a table. It ensures that no two rows have the same key value and that no key field is left NULL. Every table should have one primary key for data consistency. Example: In a 'Students' table, 'Student_ID' can serve as the primary key to uniquely identify each student."
+  },
+  {
+    "id": 25,
+    "question": "What is a Foreign Key?",
+    "answer": "A Foreign Key links two tables by referencing the primary key of another table. It maintains referential integrity, ensuring related records exist. Deleting or updating referenced data affects dependent tables. Example: In an 'Orders' table, the 'Customer_ID' column can be a foreign key referring to 'Customer_ID' in the 'Customers' table, connecting orders to their customers."
+  },
+  {
+    "id": 26,
+    "question": "What is a Unique Key?",
+    "answer": "A Unique Key ensures that all values in a column are distinct but allows a single NULL value, unlike a primary key. It maintains data uniqueness across records and can be applied to one or more columns. Example: Setting 'Email' as a unique key in a 'Users' table ensures no two users can register using the same email address."
+  },
+  {
+    "id": 27,
+    "question": "What is a Composite Key?",
+    "answer": "A Composite Key is a combination of two or more columns that uniquely identify a record in a table. It’s used when a single column can’t uniquely identify records. Example: In a 'Course_Enrollment' table, the combination of 'Student_ID' and 'Course_ID' serves as a composite key to ensure that the same student cannot enroll in the same course twice."
+  },
+  {
+    "id": 28,
+    "question": "What is a Candidate Key?",
+    "answer": "A Candidate Key is any column or set of columns that can uniquely identify a record in a table. Every table can have multiple candidate keys, but only one becomes the primary key. Example: In an 'Employee' table, both 'Employee_ID' and 'Email' could be candidate keys, as each uniquely identifies an employee, but only one is chosen as the primary key."
+  },
+  {
+    "id": 29,
+    "question": "What is an Alternate Key?",
+    "answer": "An Alternate Key is any candidate key that is not selected as the primary key. It still uniquely identifies records but is used as an alternative. Example: If 'Employee_ID' is the primary key in the 'Employee' table and 'Email' is another unique identifier, then 'Email' acts as an alternate key for record identification."
+  },
+  {
+    "id": 30,
+    "question": "What is a Super Key?",
+    "answer": "A Super Key is a set of one or more attributes that uniquely identify each record in a table. Every primary key and candidate key is a super key, but not all super keys are minimal. Example: In a 'Student' table, {Student_ID, Email} and {Student_ID} both qualify as super keys since each combination uniquely identifies a student."
+  },
+
+  {
+    "id": 31,
+    "question": "What is CAP Theorem?",
+    "answer": "The CAP Theorem states that a distributed system can guarantee only two out of three properties: Consistency, Availability, and Partition Tolerance. Consistency ensures all nodes show the same data; Availability ensures every request gets a response; Partition Tolerance ensures the system works despite network failures. Example: MongoDB prioritizes Availability and Partition Tolerance (AP), while traditional databases like HBase prioritize Consistency and Partition Tolerance (CP)."
+  },
+  {
+    "id": 32,
+    "question": "What is Eventual Consistency?",
+    "answer": "Eventual Consistency is a model in distributed databases where updates propagate gradually, and all replicas become consistent after some time. It sacrifices immediate consistency for higher availability and performance. Example: In Amazon DynamoDB or social media feeds, a new post may take a few seconds to appear for all users, ensuring high system responsiveness while achieving consistency eventually."
+  },
+  {
+    "id": 33,
+    "question": "What is Schema?",
+    "answer": "A Schema is the blueprint or logical structure of a database that defines how data is organized—tables, fields, data types, constraints, and relationships. It acts as the framework for database design. Example: In a school database, a schema may include tables like 'Students', 'Courses', and 'Enrollments', each with defined columns such as 'Student_ID', 'Course_Name', and foreign key relationships."
+  },
+  {
+    "id": 34,
+    "question": "What is Constraint?",
+    "answer": "A Constraint is a rule applied to table columns to ensure data validity and integrity. Common types include NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK, and DEFAULT. These prevent invalid or inconsistent data. Example: A CHECK constraint on 'Age' column ensures values are above 18, while a FOREIGN KEY maintains relationships between 'Employees' and 'Departments' tables."
+  },
+  {
+    "id": 35,
+    "question": "What is Cascade Delete?",
+    "answer": "Cascade Delete automatically removes related child records when a parent record is deleted, maintaining referential integrity. It prevents orphan records in relational databases. Example: If a ‘Department’ record is deleted, all associated ‘Employee’ records linked through a FOREIGN KEY with ON DELETE CASCADE will also be deleted automatically. It must be used cautiously to avoid unintended data loss."
+  },
+  {
+    "id": 36,
+    "question": "What is Entity-Relationship Model?",
+    "answer": "The Entity-Relationship (ER) Model visually represents data objects (entities), their attributes, and relationships between them. It helps in designing logical database structures. Entities represent objects, attributes describe properties, and relationships define associations. Example: In a college ER diagram, 'Student' and 'Course' are entities connected by an 'Enrolls' relationship showing which students take which courses."
+  },
+  {
+    "id": 37,
+    "question": "What is Aggregation in DBMS?",
+    "answer": "Aggregation refers to combining multiple rows of data to produce summary results using functions like COUNT, SUM, AVG, MIN, and MAX. It is typically used with GROUP BY to generate summarized reports. Example: 'SELECT Department, AVG(Salary) FROM Employees GROUP BY Department;' calculates the average salary per department. It’s commonly used in analytics and reporting queries."
+  },
+  {
+    "id": 38,
+    "question": "What is Transaction Log?",
+    "answer": "A Transaction Log records all database modifications such as INSERT, UPDATE, and DELETE operations. It ensures durability and recovery in case of system failure. Each log entry includes transaction ID, timestamp, and old/new values. Example: In SQL Server, the log allows rollback of incomplete transactions or replay of committed ones during crash recovery to maintain data consistency."
+  },
+  {
+    "id": 39,
+    "question": "What is Checkpoint in DBMS?",
+    "answer": "A Checkpoint is a point at which all modified data (dirty pages) is written from memory to disk, ensuring database consistency. It minimizes recovery time after a crash by marking a stable state. Example: In MySQL, automatic checkpoints occur periodically, so after a failure, recovery starts from the last checkpoint instead of scanning the entire log file."
+  },
+  {
+    "id": 40,
+    "question": "What is Write-Ahead Logging (WAL)?",
+    "answer": "Write-Ahead Logging ensures data integrity by writing log records to disk before actual data changes are made. This guarantees recoverability after crashes. Example: In PostgreSQL, WAL first records a transaction’s intended changes, and if a failure occurs, the system replays the log to restore committed data, ensuring durability as per the ACID properties."
+  },
+  
+  {
+    "id": 41,
+    "question": "What is Redo and Undo in DBMS?",
+    "answer": "Redo and Undo are recovery mechanisms ensuring data consistency after system failures. Redo re-applies committed transactions from logs to ensure durability, while Undo reverses uncommitted changes to maintain atomicity. Example: If a transfer transaction commits before a crash, Redo re-executes it during recovery; if it hadn’t committed, Undo restores original balances, ensuring accurate final state."
+  },
+  {
+    "id": 42,
+    "question": "What is a Stored Procedure?",
+    "answer": "A Stored Procedure is a precompiled set of SQL statements stored in the database and executed as a unit. It enhances performance, reusability, and security. Parameters can be passed to control logic dynamically. Example: A procedure 'AddStudent' can take StudentID and Name as inputs and insert them into the 'Students' table, reducing repetitive SQL code and execution time."
+  },
+  {
+    "id": 43,
+    "question": "What is a Function in DBMS?",
+    "answer": "A Function in DBMS is a reusable block of SQL code that returns a single value or a table. It simplifies complex calculations and enhances code maintainability. Functions are often used in SELECT statements. Example: A function 'GetAge(birthdate)' can calculate a person’s age from their date of birth when querying the 'Employees' table."
+  },
+  {
+    "id": 44,
+    "question": "What is a Cursor?",
+    "answer": "A Cursor is a database object used to process query results row by row instead of as a complete set. It allows complex record-level operations but consumes more resources. Example: A cursor can fetch employee records one at a time to calculate bonuses individually. While powerful, set-based operations are usually preferred for better performance and simplicity."
+  },
+  {
+    "id": 45,
+    "question": "What is Deadlock in DBMS?",
+    "answer": "A Deadlock occurs when two or more transactions hold locks and wait indefinitely for each other to release resources, causing a standstill. Example: Transaction T1 locks Table A and requests Table B, while T2 locks Table B and requests Table A. Prevention involves timeouts, lock ordering, or deadlock detection algorithms. Most DBMS automatically detect and resolve deadlocks by aborting one transaction."
+  },
+  {
+    "id": 46,
+    "question": "What is Isolation Level in DBMS?",
+    "answer": "Isolation Level defines how transaction visibility and concurrency are managed. Levels include Read Uncommitted, Read Committed, Repeatable Read, and Serializable. Each higher level reduces concurrency but improves consistency. Example: In banking systems, the Serializable level ensures transactions are fully isolated to prevent data anomalies, while Read Committed allows more concurrency at slight consistency risk."
+  },
+  {
+    "id": 47,
+    "question": "What is a Dirty Read?",
+    "answer": "A Dirty Read happens when a transaction reads uncommitted data from another transaction. If that transaction rolls back, the first one has read invalid data. Example: Transaction A updates a balance but hasn’t committed, and Transaction B reads it immediately. If A rolls back, B’s read becomes invalid. Prevented by using at least Read Committed isolation level."
+  },
+  {
+    "id": 48,
+    "question": "What is a Non-Repeatable Read?",
+    "answer": "A Non-Repeatable Read occurs when a transaction reads the same row twice and gets different values because another transaction updated the data in between. Example: Transaction A reads a product price as ₹500, and while it’s still running, Transaction B changes it to ₹600. When A reads again, it gets ₹600. Prevented by Repeatable Read isolation level."
+  },
+  {
+    "id": 49,
+    "question": "What is a Phantom Read?",
+    "answer": "A Phantom Read occurs when new rows are added or deleted by another transaction between two executions of the same query. Example: Transaction A executes 'SELECT COUNT(*) FROM Orders WHERE Amount > 1000;' twice and finds different results because Transaction B inserted a new qualifying record. Prevented using Serializable isolation level, which applies range locks."
+  },
+  {
+    "id": 50,
+    "question": "What is the Normalization vs Denormalization Trade-off?",
+    "answer": "Normalization minimizes redundancy and improves consistency by dividing data into related tables, while Denormalization combines tables to enhance read performance. The choice depends on use case. Example: In OLTP systems like banking, normalization ensures accuracy; in OLAP systems like reporting dashboards, denormalization speeds up data retrieval. A balanced hybrid approach is often most efficient."
+  }
+]
 }

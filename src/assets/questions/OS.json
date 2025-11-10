@@ -5,55 +5,259 @@
   "answer_length": "50-70 words",
   "companies": ["Infosys", "TCS", "Wipro", "Accenture", "HCL", "Cognizant", "Capgemini", "Deloitte", "Amazon", "Microsoft", "Google", "Adobe", "Flipkart", "Oracle", "IBM"],
   "questions": [
-    {"id": 1, "question": "What is an Operating System?", "answer": "An OS is system software managing hardware resources and providing services to user programs. It controls CPU, memory, I/O devices, and files. Acts as intermediary between applications and hardware. Manages process scheduling, memory allocation, security, and provides user interface. Examples: Linux, Windows, macOS. Runs in privileged kernel mode with direct hardware access while restricting user applications to user mode."},
-    {"id": 2, "question": "What are the main functions of OS?", "answer": "Main functions: 1) Memory management - allocates/deallocates RAM; 2) Process management - creates, schedules processes; 3) Device management - controls I/O devices; 4) File management - stores/retrieves files; 5) Security - authentication, authorization; 6) Job accounting - tracks performance; 7) Error handling - manages exceptions. These functions ensure efficient resource utilization, system stability, security, and fair resource distribution among competing processes."},
-    {"id": 3, "question": "Difference between Process and Thread?", "answer": "Process: Independent program with own memory space, resources, PID. Protected from other processes. Expensive to create (fork). Slow context switching. Threads: Lightweight execution units within process sharing memory. Cheaper to create. Fast context switches. Multiple threads in process can crash entire process. Threads enable parallelism within single process. Processes provide isolation and protection."},
-    {"id": 4, "question": "What is Context Switching?", "answer": "Context switching saves running process state (PC, registers, stack pointer) to PCB, loads next process context. Steps: 1) Save current context; 2) Update PCB; 3) Select next process; 4) Load new context; 5) Resume execution. Overhead includes direct cost (save/load time) and indirect cost (TLB flushes, cache misses). Excessive switching reduces performance (thrashing). Context switch time typically microseconds to milliseconds."},
-    {"id": 5, "question": "What is Deadlock?", "answer": "Deadlock: Processes blocked indefinitely waiting for resources held by other processes creating circular wait. Coffman's four conditions: mutual exclusion, hold-and-wait, no preemption, circular wait. All must exist simultaneously. Prevention: break any condition. Detection: wait-for graph detects cycles. Recovery: kill processes or rollback transactions. Common in database locking, file access, banker's algorithm prevents allocation."},
-    {"id": 6, "question": "What is Virtual Memory?", "answer": "Virtual memory creates illusion of larger memory than physically available using disk. Divides memory into pages (paging) or segments (segmentation). Page faults load missing pages from disk. Advantages: programs larger than RAM, memory isolation, efficient sharing. Disadvantages: page fault overhead (disk access slow), thrashing if excessive paging. Uses TLB for fast address translation."},
-    {"id": 7, "question": "Paging vs Segmentation?", "answer": "Paging: fixed-size pages (4KB), transparent to users, no external fragmentation, simple implementation. Segmentation: variable-size segments, programmer-visible, no internal fragmentation, external fragmentation occurs, complex relocation. Paging: efficient memory utilization, predictable. Segmentation: better protection per segment. Modern systems use paging. Some use segmented paging combining both."},
-    {"id": 8, "question": "What is Demand Paging?", "answer": "Demand paging loads pages on-demand (lazy loading) instead of loading entire process. Page fault occurs when accessing page not in memory. OS retrieves page from disk, loads into RAM, updates page table, retries instruction. Benefits: saves memory, fast startup. Disadvantages: page fault overhead (20-50ms disk access), thrashing if excessive faults. Works via virtual memory mechanism."},
-    {"id": 9, "question": "What is Thrashing?", "answer": "Thrashing: excessive paging causing system to spend more time swapping pages than executing. Causes: insufficient RAM, too many processes, poor page replacement. Symptoms: CPU idle despite disk activity, response time increases, throughput drops. Prevention: reduce multiprogramming level, increase RAM, better page replacement algorithms (LRU), load control. Working set model predicts memory needs."},
-    {"id": 10, "question": "What are System Calls?", "answer": "System calls: interface mechanisms for user programs to request kernel services. Cause mode switch from user to kernel mode. Categories: process (fork, exec, exit), file (open, read, write, close), memory (malloc, brk), I/O (ioctl, select), communication (socket, pipe), signals, time. Examples: read(fd, buffer, count), write(fd, buffer, count). Overhead significant - batching reduces syscall frequency improves performance."},
-    {"id": 11, "question": "What is Semaphore?", "answer": "Semaphore: synchronization primitive using counter. wait() decrements if positive, otherwise blocks. signal() increments and wakes waiting process. Types: binary (0/1, like mutex), counting (multiple copies). Used for mutual exclusion, producer-consumer problems, resource pools. Atomicity required - hardware or software ensures wait/signal indivisible. Prevents race conditions when properly used."},
-    {"id": 12, "question": "What is Mutex vs Semaphore?", "answer": "Mutex: binary lock (locked/unlocked), owned (only owner unlocks), simpler, faster, prevents priority inversion. Semaphore: counting (manages multiple resources), no ownership (anyone can signal), more flexible. Mutex: simple mutual exclusion. Semaphore: complex synchronization patterns. Both ensure only one accesses shared resource. Mutex cleaner for simple cases, semaphore for resource pools."},
-    {"id": 13, "question": "Preemptive vs Non-preemptive Scheduling?", "answer": "Preemptive: OS can forcibly remove process from CPU (timer interrupt, higher priority arrives). Examples: Round Robin, Priority scheduling. Better responsiveness, prevents starvation, more overhead. Non-preemptive: process runs until completion/blocking. Examples: FCFS, SJF. Simple, less overhead, high average wait time, starvation possible. Modern systems use preemptive for responsiveness and fairness."},
-    {"id": 14, "question": "Explain FCFS Scheduling", "answer": "FCFS (First Come First Served): processes execute in arrival order. Non-preemptive. Simple implementation. Problems: convoy effect (short job waits for long job), high average wait time, poor responsiveness. Process A(5ms), B(10ms), C(15ms) wait times: 0, 5, 15 average=6.67ms. Suitable for batch systems, unsuitable for interactive systems."},
-    {"id": 15, "question": "Explain SJF Scheduling", "answer": "SJF (Shortest Job First): process with shortest burst time executes first. Minimizes average wait time (provably optimal). Non-preemptive or preemptive (SRTF). Problems: starvation of long jobs, requires knowing burst time beforehand (impractical). Example: A(5), B(10), C(15) order: A→B→C wait times: 0, 5, 15 average=6.67ms. Better than FCFS."},
-    {"id": 16, "question": "Explain Round Robin Scheduling", "answer": "Round Robin: each process gets fixed time quantum (10-100ms). Preemptive. After quantum expires, process goes to queue end. Fair CPU allocation, good responsiveness, prevents starvation. Disadvantage: context switch overhead, performance depends on quantum size (too small=overhead, too large≈FCFS). Suitable for time-sharing systems. Typically average wait time higher than SJF."},
-    {"id": 17, "question": "What is Priority Scheduling?", "answer": "Priority scheduling: highest priority process executes first. Preemptive or non-preemptive. Problem: starvation of low-priority processes (continuous high-priority arrivals starve low). Solution: aging - gradually increase waiting process priority. Preemptive: high-priority interrupts low-priority. Used in real-time systems. Important processes get CPU quickly. Requires careful priority assignment."},
-    {"id": 18, "question": "What is Memory Fragmentation?", "answer": "Memory fragmentation: memory becomes scattered, unusable. Types: internal (allocated space exceeds need, last page wastes space), external (free memory in small blocks preventing allocation despite total free>needed). Paging eliminates external. Solutions: compaction (move processes together - expensive), better allocation algorithms, virtual memory. Reduces system efficiency and available memory."},
-    {"id": 19, "question": "What is Race Condition?", "answer": "Race condition: multiple processes access shared data simultaneously, result depends on execution order. Causes: concurrent access without synchronization. Example: two processes incrementing counter simultaneously lose updates. Problem: unpredictable results, data corruption. Solutions: mutual exclusion (locks, semaphores), monitors, message passing, atomic operations. Prevention: critical sections, proper synchronization."},
-    {"id": 20, "question": "What is Critical Section?", "answer": "Critical section: code segment accessing shared resources. Only one process should execute at any time preventing race conditions. Requirements: 1) Mutual exclusion - only one in section; 2) Progress - if none in section, any can enter; 3) Bounded waiting - process shouldn't wait indefinitely. Entry/exit sections protect critical section. Implemented via locks, semaphores, monitors."},
-    {"id": 21, "question": "What is Banker's Algorithm?", "answer": "Banker's algorithm: deadlock avoidance checking if resource allocation is safe before granting. Ensures system never enters unsafe state. Processes declare maximum resource needs. Algorithm: tentatively allocate, check if system remains safe (all processes can complete), if safe allocate else delay. Conservative approach. Disadvantages: requires knowing maximum needs, reduces efficiency, complex."},
-    {"id": 22, "question": "What is User Mode vs Kernel Mode?", "answer": "User mode: applications run here, restricted direct hardware access, system calls needed for kernel services, failure doesn't crash OS, separate virtual address space per process. Kernel mode: OS runs here, direct resource access, privileged instructions, failure crashes OS, shared kernel memory. Mode switch via interrupts/system calls. User mode provides security, stability. Kernel mode provides performance."},
-    {"id": 23, "question": "What is Interrupt?", "answer": "Interrupt: signal halting CPU execution for urgent task. Types: hardware (I/O devices), software (programs), exceptions (CPU errors). Handling: CPU saves context, switches to kernel mode, invokes ISR (interrupt service routine), processes interrupt, restores context, resumes. Enables responsive system, efficient I/O. Interrupt priority determines handling order. Essential for managing asynchronous events."},
-    {"id": 24, "question": "What is Starvation in Scheduling?", "answer": "Starvation: process waiting indefinitely for resource/CPU. Occurs with priority scheduling when high-priority processes continuously get CPU. Example: low-priority never scheduled if high-priority always available. Solutions: aging (increase priority with wait time), round robin, fair scheduling. Different from deadlock (deadlock: circular wait; starvation: waiting indefinitely but could run)"},
-    {"id": 25, "question": "What is Busy Waiting?", "answer": "Busy waiting: process repeatedly checking condition without sleeping. Loop continuously checks without yielding CPU. Disadvantages: wastes CPU cycles, reduces efficiency, generates unnecessary load. Example: while(lock_free); Inefficient. Solutions: sleep instead of spinning, semaphores, condition variables, event-driven programming. Should be avoided for system efficiency."},
-    {"id": 26, "question": "What is Priority Inversion?", "answer": "Priority inversion: low-priority task indirectly blocks high-priority. Low-priority holds resource needed by high-priority. Example: low-priority holds lock, high-priority waits. Defeats priority scheduling. Consequences: unpredictable delays, real-time violations. Solutions: priority inheritance (low task inherits high priority), priority ceiling protocol, resource design. Important in real-time systems."},
-    {"id": 27, "question": "What is Aging in Scheduling?", "answer": "Aging: gradually increases waiting process priority preventing starvation. Each time quantum increases priority. Prevents indefinite postponement. Implementation: maintain age counter, increment each cycle, use age in priority calculation. Eventually all processes get high priority ensuring execution. Fairness mechanism in priority scheduling. Balances responsiveness with fairness."},
-    {"id": 28, "question": "What is Spooling?", "answer": "Spooling (Simultaneous Peripheral Operation On-Line): temporary storage for I/O devices. Decouples I/O device speed from CPU. Process: CPU writes to disk buffer instead of slow printer, spooler sends to printer later, CPU continues. Benefits: faster job turnaround, multiple jobs queued, better CPU utilization, printer sharing. Used for printers, tape drives. Enables efficient I/O."},
-    {"id": 29, "question": "What is Page Replacement?", "answer": "Page replacement: selecting victim page when main memory full. Process: 1) page fault occurs; 2) select victim page; 3) swap with disk; 4) load new page. Algorithms: FIFO (oldest), LRU (least recently used), optimal (used furthest future), clock (circular). Goal: minimize page faults. LRU typically efficient. Trade-off between implementation complexity and efficiency."},
-    {"id": 30, "question": "What is Belady's Anomaly?", "answer": "Belady's anomaly: phenomenon where increasing page frames increases page faults (counterintuitive). Occurs with FIFO algorithm. Doesn't occur with optimal algorithm or LRU. Significance: shows FIFO problematic, motivates better algorithms. Solutions: use non-vulnerable algorithms (LRU), implement optimal algorithm theoretically. Demonstrates algorithm choice critically important for performance."},
-    {"id": 31, "question": "What is Working Set?", "answer": "Working set: pages process actively using in time window. Dynamic, changes over time. Importance: prevents thrashing (keeping working set in memory prevents faults), predicts fault rate, memory allocation optimization. If allocated memory >= working set size, minimal faults. Larger working set needs more memory. Model used for memory management decisions."},
-    {"id": 32, "question": "What is TLB (Translation Lookaside Buffer)?", "answer": "TLB: cache storing recent virtual-to-physical address translations. Located in MMU. Benefits: speeds address translation, reduces memory access overhead, improves performance. Operation: check TLB first (hit uses translation), miss consults page table, updates TLB. TLB hit rate critical (95-99% typical). Faster than page table lookup. Essential for performance in paged systems."},
-    {"id": 33, "question": "What is Copy-on-Write (CoW)?", "answer": "Copy-on-Write: optimization postponing data copying until modification. Process: 1) parent-child share pages initially; 2) marked read-only; 3) write attempts cause fault; 4) page copied. Benefits: reduces memory usage, faster fork(), improves performance. Used in process creation, virtual memory. Reduces unnecessary copying overhead. Efficient process spawning. Transparent to applications."},
-    {"id": 34, "question": "What is Mutual Exclusion?", "answer": "Mutual exclusion: only one process accesses shared resource at time. Fundamental synchronization concept. Methods: locks, semaphores, monitors, message passing. Requirements: safety (prevents race), liveness (prevents deadlock), fairness (equitable access). Implementation considerations: overhead, complexity, performance impact. Essential for concurrent systems. Enables safe resource sharing."},
-    {"id": 35, "question": "What is Monitor?", "answer": "Monitor: high-level synchronization combining mutex and condition variables. Encapsulates shared data. Features: automatic mutual exclusion, condition variables for waiting. Operations: only one process in monitor, waiting queue for blocked processes. Advantages: prevents deadlock easily, higher abstraction, easier programming. Used in concurrent languages (Java). More structured than semaphores."},
-    {"id": 36, "question": "What is Condition Variable?", "answer": "Condition variable: synchronization primitive allowing processes to wait for conditions. Operations: wait() (releases mutex, waits), signal() (wakes one), broadcast() (wakes all). Used with mutex for efficient waiting. Example: producer-consumer. Process acquires mutex, checks condition, if false waits, when signaled retries. Efficient vs busy waiting. Standard concurrency mechanism."},
-    {"id": 37, "question": "What is Message Passing IPC?", "answer": "Message passing: inter-process communication via messages. Processes send/receive messages. Models: direct (named process), indirect (mailbox). Synchronization: blocking (waits), non-blocking (returns). Advantages: no shared memory, naturally distributed, easy synchronization. Disadvantages: overhead, slower than shared memory. Used in distributed systems, microservices. Clean isolation between processes."},
-    {"id": 38, "question": "What is Shared Memory IPC?", "answer": "Shared memory: fastest IPC mechanism, common memory region accessed by processes. Process: create segment, attach to address space, read/write, synchronize access. Advantages: fast (no kernel overhead per message), efficient large data. Disadvantages: requires synchronization, race conditions possible, complex debugging. Used when performance critical. Needs careful synchronization."},
-    {"id": 39, "question": "What is File Descriptor?", "answer": "File descriptor: non-negative integer referencing open file. Process maintains table. Standard: 0 (stdin), 1 (stdout), 2 (stderr). Operations: open() allocates, read/write uses, close() releases. Refers to file state: position, flags, permissions. Each process independent descriptors. Limited per process. Essential for file operations. Provides abstraction over file representation."},
-    {"id": 40, "question": "What is Inode in File System?", "answer": "Inode (index node): data structure storing file metadata. Contains: size, owner, permissions, timestamps, disk block pointers, type. Each file has inode. Inode number identifies file. Operations reference inode. Hard link shares inode. Symlink different inode pointing to name. Inode table stores all. Essential file system structure."},
-    {"id": 41, "question": "What is Symbolic Link?", "answer": "Symbolic link (symlink): file containing path to another file. Acts as shortcut. Types: absolute path (full), relative (relative to symlink). Properties: different inode, points to name (not inode), can cross filesystems, can be broken, can create cycles. Creation: ln -s target link. Advantages: flexible, safe to delete target. Different from hard link."},
-    {"id": 42, "question": "What is Hard Link?", "answer": "Hard link: directory entry pointing to inode. Multiple names for same file. Properties: same inode, same permissions/content, cannot cross filesystems, deleting one doesn't affect others. Link count tracked. Creation: ln target link. Benefits: efficient sharing, transparent. Limitations: cannot link directories, cannot cross filesystems. Different from symbolic link."},
-    {"id": 43, "question": "What is Caching in OS?", "answer": "Caching: storing frequently accessed data in faster memory. Levels: CPU cache (L1/L2/L3), TLB, page cache, buffer cache. Benefits: faster access, reduced latency, improved performance. Policies: replacement algorithm (LRU, FIFO), write policy (write-through, write-back). Hit rate critical. Misses costly. Transparent to programs. Essential for performance."},
-    {"id": 44, "question": "What is Disk Scheduling?", "answer": "Disk scheduling: ordering I/O requests minimizing seek time. Algorithms: FCFS (simple, inefficient), SSTF (shortest seek), SCAN (elevator), C-SCAN (circular), LOOK (modified SCAN). Goal: minimize seek time, improve throughput, reduce latency. Seek time dominates. SCAN/C-SCAN good for large workloads. Algorithm choice impacts performance significantly."},
-    {"id": 45, "question": "What is Socket?", "answer": "Socket: endpoint for network communication. Combines IP address, protocol, port. Types: stream (TCP, reliable), datagram (UDP, unreliable), raw (direct IP). Operations: socket(), bind(), listen(), accept(), connect(), send(), recv(), close(). Used for client-server communication, network programming. Abstraction hiding complexity. Essential for network applications."},
-    {"id": 46, "question": "What is Fork?", "answer": "Fork: system call creating new process (child) from existing (parent). Child nearly identical to parent. Properties: returns child PID to parent, 0 to child, copies memory, inherits file descriptors, separate process space. Benefits: process creation, multitasking. Post-fork typically exec() called. Foundation of UNIX process model. Enables process management."},
-    {"id": 47, "question": "What is Exec?", "answer": "Exec: system call replacing process image with new program. Transforms current process. Variants: execl(), execv(), execle(), execve(). Properties: same PID, same file descriptors, same limits, new code/data. Returns only on error. Usually follows fork(). Typical: fork creates process, exec loads program. Enables program execution."},
-    {"id": 48, "question": "What is Zombie Process?", "answer": "Zombie process: terminated but parent hasn't reaped exit status. Remains in process table. Causes: parent doesn't call wait(). Properties: consumes PID, minimal resources, shows <defunct> in ps. Prevention: parent calls wait(), signal handlers, init adoption. Harmless individually but indicates bug. Solution: parent must reap. Shows in process table."},
-    {"id": 49, "question": "What is Orphan Process?", "answer": "Orphan process: parent terminated. Automatically adopted by init (PID 1). Causes: parent terminates, parent crash. Properties: new parent init, init reaps status, no resources leaked, visible as init child. Generally harmless. init adoption prevents problems. Different from zombie. Resources properly managed. Acceptable in UNIX."},
-    {"id": 50, "question": "What is Signal in OS?", "answer": "Signal: software interrupt notifying process of event. Asynchronous communication. Common: SIGTERM (terminate), SIGKILL (kill), SIGSTOP (stop), SIGSEGV (segfault). Properties: handled by handlers, can block, reliable delivery. Operations: signal(), sigaction(), kill(). Usage: termination, timeout, errors, I/O completion. Essential process control mechanism."}
-  ]
+  {
+    "id": 1,
+    "question": "What is an Operating System?",
+    "answer": "An Operating System (OS) is system software that manages hardware resources and provides services to user programs. It acts as an intermediary between applications and hardware, controlling the CPU, memory, I/O devices, and files. It manages process scheduling, memory allocation, and security while offering a user interface. Examples: Linux, Windows, macOS. The OS runs in privileged kernel mode with direct hardware access while restricting applications to user mode."
+  },
+  {
+    "id": 2,
+    "question": "What are the main functions of an OS?",
+    "answer": "The main functions of an OS include: (1) Memory management – allocating and deallocating RAM; (2) Process management – creating and scheduling processes; (3) Device management – controlling I/O devices; (4) File management – storing and retrieving files; (5) Security – handling authentication and authorization; (6) Job accounting – tracking performance; and (7) Error handling – managing exceptions. These functions ensure efficiency, stability, and fair resource distribution."
+  },
+  {
+    "id": 3,
+    "question": "Difference between Process and Thread?",
+    "answer": "A Process is an independent program with its own memory space and resources. It is isolated from other processes and costly to create. A Thread, on the other hand, is a lightweight execution unit within a process that shares the same memory. Threads are cheaper to create and faster to switch between but may crash the entire process if one fails. Processes provide isolation; threads enable parallelism within a single process."
+  },
+  {
+    "id": 4,
+    "question": "What is Context Switching?",
+    "answer": "Context switching is the act of saving the state of a running process and loading the state of the next one to execute. Steps: (1) Save current context, (2) Update PCB, (3) Select next process, (4) Load new context, (5) Resume execution. It has direct costs (saving/loading state) and indirect costs (cache misses, TLB flushes). Excessive switching reduces performance, with switch times typically between microseconds to milliseconds."
+  },
+  {
+    "id": 5,
+    "question": "What is Deadlock?",
+    "answer": "A Deadlock occurs when processes wait indefinitely for resources held by each other, forming a circular wait. Coffman’s conditions: mutual exclusion, hold-and-wait, no preemption, and circular wait. Prevention involves breaking any of these conditions. Detection uses wait-for graphs to find cycles, and recovery may involve terminating or rolling back processes. Deadlocks commonly occur in database systems and file access scenarios."
+  },
+  {
+    "id": 6,
+    "question": "What is Virtual Memory?",
+    "answer": "Virtual memory allows programs to use more memory than physically available by utilizing disk space. It divides memory into pages (paging) or segments (segmentation). Missing pages cause page faults, prompting data to load from disk. Advantages: supports large programs, memory isolation, and sharing. Disadvantages: high page fault overhead and possible thrashing. Uses TLB for fast address translation. Example: Windows uses paging for virtual memory management."
+  },
+  {
+    "id": 7,
+    "question": "Paging vs Segmentation?",
+    "answer": "Paging divides memory into fixed-size blocks (pages), while Segmentation divides it into variable-size logical units (segments). Paging eliminates external fragmentation but may have internal fragmentation. Segmentation is programmer-visible and supports protection but can suffer from external fragmentation. Modern OSs often combine both, using segmented paging for efficient memory management and protection."
+  },
+  {
+    "id": 8,
+    "question": "What is Demand Paging?",
+    "answer": "Demand Paging loads a page into memory only when it’s needed, rather than preloading the entire process. When a page is accessed but not in RAM, a page fault occurs, and the OS retrieves it from disk. This saves memory and speeds up startup but increases page fault overhead. Example: In Linux, demand paging is used to optimize process startup time."
+  },
+  {
+    "id": 9,
+    "question": "What is Thrashing?",
+    "answer": "Thrashing occurs when excessive paging causes the system to spend more time swapping pages than executing processes. It happens due to insufficient RAM or too many active processes. Symptoms include high disk activity and low CPU utilization. Solutions: increase RAM, reduce the degree of multiprogramming, or use better page replacement algorithms like LRU. The Working Set Model helps predict memory needs to prevent thrashing."
+  },
+  {
+    "id": 10,
+    "question": "What are System Calls?",
+    "answer": "System calls are interfaces that allow user programs to request services from the OS kernel. They cause a switch from user mode to kernel mode. Categories: process control (fork, exec), file operations (open, read, write), device control, memory management, and interprocess communication. Example: read(fd, buffer, count). Although system calls have overhead, batching reduces their frequency to improve performance."
+  },
+
+  {
+    "id": 11,
+    "question": "What is Semaphore?",
+    "answer": "A Semaphore is a synchronization primitive that uses a counter to control access to shared resources. wait() decrements the counter and blocks if zero; signal() increments and wakes waiting processes. Types: binary (0/1, like mutex) and counting (manages multiple resources). Example: Producer-Consumer problem. Semaphores prevent race conditions and ensure mutual exclusion when properly implemented."
+  },
+  {
+    "id": 12,
+    "question": "Mutex vs Semaphore?",
+    "answer": "Mutex is a binary lock owned by a single process; only the owner can unlock it. Semaphore can be counting and is not owned; any process can signal. Mutex is simpler, faster, and ideal for mutual exclusion, while semaphore manages multiple resources or complex synchronization. Example: Mutex for single printer, Semaphore for a pool of printers."
+  },
+  {
+    "id": 13,
+    "question": "Preemptive vs Non-preemptive Scheduling?",
+    "answer": "Preemptive scheduling allows the OS to forcibly remove a process from CPU (e.g., Round Robin, Priority Scheduling) for responsiveness. Non-preemptive lets a process run until it finishes or blocks (e.g., FCFS, SJF). Preemptive prevents starvation but has overhead; non-preemptive is simpler but may cause long waits for shorter jobs."
+  },
+  {
+    "id": 14,
+    "question": "Explain FCFS Scheduling",
+    "answer": "FCFS (First Come First Served) executes processes in arrival order. Non-preemptive. Simple but suffers from convoy effect: long jobs delay shorter ones. Example: Process A(5ms), B(10ms), C(15ms) → wait times 0, 5, 15ms; average=6.67ms. Best for batch systems; unsuitable for interactive systems due to poor responsiveness."
+  },
+  {
+    "id": 15,
+    "question": "Explain SJF Scheduling",
+    "answer": "SJF (Shortest Job First) executes the process with the shortest burst time first. Can be preemptive (SRTF) or non-preemptive. Minimizes average waiting time. Example: A(5), B(10), C(15) → order: A→B→C; wait times 0,5,15ms; average=6.67ms. Limitation: may starve long jobs and requires knowledge of burst time in advance."
+  },
+  {
+    "id": 16,
+    "question": "Explain Round Robin Scheduling",
+    "answer": "Round Robin assigns each process a fixed time quantum (10–100ms). After quantum expires, the process moves to the queue's end. Fair CPU allocation and good responsiveness. Example: 3 processes with 10ms quantum cycle through CPU. Disadvantage: context switch overhead; too small quantum increases overhead, too large behaves like FCFS. Ideal for time-sharing systems."
+  },
+  {
+    "id": 17,
+    "question": "What is Priority Scheduling?",
+    "answer": "Priority Scheduling executes the highest priority process first, preemptively or non-preemptively. Low-priority processes may starve if high-priority jobs arrive continuously. Solution: aging, which gradually increases waiting process priority. Example: Real-time tasks receive higher priority to ensure deadlines. Requires careful priority assignment."
+  },
+  {
+    "id": 18,
+    "question": "What is Memory Fragmentation?",
+    "answer": "Memory fragmentation occurs when memory becomes unusable due to scattered free blocks. Types: internal (unused space within allocated block) and external (small free blocks preventing large allocation). Paging eliminates external fragmentation. Solutions: compaction, better allocation algorithms, virtual memory. Reduces system efficiency and available memory."
+  },
+  {
+    "id": 19,
+    "question": "What is Race Condition?",
+    "answer": "Race Condition happens when multiple processes access shared data concurrently, and results depend on execution order. Example: Two processes incrementing a counter simultaneously may overwrite updates. Causes unpredictable results and data corruption. Solutions: mutual exclusion using locks, semaphores, monitors, or atomic operations to protect critical sections."
+  },
+  {
+    "id": 20,
+    "question": "What is Critical Section?",
+    "answer": "Critical Section is a code segment accessing shared resources, allowing only one process at a time to prevent race conditions. Requirements: mutual exclusion (one process in section), progress (if section free, a process can enter), bounded waiting (no indefinite wait). Implemented using locks, semaphores, or monitors. Example: updating a shared bank account balance."
+  },
+  {
+    "id": 21,
+    "question": "What is Banker's Algorithm?",
+    "answer": "Banker's Algorithm is a deadlock avoidance technique that checks if allocating resources keeps the system in a safe state. Each process declares its maximum resource needs. The OS tentatively allocates resources and verifies if all processes can eventually complete. Example: If resources A=10, P1 needs 7, P2 needs 5, allocation is safe only if all processes can finish. Requires knowing maximum demands and may reduce efficiency."
+  },
+  {
+    "id": 22,
+    "question": "User Mode vs Kernel Mode?",
+    "answer": "User mode is where applications run with restricted access to hardware. Kernel mode runs OS with full access to CPU, memory, and devices. Mode switch occurs via system calls or interrupts. Example: read() syscall moves process from user to kernel mode to access disk. User mode ensures security and stability; kernel mode provides direct hardware control and performance."
+  },
+  {
+    "id": 23,
+    "question": "What is Interrupt?",
+    "answer": "Interrupt is a signal halting CPU execution to handle urgent tasks. Types: hardware (I/O), software (program), exceptions (CPU errors). Handling: CPU saves context, switches to kernel, executes ISR, restores context, resumes execution. Example: keyboard input generates interrupt to notify CPU. Interrupts allow responsive systems and efficient I/O handling."
+  },
+  {
+    "id": 24,
+    "question": "What is Starvation in Scheduling?",
+    "answer": "Starvation occurs when a process waits indefinitely for CPU/resources, often in priority scheduling if high-priority jobs continuously preempt low-priority ones. Example: a low-priority task never gets CPU. Solutions: aging (increase priority over time), round-robin, fair scheduling. Different from deadlock: in starvation, execution is possible but delayed; in deadlock, processes wait indefinitely in a cycle."
+  },
+  {
+    "id": 25,
+    "question": "What is Busy Waiting?",
+    "answer": "Busy waiting happens when a process continuously checks a condition without yielding CPU, wasting cycles. Example: while(lock_free); Disadvantages: reduces system efficiency. Solutions: use sleep, semaphores, condition variables, or event-driven programming. Avoiding busy waiting improves CPU utilization and system responsiveness."
+  },
+  {
+    "id": 26,
+    "question": "What is Priority Inversion?",
+    "answer": "Priority inversion occurs when a low-priority task holds a resource needed by a high-priority task, indirectly blocking it. Example: low-priority process holds a lock; high-priority waits. Consequences: unpredictable delays, real-time deadline misses. Solutions: priority inheritance (low task temporarily gets high priority), priority ceiling protocol. Important in real-time systems to maintain timing guarantees."
+  },
+  {
+    "id": 27,
+    "question": "What is Aging in Scheduling?",
+    "answer": "Aging prevents starvation by gradually increasing the priority of waiting processes. Example: each time quantum increases a process's priority. Eventually, all processes reach high enough priority to execute. Ensures fairness in priority scheduling while maintaining responsiveness."
+  },
+  {
+    "id": 28,
+    "question": "What is Spooling?",
+    "answer": "Spooling (Simultaneous Peripheral Operation On-Line) stores I/O data in a buffer to decouple CPU speed from slow devices. Example: CPU writes print jobs to disk buffer; spooler sends to printer later. Benefits: faster job turnaround, CPU utilization improves, multiple jobs queued, efficient peripheral management. Commonly used for printers and tape drives."
+  },
+  {
+    "id": 29,
+    "question": "What is Page Replacement?",
+    "answer": "Page Replacement selects a victim page when memory is full. Steps: 1) page fault occurs; 2) select victim; 3) swap with disk; 4) load new page. Algorithms: FIFO (first-in), LRU (least recently used), Optimal (furthest future use), Clock (circular). Goal: minimize page faults. Example: LRU replaces least recently used page in memory to load a new page."
+  },
+  {
+    "id": 30,
+    "question": "What is Belady's Anomaly?",
+    "answer": "Belady's Anomaly occurs when increasing page frames unexpectedly increases page faults, seen in FIFO algorithm. Example: a process with 3 frames has fewer page faults than with 4 frames using FIFO. Significance: shows FIFO can be counterproductive, motivating better algorithms like LRU or Optimal. Highlights importance of algorithm choice for memory management."
+  },
+
+  {
+    "id": 31,
+    "question": "What is Working Set?",
+    "answer": "Working Set is the set of pages a process actively uses in a given time window. Importance: keeps frequently used pages in memory to prevent thrashing. Example: a process accessing pages 1,2,3 repeatedly has a working set of {1,2,3}. If allocated memory ≥ working set, page faults are minimal. Used in memory management to optimize allocation and system performance."
+  },
+  {
+    "id": 32,
+    "question": "What is TLB (Translation Lookaside Buffer)?",
+    "answer": "TLB is a cache storing recent virtual-to-physical address translations, located in the MMU. Benefits: speeds up address translation, reduces memory access overhead. Operation: TLB hit uses cached translation; miss consults page table and updates TLB. Example: CPU accessing memory page 0x1F finds translation in TLB for fast access. Hit rate critical for performance."
+  },
+  {
+    "id": 33,
+    "question": "What is Copy-on-Write (CoW)?",
+    "answer": "Copy-on-Write is an optimization delaying page copying until modification. Process: 1) parent-child share pages marked read-only; 2) write causes page fault; 3) OS copies page; 4) child modifies. Example: fork() in UNIX shares memory until either process writes. Benefits: reduces memory usage, faster process creation, efficient resource utilization."
+  },
+  {
+    "id": 34,
+    "question": "What is Mutual Exclusion?",
+    "answer": "Mutual Exclusion ensures only one process accesses a shared resource at a time, preventing race conditions. Methods: locks, semaphores, monitors. Example: two threads incrementing a counter use a mutex to avoid simultaneous access. Requirements: safety (no conflicts), liveness (process eventually proceeds), fairness (equitable access). Essential for safe concurrent execution."
+  },
+  {
+    "id": 35,
+    "question": "What is Monitor?",
+    "answer": "Monitor is a high-level synchronization construct combining mutual exclusion and condition variables. Features: only one process executes inside, blocked processes wait in a queue. Example: Java synchronized methods use monitor concept. Advantages: simplifies synchronization, reduces deadlock risk, easier programming than semaphores. Encapsulates shared data and operations safely."
+  },
+  {
+    "id": 36,
+    "question": "What is Condition Variable?",
+    "answer": "Condition Variable allows processes to wait for a condition while releasing a mutex. Operations: wait() (block until signaled), signal() (wake one), broadcast() (wake all). Example: producer-consumer uses condition variables to wait when buffer empty/full. Efficient compared to busy waiting. Essential for coordinated thread execution."
+  },
+  {
+    "id": 37,
+    "question": "What is Message Passing IPC?",
+    "answer": "Message Passing is inter-process communication using messages. Processes send/receive messages either directly (named process) or indirectly (mailbox). Synchronization: blocking (waits) or non-blocking. Example: process A sends 'data ready' message to B. Advantages: no shared memory, naturally distributed, easy synchronization. Disadvantages: slower than shared memory."
+  },
+  {
+    "id": 38,
+    "question": "What is Shared Memory IPC?",
+    "answer": "Shared Memory IPC allows processes to communicate via a common memory segment. Fastest IPC method. Process: create segment, attach, read/write, synchronize. Example: two processes share a buffer to exchange data. Advantages: high performance for large data. Disadvantages: requires careful synchronization (locks, semaphores), debugging complex."
+  },
+  {
+    "id": 39,
+    "question": "What is File Descriptor?",
+    "answer": "File Descriptor is a non-negative integer referencing an open file in a process's table. Standard: 0(stdin), 1(stdout), 2(stderr). Operations: open() allocates, read/write access, close() releases. Example: fd=3 after open('file.txt'); read(fd, buf, 100). Provides abstraction over file and device operations, isolates processes' file states."
+  },
+  {
+    "id": 40,
+    "question": "What is Inode in File System?",
+    "answer": "Inode (Index Node) stores metadata about a file: size, owner, permissions, timestamps, disk block pointers, type. Each file has an inode identified by inode number. Example: reading /etc/passwd accesses its inode to get file info and locate blocks. Essential for filesystem structure, enables operations like hard links and efficient file access."
+  },
+
+  {
+    "id": 41,
+    "question": "What is Symbolic Link?",
+    "answer": "Symbolic Link (symlink) is a file containing the path to another file, acting as a shortcut. Properties: different inode, points to file name, can cross filesystems, may break if target deleted. Example: ln -s /home/user/file.txt link.txt creates a symlink. Advantage: flexible references, safe to delete target. Different from hard link, which shares inode."
+  },
+  {
+    "id": 42,
+    "question": "What is Hard Link?",
+    "answer": "Hard Link is a directory entry pointing to the same inode as the original file. Properties: shares inode, same content/permissions, cannot cross filesystems, deleting one doesn't affect others. Example: ln file.txt hardlink.txt creates a hard link. Advantage: efficient storage, transparent access. Different from symbolic link, which has a separate inode and points to file name."
+  },
+  {
+    "id": 43,
+    "question": "What is Caching in OS?",
+    "answer": "Caching stores frequently accessed data in faster memory to reduce latency. Levels: CPU cache (L1/L2/L3), TLB, page cache, buffer cache. Example: recently used disk blocks cached in RAM for faster access. Policies: replacement algorithms (LRU, FIFO), write strategies (write-back, write-through). Benefits: faster access, better performance. Misses are slower but hit rates often high (95-99%)."
+  },
+  {
+    "id": 44,
+    "question": "What is Disk Scheduling?",
+    "answer": "Disk Scheduling orders I/O requests to minimize seek time and improve throughput. Algorithms: FCFS (simple), SSTF (shortest seek), SCAN (elevator), C-SCAN (circular), LOOK (modified SCAN). Example: requests at cylinders 10, 20, 30; SCAN moves in one direction servicing sequentially. Efficient scheduling reduces latency and improves disk performance, especially for heavy workloads."
+  },
+  {
+    "id": 45,
+    "question": "What is Socket?",
+    "answer": "Socket is an endpoint for network communication combining IP address, port, and protocol. Types: stream (TCP), datagram (UDP), raw (direct IP). Example: socket(), bind(), listen(), accept(), send(), recv(), close(). Used in client-server applications for exchanging data. Abstracts networking complexity, enabling reliable (TCP) or fast (UDP) communication between processes or systems."
+  },
+  {
+    "id": 46,
+    "question": "What is Fork?",
+    "answer": "Fork is a system call creating a new process (child) from an existing one (parent). Properties: child gets a copy of parent's memory, file descriptors, PID returned differently to parent (child PID) and child (0). Example: pid=fork(); child executes code separately. Used for multitasking, process creation, often followed by exec() to load a new program."
+  },
+  {
+    "id": 47,
+    "question": "What is Exec?",
+    "answer": "Exec is a system call replacing a process’s memory image with a new program while keeping the same PID. Variants: execl(), execv(), execle(), execve(). Example: fork() creates child, execv() loads new program. Benefits: efficient program execution, allows process to run different code without creating new PID. Returns only on error."
+  },
+  {
+    "id": 48,
+    "question": "What is Zombie Process?",
+    "answer": "Zombie Process is a terminated process whose parent hasn't collected its exit status. Remains in process table, consumes PID but minimal resources. Example: after child exit, ps shows <defunct>. Prevention: parent calls wait() or signal handler, init adopts if parent terminates. Harmless individually but indicates improper process cleanup."
+  },
+  {
+    "id": 49,
+    "question": "What is Orphan Process?",
+    "answer": "Orphan Process is a process whose parent has terminated. Automatically adopted by init (PID 1) which reaps it to prevent resource leaks. Example: parent exits while child continues running; child becomes orphan. Properties: safe, no resources leaked, different from zombie which remains until parent collects status."
+  },
+  {
+    "id": 50,
+    "question": "What is Signal in OS?",
+    "answer": "Signal is a software interrupt notifying a process of an event asynchronously. Common signals: SIGTERM (terminate), SIGKILL (kill), SIGSTOP (stop), SIGSEGV (segmentation fault). Handled by signal handlers, can be blocked, sent via signal(), sigaction(), or kill(). Example: process receives SIGTERM to terminate gracefully. Essential for process control, error handling, and inter-process communication."
+  }
+]
+
 }

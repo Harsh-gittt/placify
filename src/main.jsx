@@ -13,8 +13,10 @@ import ResumeView from "./components/resume/ResumeView.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { ChatProvider } from "./context/ChatContext.jsx";
 import Layout from "./components/Layout.jsx";
+import AptitudeQuestions from "./components/AptitudeQuestions.jsx";
 
 const router = createBrowserRouter([
+<<<<<<< HEAD
   {
     path: "/",
     element: (
@@ -79,6 +81,15 @@ const router = createBrowserRouter([
       </Layout>
     ),
   },
+=======
+  { path: "/", element: <Layout><App /></Layout> },
+  { path: "/dsa", element: <Layout><Dsa /></Layout> },
+  { path: "/study-partner", element: <Layout><StudyPartner /></Layout> },
+  { path: "/internships", element: <Layout><Internships /></Layout> },
+  { path: "/resources", element: <Layout><Resources /></Layout> },
+  { path: "/hr", element: <Layout><Hr /></Layout> },
+  { path: "/aptitude-questions", element: <Layout><AptitudeQuestions /></Layout> },
+>>>>>>> origin/main
 ]);
 
 createRoot(document.getElementById("root")).render(
