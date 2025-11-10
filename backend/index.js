@@ -34,6 +34,8 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
       "http://localhost:3000",
+      "http://localhost:5175",
+
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -887,7 +889,6 @@ app.get("/api/chat/:connectionId", userauthmiddleware, async (req, res) => {
 });
 
 // ✅ POST send message (auto-prune to 100 messages per connection)
-// ✅ POST send message (auto-prune to 100 messages per connection)
 app.post("/api/chat", userauthmiddleware, async (req, res) => {
   try {
     const userId = req.id;
@@ -1019,24 +1020,57 @@ app.post("/api/chat", userauthmiddleware, async (req, res) => {
 
 async function main() {
   try {
+    // Check environment variables
     if (!mongodb_url) {
-      throw new Error("mongodb_url not found in environment variables");
+      console.error("❌ ERROR: mongodb_url not found in environment variables");
+      console.error("   Please create a .env file with: mongodb_url=your_mongodb_connection_string");
+      process.exit(1);
     }
     if (!jwt_secret_key) {
-      throw new Error("secret_key not found in environment variables");
+      console.error("❌ ERROR: secret_key not found in environment variables");
+      console.error("   Please create a .env file with: secret_key=your_jwt_secret_key");
+      process.exit(1);
     }
 
-    await mongoose.connect(mongodb_url);
+    // Connect to MongoDB with better error handling
+    console.log("🔄 Connecting to MongoDB...");
+    await mongoose.connect(mongodb_url, {
+      serverSelectionTimeoutMS: 5000,
+    });
     console.log("✅ Connected to MongoDB");
 
+    // Handle MongoDB connection errors
+    mongoose.connection.on("error", (err) => {
+      console.error("❌ MongoDB connection error:", err.message);
+    });
+
+    mongoose.connection.on("disconnected", () => {
+      console.warn("⚠️ MongoDB disconnected");
+    });
+
+    // Start server
     server.listen(PORT, () => {
       console.log(`\n🚀 Server running at http://localhost:${PORT}`);
       console.log(`🔐 JWT authentication: ENABLED`);
       console.log(`🟢 Socket.io: ENABLED`);
       console.log(`📡 Waiting for connections...\n`);
     });
+
+    // Handle server errors
+    server.on("error", (err) => {
+      if (err.code === "EADDRINUSE") {
+        console.error(`❌ Port ${PORT} is already in use`);
+        console.error(`   Please stop the other process or change the PORT in .env`);
+      } else {
+        console.error("❌ Server error:", err.message);
+      }
+      process.exit(1);
+    });
   } catch (error) {
     console.error("❌ Server startup error:", error.message);
+    if (error.name === "MongoServerSelectionError") {
+      console.error("   Make sure MongoDB is running and the connection string is correct");
+    }
     process.exit(1);
   }
 }
