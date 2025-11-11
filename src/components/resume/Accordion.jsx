@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { useTheme } from "../../context/ThemeContext";
 
 const AccordionContext = createContext(undefined);
 
@@ -38,8 +39,11 @@ export const Accordion = ({
 };
 
 export const AccordionItem = ({ id, children, className = "" }) => {
+  const { darkMode } = useTheme();
   return (
-    <div className={`overflow-hidden border-b border-gray-200 ${className}`}>
+    <div className={`overflow-hidden border-b transition-colors duration-300 ${
+      darkMode ? 'border-gray-800' : 'border-gray-200'
+    } ${className}`}>
       {children}
     </div>
   );
@@ -52,14 +56,16 @@ export const AccordionHeader = ({
   icon,
   iconPosition = "right",
 }) => {
+  const { darkMode } = useTheme();
   const { toggleItem, isItemActive } = useAccordion();
   const isActive = isItemActive(itemId);
 
   const defaultIcon = (
     <svg
-      className={`w-5 h-5 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`}
+      className={`w-5 h-5 transition-all duration-300 ${isActive ? "rotate-180" : ""} ${
+        darkMode ? "stroke-gray-400" : "stroke-gray-600"
+      }`}
       fill="none"
-      stroke="#98A2B3"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -79,7 +85,11 @@ export const AccordionHeader = ({
   return (
     <button
       onClick={handleClick}
-      className={`w-full px-4 py-3 text-left focus:outline-none transition-colors duration-200 flex items-center justify-between cursor-pointer ${className}`}
+      className={`w-full px-4 py-3 text-left focus:outline-none transition-all duration-200 flex items-center justify-between cursor-pointer hover:bg-opacity-50 ${
+        darkMode 
+          ? 'hover:bg-gray-800 text-gray-200' 
+          : 'hover:bg-gray-50 text-gray-900'
+      } ${className}`}
     >
       <div className="flex items-center space-x-3">
         {iconPosition === "left" && (icon || defaultIcon)}

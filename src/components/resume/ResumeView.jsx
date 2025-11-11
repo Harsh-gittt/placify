@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 import usePuterStore from "../../lib/puter";
 import { PuterInit } from "./PuterInit";
 import Summary from "./Summary";
@@ -8,6 +9,7 @@ import Details from "./Details";
 import { normalizeFeedback } from "../../lib/utils";
 
 const ResumeView = () => {
+  const { darkMode } = useTheme();
   const { id } = useParams();
   const { kv, fs } = usePuterStore();
   const [resumeUrl, setResumeUrl] = useState("");
@@ -43,22 +45,35 @@ const ResumeView = () => {
   if (!id) return <div>No resume id provided</div>;
 
   return (
-    <main className="!pt-0 min-h-screen">
+    <main className={`!pt-0 min-h-screen transition-colors duration-300 ${darkMode ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
       <PuterInit />
-      <nav className="resume-nav">
-        <Link to="/" className="back-button">
+      <nav className={`resume-nav transition-colors duration-300 ${darkMode ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200'}`}>
+        <Link 
+          to="/" 
+          className={`back-button transition-all duration-200 hover:scale-105 ${
+            darkMode 
+              ? 'bg-[#121212] border-gray-700 hover:bg-[#1a1a1a] text-gray-300' 
+              : 'bg-white border-gray-200 hover:bg-gray-50 text-gray-800'
+          }`}
+        >
           <img src="/icons/back.svg" alt="logo" className="w-2.5 h-2.5" />
-          <span className="text-gray-800 text-sm font-semibold">Back to Homepage</span>
+          <span className={`text-sm font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-800'}`}>
+            Back to Homepage
+          </span>
         </Link>
       </nav>
       <div className="flex flex-row w-full max-lg:flex-col-reverse">
-        <section className="feedback-section bg-[url('/images/bg-small.svg')] bg-cover h-[100vh] max-lg:h-auto max-lg:min-h-[400px] sticky top-0 max-lg:relative flex items-center justify-center overflow-y-auto max-lg:overflow-visible">
+        <section className={`feedback-section transition-colors duration-300 ${
+          darkMode 
+            ? 'bg-[#121212]' 
+            : 'bg-[url(\'/images/bg-small.svg\')]'
+        } bg-cover h-[100vh] max-lg:h-auto max-lg:min-h-[400px] sticky top-0 max-lg:relative flex items-center justify-center overflow-y-auto max-lg:overflow-visible`}>
           {imageUrl && resumeUrl && (
-            <div className="animate-in fade-in duration-1000 gradient-border max-sm:m-2 m-4 h-[90%] max-lg:h-auto max-wxl:h-fit w-fit max-w-full">
+            <div className="animate-in fade-in zoom-in duration-1000 gradient-border max-sm:m-2 m-4 h-[90%] max-lg:h-auto max-wxl:h-fit w-fit max-w-full hover:scale-105 transition-transform duration-300">
               <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="block">
                 <img
                   src={imageUrl}
-                  className="w-full h-full max-lg:max-h-[500px] object-contain rounded-2xl"
+                  className="w-full h-full max-lg:max-h-[500px] object-contain rounded-2xl shadow-2xl"
                   title="resume"
                   alt="Resume preview"
                 />
@@ -67,7 +82,9 @@ const ResumeView = () => {
           )}
         </section>
         <section className="feedback-section max-lg:px-4">
-          <h2 className="text-4xl max-md:text-2xl max-sm:text-xl !text-black font-bold mb-4">
+          <h2 className={`text-4xl max-md:text-2xl max-sm:text-xl font-bold mb-4 animate-in fade-in slide-in-from-top-4 duration-700 ${
+            darkMode ? 'text-white' : 'text-gray-900'
+          }`}>
             Resume Review
           </h2>
           {feedback ? (
@@ -80,11 +97,13 @@ const ResumeView = () => {
               <Details feedback={feedback} />
             </div>
           ) : (
-            <img
-              src="/images/resume-scan-2.gif"
-              className="w-full max-w-md mx-auto"
-              alt="Loading resume analysis"
-            />
+            <div className="animate-pulse">
+              <img
+                src="/images/resume-scan-2.gif"
+                className="w-full max-w-md mx-auto"
+                alt="Loading resume analysis"
+              />
+            </div>
           )}
         </section>
       </div>

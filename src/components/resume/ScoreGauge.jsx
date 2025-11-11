@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "../../context/ThemeContext";
 
 const ScoreGauge = ({ score = 75 }) => {
+  const { darkMode } = useTheme();
   const [pathLength, setPathLength] = useState(0);
+  const [animatedScore, setAnimatedScore] = useState(0);
   const pathRef = useRef(null);
 
   const percentage = score / 100;
@@ -11,6 +14,26 @@ const ScoreGauge = ({ score = 75 }) => {
       setPathLength(pathRef.current.getTotalLength());
     }
   }, []);
+
+  useEffect(() => {
+    let startTime = null;
+    const duration = 1500;
+    const startScore = 0;
+    const endScore = score;
+
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+      setAnimatedScore(Math.round(startScore + (endScore - startScore) * easeOutCubic));
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [score]);
 
   return (
     <div className="flex flex-col items-center">
@@ -27,7 +50,7 @@ const ScoreGauge = ({ score = 75 }) => {
           <path
             d="M10,50 A40,40 0 0,1 90,50"
             fill="none"
-            stroke="#e5e7eb"
+            stroke={darkMode ? "#374151" : "#e5e7eb"}
             strokeWidth="10"
             strokeLinecap="round"
           />
@@ -42,12 +65,15 @@ const ScoreGauge = ({ score = 75 }) => {
             strokeLinecap="round"
             strokeDasharray={pathLength}
             strokeDashoffset={pathLength * (1 - percentage)}
+            className="transition-all duration-1500 ease-out"
           />
         </svg>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center pt-2">
-          <div className="text-xl max-md:text-lg max-sm:text-base font-semibold pt-4 max-md:pt-3 max-sm:pt-2">
-            {score}/100
+          <div className={`text-xl max-md:text-lg max-sm:text-base font-semibold pt-4 max-md:pt-3 max-sm:pt-2 transition-all duration-300 ${
+            darkMode ? 'text-white' : 'text-gray-900'
+          }`}>
+            {animatedScore}/100
           </div>
         </div>
       </div>
