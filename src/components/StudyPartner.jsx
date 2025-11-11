@@ -164,6 +164,20 @@ function StudyPartner() {
     fetchPartners();
   }, []);
 
+  // ✅ Retry fetching partners if error occurs (only for network errors)
+  useEffect(() => {
+    if (error && !loading && error.includes("Cannot connect to server")) {
+      // Auto-retry after 5 seconds if there's a network error
+      const retryTimer = setTimeout(() => {
+        console.log("🔄 Auto-retrying to fetch partners...");
+        fetchPartners();
+      }, 5000);
+      
+      return () => clearTimeout(retryTimer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, loading]);
+
   // ✅ Register user online and listen for socket events (dispatched to Navbar)
 
   async function fetchCurrentUser() {
@@ -188,18 +202,53 @@ function StudyPartner() {
   async function fetchPartners() {
     try {
       setLoading(true);
-      const res = await fetch(`${BACKEND_URL}/api/partners`);
+      setError(null);
+      
+      const res = await fetch(`${BACKEND_URL}/api/partners`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
+        let errorMessage = `HTTP ${res.status}`;
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch (e) {
+          // If response is not JSON, use status text
+          errorMessage = res.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
 
       const data = await res.json();
-      setPartners(data);
-      setError(null);
+      
+      // Ensure data is an array
+      if (Array.isArray(data)) {
+        setPartners(data);
+        setError(null);
+      } else {
+        console.warn("⚠️ Partners data is not an array:", data);
+        setPartners([]);
+        setError("Invalid data format received");
+      }
     } catch (err) {
       console.error("❌ Fetch partners error:", err);
-      setError("Failed to load partners");
+      
+      // More specific error messages
+      let errorMessage = "Failed to load partners";
+      if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
+        errorMessage = "Cannot connect to server. Please check if the backend is running.";
+      } else if (err.message.includes("HTTP")) {
+        errorMessage = `Server error: ${err.message}`;
+      } else {
+        errorMessage = err.message || "Failed to load partners";
+      }
+      
+      setError(errorMessage);
+      setPartners([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -345,6 +394,7 @@ function StudyPartner() {
         darkMode ? "bg-black text-white" : "bg-white text-gray-900"
       }`}
     >
+      <Navbar />
       <div className="px-8">
         {myPartner ? (
           <div
@@ -404,10 +454,15 @@ function StudyPartner() {
 
         {error && (
           <div className="text-center py-12">
-            <p className="text-red-500 mb-4">{error}</p>
+            <p className={`text-lg mb-2 ${darkMode ? "text-red-400" : "text-red-500"}`}>
+              {error}
+            </p>
+            <p className={`text-sm mb-4 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+              Please check your connection and try again.
+            </p>
             <button
               onClick={fetchPartners}
-              className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-lg"
+              className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
             >
               Retry
             </button>

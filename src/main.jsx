@@ -8,19 +8,86 @@ import StudyPartner from "./components/StudyPartner.jsx";
 import Internships from "./components/Internships.jsx";
 import Resources from "./components/Resources.jsx";
 import Hr from "./components/Hr.jsx";
+import ResumeUpload from "./components/resume/Upload.jsx";
+import ResumeView from "./components/resume/ResumeView.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { ChatProvider } from "./context/ChatContext.jsx";
 import Layout from "./components/Layout.jsx";
 import AptitudeQuestions from "./components/AptitudeQuestions.jsx";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Layout><App /></Layout> },
-  { path: "/dsa", element: <Layout><Dsa /></Layout> },
-  { path: "/study-partner", element: <Layout><StudyPartner /></Layout> },
-  { path: "/internships", element: <Layout><Internships /></Layout> },
-  { path: "/resources", element: <Layout><Resources /></Layout> },
-  { path: "/hr", element: <Layout><Hr /></Layout> },
-  { path: "/aptitude-questions", element: <Layout><AptitudeQuestions /></Layout> },
+  {
+    path: "/",
+    element: (
+      <Layout>
+        <App />
+      </Layout>
+    ),
+  },
+  {
+    path: "/dsa",
+    element: (
+      <Layout>
+        <Dsa />
+      </Layout>
+    ),
+  },
+  {
+    path: "/study-partner",
+    element: (
+      <Layout>
+        <StudyPartner />
+      </Layout>
+    ),
+  },
+  {
+    path: "/internships",
+    element: (
+      <Layout>
+        <Internships />
+      </Layout>
+    ),
+  },
+  {
+    path: "/resources",
+    element: (
+      <Layout>
+        <Resources />
+      </Layout>
+    ),
+  },
+  {
+    path: "/resume",
+    element: (
+      <Layout>
+        <ResumeUpload />
+      </Layout>
+    ),
+  },
+  {
+    path: "/resume/:id",
+    element: (
+      <Layout>
+        <ResumeView />
+      </Layout>
+    ),
+  },
+  {
+    path: "/hr",
+    element: (
+      <Layout>
+        <Hr />
+      </Layout>
+    ),
+  },
+  {
+    path: "/aptitude-questions",
+    element: (
+      <Layout>
+        <AptitudeQuestions />
+      </Layout>
+    ),
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
