@@ -96,7 +96,7 @@ function ResourcesGrid() {
     {
       title: "Fix Your Resume",
       subtitle: "Optimize your resume to get more interviews",
-      to: "/resources",
+      to: "/resume",
       bg: "[#D6666A]",
       image: resumeImg,
     },
