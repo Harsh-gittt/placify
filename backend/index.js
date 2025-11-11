@@ -35,7 +35,6 @@ app.use(
       "http://localhost:5174",
       "http://localhost:3000",
       "http://localhost:5175",
-
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -53,6 +52,7 @@ const io = new Server(server, {
       "http://localhost:5173",
       "http://localhost:5174",
       "http://localhost:3000",
+      "http://localhost:5175",
     ],
     methods: ["GET", "POST"],
     credentials: true,
