@@ -21,7 +21,7 @@ const ScoreBadge = ({ score }) => {
 
   return (
     <div
-      className={`flex flex-row gap-1 items-center px-2 py-0.5 rounded-[96px] transition-all duration-300 animate-in zoom-in duration-500 ${getBadgeClasses(
+      className={`flex flex-row gap-1 items-center px-2 py-0.5 rounded-[96px] transition-all  animate-in zoom-in duration-500 ${getBadgeClasses(
         score
       )}`}
     >

@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const http = require("http");
 const { Server } = require("socket.io");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 require("dotenv").config();
 
@@ -22,12 +23,21 @@ const PORT = process.env.PORT || 3000;
 const mongodb_url = process.env.mongodb_url;
 const jwt_secret_key = process.env.secret_key;
 const SALT_ROUNDS = 10;
+const geminiApiKey = process.env.GEMINI_API_KEY;
+
+let geminiModel = null;
+if (geminiApiKey) {
+  const genAI = new GoogleGenerativeAI(geminiApiKey);
+  geminiModel = genAI.getGenerativeModel({
+    model: "gemini-2.0-flash-lite",
+  });
+} else {
+  console.warn(
+    "⚠️ GEMINI_API_KEY not configured. /api/generate-questions will return an error."
+  );
+}
 
 app.use(express.json());
-
-// ============================================================================
-// CORS CONFIGURATION
-// ============================================================================
 app.use(
   cors({
     origin: [
@@ -41,6 +51,153 @@ app.use(
     credentials: true,
   })
 );
+app.post("/api/generate-questions", async (req, res) => {
+  try {
+    const { company } = req.body || {};
+    if (!company || typeof company !== "string" || !company.trim()) {
+      return res.status(400).json({ error: "Company is required" });
+    }
+
+    if (!geminiModel) {
+      return res.status(500).json({ error: "Unable to fetch questions" });
+    }
+
+    const normalizedCompany = company.trim();
+    const prompt = `
+You are an assistant that only outputs strict JSON.
+Return a JSON object with a single property named "questions" whose value is an array containing 25 to 30 objects.
+Each object must have exactly these properties: "question" (string), "difficulty" (one of "easy", "medium", "hard"), "topic" (string), and "links" (object with keys "leetcode", "geeksforgeeks", "codingninjas").
+Generate interview-style DSA questions that were recently asked by ${normalizedCompany} for software engineering interviews in 2025, covering Arrays, Strings, Linked Lists, Trees, Graphs, Recursion, and Dynamic Programming.
+For each question, include available practice links from LeetCode, GeeksforGeeks, or Coding Ninjas. Use an empty string when a link is not available.
+Format strictly as:
+{
+  "questions": [
+    {
+      "question": "string",
+      "difficulty": "easy|medium|hard",
+      "topic": "string",
+      "links": {
+        "leetcode": "url or empty string",
+        "geeksforgeeks": "url or empty string",
+        "codingninjas": "url or empty string"
+      }
+    }
+  ]
+}
+Do not include explanations, markdown, or any additional fields.
+`.trim();
+
+    const result = await geminiModel.generateContent({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: prompt }],
+        },
+      ],
+      generationConfig: {
+        temperature: 0.7,
+        responseMimeType: "application/json",
+      },
+    });
+
+    const rawContent =
+      typeof result?.response?.text === "function"
+        ? result.response.text()
+        : "";
+    const trimmed = typeof rawContent === "string" ? rawContent.trim() : "";
+    if (!trimmed) {
+      console.error(
+        "❌ Gemini response missing text payload",
+        result?.response
+      );
+      throw new Error("Empty response from Gemini");
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(trimmed);
+    } catch (parseError) {
+      console.error("❌ Failed to parse Gemini response:", trimmed);
+      throw new Error("Invalid response format");
+    }
+
+    const candidate = Array.isArray(parsed)
+      ? parsed
+      : Array.isArray(parsed?.questions)
+      ? parsed.questions
+      : null;
+
+    if (!candidate) {
+      console.error("❌ Unexpected Gemini payload shape:", parsed);
+      throw new Error("Invalid response format");
+    }
+
+    const sanitized = candidate
+      .filter((item) => item && typeof item.question === "string")
+      .map((item, index) => {
+        const question = item.question.trim();
+        const difficultyRaw =
+          typeof item.difficulty === "string"
+            ? item.difficulty.trim().toLowerCase()
+            : "medium";
+        const topic =
+          typeof item.topic === "string" && item.topic.trim().length > 0
+            ? item.topic.trim()
+            : "General";
+        const difficulty = ["easy", "medium", "hard"].includes(difficultyRaw)
+          ? difficultyRaw
+          : "medium";
+
+        const rawLinks =
+          item && typeof item.links === "object" && item.links !== null
+            ? item.links
+            : {};
+        const normalizeLink = (value) =>
+          typeof value === "string" && value.trim() ? value.trim() : "";
+        const links = {
+          leetcode: normalizeLink(rawLinks.leetcode),
+          geeksforgeeks: normalizeLink(rawLinks.geeksforgeeks),
+          codingninjas: normalizeLink(rawLinks.codingninjas),
+        };
+
+        return {
+          question: question || `Question ${index + 1}`,
+          difficulty,
+          topic,
+          links,
+        };
+      })
+      .slice(0, 30);
+
+    res.json(sanitized);
+  } catch (err) {
+    console.error("❌ Error fetching questions:", err);
+
+    const status = err?.status || err?.response?.status || 500;
+    let message = err?.message || "Unable to fetch questions";
+
+    if (status === 429) {
+      message =
+        "Gemini API quota exceeded. Please review your billing plan or try again later.";
+    } else if (status === 403) {
+      message =
+        "Gemini API request was forbidden. Verify the model access and API key permissions.";
+    }
+
+    let details = undefined;
+    const response = err?.response;
+    if (response?.text) {
+      try {
+        const body = await response.text();
+        details = body;
+      } catch (readErr) {
+        console.error("❌ Unable to read Gemini error payload:", readErr);
+      }
+    }
+
+    res.status(status).json({ error: message, details });
+  }
+});
 
 // ============================================================================
 // SOCKET.IO SETUP WITH USER TRACKING
@@ -1023,12 +1180,16 @@ async function main() {
     // Check environment variables
     if (!mongodb_url) {
       console.error("❌ ERROR: mongodb_url not found in environment variables");
-      console.error("   Please create a .env file with: mongodb_url=your_mongodb_connection_string");
+      console.error(
+        "   Please create a .env file with: mongodb_url=your_mongodb_connection_string"
+      );
       process.exit(1);
     }
     if (!jwt_secret_key) {
       console.error("❌ ERROR: secret_key not found in environment variables");
-      console.error("   Please create a .env file with: secret_key=your_jwt_secret_key");
+      console.error(
+        "   Please create a .env file with: secret_key=your_jwt_secret_key"
+      );
       process.exit(1);
     }
 
@@ -1060,7 +1221,9 @@ async function main() {
     server.on("error", (err) => {
       if (err.code === "EADDRINUSE") {
         console.error(`❌ Port ${PORT} is already in use`);
-        console.error(`   Please stop the other process or change the PORT in .env`);
+        console.error(
+          `   Please stop the other process or change the PORT in .env`
+        );
       } else {
         console.error("❌ Server error:", err.message);
       }
@@ -1069,7 +1232,9 @@ async function main() {
   } catch (error) {
     console.error("❌ Server startup error:", error.message);
     if (error.name === "MongoServerSelectionError") {
-      console.error("   Make sure MongoDB is running and the connection string is correct");
+      console.error(
+        "   Make sure MongoDB is running and the connection string is correct"
+      );
     }
     process.exit(1);
   }
