@@ -135,6 +135,11 @@ const MockInterviewSchema = new Schema(
       },
     ],
     score: { type: Number },
+    categoryScores: {
+      presentation: { type: Number },
+      communication: { type: Number },
+      subject: { type: Number },
+    },
     summary: { type: String },
     improvements: [{ type: String }],
     createdAt: { type: Date, default: Date.now },
