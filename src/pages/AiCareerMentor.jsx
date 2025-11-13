@@ -79,7 +79,7 @@ function AiCareerMentor() {
     <div className={`${darkMode ? "bg-black text-white" : "bg-white text-gray-800"} min-h-[calc(100dvh-4rem)] w-full`}>
       {/* Hero */}
       <section className="px-6 pt-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className={`rounded-2xl p-8 sm:p-10 border shadow-[0_10px_40px_rgba(0,0,0,0.25)] bg-gradient-to-br from-orange-500/10 to-purple-500/10 ${darkMode ? "border-gray-800" : "border-gray-200"}`}>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-purple-500">AI Career Mentor</span>
@@ -93,7 +93,7 @@ function AiCareerMentor() {
 
       {/* Form */}
       <section className="px-6 mt-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className={`${darkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} rounded-2xl shadow-lg border p-6 sm:p-8`}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="md:col-span-2">
@@ -148,62 +148,60 @@ function AiCareerMentor() {
 
       {/* Results & Preparation */}
       <section className="px-6 mt-6 mb-10">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {resultText && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Insights */}
-              <div className="lg:col-span-2">
-                <div className={`${darkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} rounded-2xl shadow-lg border p-6`}>
-                  <h2 className="text-2xl font-bold">Career Insights</h2>
-                  <p className="text-sm opacity-70 mb-4">Structured summary based on AI response</p>
-                  {sections ? (
-                    <div className="space-y-5">
-                      {Object.entries(sections).map(([label, content]) => (
-                        <SectionBlock key={label} label={label} content={content} darkMode={darkMode} />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className={`${darkMode ? "bg-[#0f0f0f] border-gray-800" : "bg-gray-100 border-gray-200"} p-4 rounded-lg border`}>
-                      <div className="text-base whitespace-pre-wrap leading-relaxed">
-                        {resultText}
-                      </div>
-                    </div>
-                  )}
+            <div className={`${darkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} rounded-2xl shadow-lg border p-6 sm:p-8`}>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
+                <h2 className="text-2xl font-bold">Career Insights</h2>
+                <span className="text-sm opacity-70">Structured summary based on AI response</span>
+              </div>
+
+              {/* Horizontal Preparation & Practice */}
+              <div className="mb-6 -mx-2 overflow-x-auto">
+                <div className="px-2 flex items-stretch gap-3 min-w-max">
+                  <Link className="block" to="/dsa">
+                    <PrepLink label="DSA Practice" description="Ace problem-solving" color="from-orange-500 to-pink-500" />
+                  </Link>
+                  <Link className="block" to="/aptitude-questions">
+                    <PrepLink label="Aptitude" description="Quantitative & logical" color="from-blue-500 to-cyan-500" />
+                  </Link>
+                  <Link className="block" to="/hr">
+                    <PrepLink label="HR & Behavioral" description="Interview behaviors" color="from-purple-500 to-violet-500" />
+                  </Link>
+                  <Link className="block" to="/resources">
+                    <PrepLink label="Core Subjects" description="OS • DBMS • CN" color="from-emerald-500 to-teal-500" />
+                  </Link>
+                  <Link className="block" to="/mock-interview">
+                    <PrepLink label="Mock Interview" description="Simulate rounds" color="from-red-500 to-orange-500" />
+                  </Link>
                 </div>
               </div>
 
-              {/* Practice & Preparation */}
-              <aside>
-                <div className={`${darkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} rounded-2xl shadow-lg border p-6`}>
-                  <h3 className="text-xl font-semibold mb-3">Preparation & Practice</h3>
-                  <div className="space-y-2">
-                    <Link className="block" to="/dsa">
-                      <PrepLink label="DSA Practice" description="Ace problem-solving" color="from-orange-500 to-pink-500" />
-                    </Link>
-                    <Link className="block" to="/aptitude-questions">
-                      <PrepLink label="Aptitude" description="Quantitative & logical" color="from-blue-500 to-cyan-500" />
-                    </Link>
-                    <Link className="block" to="/hr">
-                      <PrepLink label="HR & Behavioral" description="Interview behaviors" color="from-purple-500 to-violet-500" />
-                    </Link>
-                    <Link className="block" to="/resources">
-                      <PrepLink label="Core Subjects" description="OS • DBMS • CN" color="from-emerald-500 to-teal-500" />
-                    </Link>
-                    <Link className="block" to="/mock-interview">
-                      <PrepLink label="Mock Interview" description="Simulate rounds" color="from-red-500 to-orange-500" />
-                    </Link>
-                  </div>
-                  <div className="mt-5">
-                    <h4 className="text-sm font-semibold opacity-80">External practice</h4>
-                    <ul className="mt-2 space-y-1 text-sm">
-                      <li><a className="text-orange-400 hover:underline" href="https://leetcode.com" target="_blank" rel="noreferrer">LeetCode</a> — coding rounds & contests</li>
-                      <li><a className="text-orange-400 hover:underline" href="https://www.geeksforgeeks.org" target="_blank" rel="noreferrer">GeeksforGeeks</a> — interview experiences</li>
-                      <li><a className="text-orange-400 hover:underline" href="https://www.interviewbit.com" target="_blank" rel="noreferrer">InterviewBit</a> — guided practice</li>
-                      <li><a className="text-orange-400 hover:underline" href="https://prepinsta.com" target="_blank" rel="noreferrer">PrepInsta</a> — campus placement resources</li>
-                    </ul>
+              {/* Insights content - wider layout */}
+              {sections ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {Object.entries(sections).map(([label, content]) => (
+                    <SectionBlock key={label} label={label} content={content} darkMode={darkMode} />
+                  ))}
+                </div>
+              ) : (
+                <div className={`${darkMode ? "bg-[#0f0f0f] border-gray-800" : "bg-gray-100 border-gray-200"} p-4 rounded-lg border`}>
+                  <div className="text-lg whitespace-pre-wrap leading-7">
+                    {resultText}
                   </div>
                 </div>
-              </aside>
+              )}
+
+              {/* External practice links (inline) */}
+              <div className="mt-6">
+                <h4 className="text-sm font-semibold opacity-80">External practice</h4>
+                <ul className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+                  <li><a className="text-orange-400 hover:underline" href="https://leetcode.com" target="_blank" rel="noreferrer">LeetCode</a> — coding rounds & contests</li>
+                  <li><a className="text-orange-400 hover:underline" href="https://www.geeksforgeeks.org" target="_blank" rel="noreferrer">GeeksforGeeks</a> — interview experiences</li>
+                  <li><a className="text-orange-400 hover:underline" href="https://www.interviewbit.com" target="_blank" rel="noreferrer">InterviewBit</a> — guided practice</li>
+                  <li><a className="text-orange-400 hover:underline" href="https://prepinsta.com" target="_blank" rel="noreferrer">PrepInsta</a> — campus placement resources</li>
+                </ul>
+              </div>
             </div>
           )}
         </div>
