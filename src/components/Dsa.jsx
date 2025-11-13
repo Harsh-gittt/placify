@@ -196,6 +196,11 @@ function Dsa() {
 
   // load flags & notes when company changes
   useEffect(() => {
+    // Clear previous company’s questions to avoid stale display
+    setQuestions([]);
+    setCached(false);
+    setDataSource("");
+
     const { completed, bookmarked } = loadFlags(selectedCompany || "global");
     setCompletedTitles(completed);
     setBookmarkedTitles(bookmarked);
@@ -250,6 +255,22 @@ function Dsa() {
         }
       }
     } catch {}
+  }, [selectedCompany]);
+
+  // Auto-fetch questions for the selected company when none are loaded
+  useEffect(() => {
+    // If we don't have questions for the current company, auto-fetch
+    const hasCurrentCompanyQuestions =
+      questions.length > 0 && questions[0]?.company === selectedCompany;
+    if (!hasCurrentCompanyQuestions) {
+      // Do not bypass cache; this will respect per-company cached items
+      fetchHandler({ bypassCache: false });
+    }
+  }, [selectedCompany]);
+
+  // Persist selected company for next visits
+  useEffect(() => {
+    lsSet("selectedCompany", selectedCompany);
   }, [selectedCompany]);
 
   useEffect(() => {
