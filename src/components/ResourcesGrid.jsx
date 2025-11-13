@@ -7,6 +7,7 @@ import aptitudeImg from "../assets/images/resources/aptitude questions.png";
 import coreSubjectsImg from "../assets/images/resources/core subjects.png";
 import hrImg from "../assets/images/resources/hr round questions.png";
 import resumeImg from "../assets/images/resources/fix your resume.png";
+import mockInterviewImg from "../assets/images/resources/mock interview.svg";
 
 function ResourceCard({ title, subtitle, to, bg, image }) {
   const { darkMode } = useTheme();
@@ -58,6 +59,13 @@ function ResourcesGrid() {
   const { darkMode } = useTheme();
 
   const items = [
+    {
+      title: "🎤 Mock Interview",
+      subtitle: "Simulate live interviews with AI feedback and scoring",
+      to: "/mock-interview",
+      bg: "[#F97352]",
+      image: mockInterviewImg,
+    },
     {
       title: "DSA Questions",
       subtitle: "Practice structured DSA questions and level up",

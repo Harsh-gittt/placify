@@ -1,0 +1,24 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97352" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+    <linearGradient id="bubble" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#ffe2d5" stop-opacity="0.75" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="48" fill="url(#grad)" />
+  <g transform="translate(120 90)">
+    <path d="M136 0c-37.6 0-68 30.4-68 68v96c0 37.6 30.4 68 68 68s68-30.4 68-68V68c0-37.6-30.4-68-68-68z" fill="#ffffff" opacity="0.95" />
+    <path d="M136 16c-28.7 0-52 23.3-52 52v96c0 28.7 23.3 52 52 52s52-23.3 52-52V68c0-28.7-23.3-52-52-52z" fill="#f97352" opacity="0.9" />
+    <path d="M168 220v28c0 17.7-14.3 32-32 32s-32-14.3-32-32v-28h-32v28c0 32.3 23.3 59.1 54 63.2V336h20v-24.8c30.7-4.1 54-30.9 54-63.2v-28h-32z" fill="#ffffff" opacity="0.95" />
+    <g transform="translate(200 40)">
+      <path d="M150 44c0-24.3-19.7-44-44-44H44C19.7 0 0 19.7 0 44c0 21.5 15.9 39.3 36.6 42.7L24 116l68-28 68 28-12.6-29.3C134.1 83.3 150 65.5 150 44z" fill="url(#bubble)" />
+      <circle cx="45" cy="44" r="10" fill="#f97352" />
+      <circle cx="75" cy="44" r="10" fill="#f97352" />
+      <circle cx="105" cy="44" r="10" fill="#f97352" />
+    </g>
+  </g>
+</svg>

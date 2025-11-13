@@ -39,7 +39,13 @@ BookmarkSchema.index({ userId: 1, internshipId: 1 }, { unique: true });
 // PARTNER MODEL - Updated with owner field for self-connection prevention
 // ============================================================================
 const PartnerSchema = new Schema({
-  owner: { type: ObjectId, ref: "User", required: true, unique: true, index: true }, // ✅ Track who owns this partner profile
+  owner: {
+    type: ObjectId,
+    ref: "User",
+    required: true,
+    unique: true,
+    index: true,
+  }, // ✅ Track who owns this partner profile
   name: { type: String, required: true },
   initial: { type: String },
   skills: [{ type: String, required: true }],
@@ -77,7 +83,13 @@ const NotificationSchema = new Schema({
   fromUserId: { type: ObjectId, ref: "User" }, // ✅ Sender user ID (optional)
   type: {
     type: String,
-    enum: ["connection_request", "connection_accepted", "connection_declined", "chat_message", "system"],
+    enum: [
+      "connection_request",
+      "connection_accepted",
+      "connection_declined",
+      "chat_message",
+      "system",
+    ],
     required: true,
   },
   message: { type: String, required: true },
@@ -92,7 +104,12 @@ NotificationSchema.index({ userId: 1, read: 1, createdAt: -1 });
 // CHAT MESSAGE MODEL - Stores conversation messages
 // ============================================================================
 const ChatMessageSchema = new Schema({
-  connectionId: { type: ObjectId, ref: "ConnectionRequest", required: true, index: true },
+  connectionId: {
+    type: ObjectId,
+    ref: "ConnectionRequest",
+    required: true,
+    index: true,
+  },
   from: { type: ObjectId, ref: "User", required: true }, // ✅ Sender user ID
   to: { type: ObjectId, ref: "User", required: true }, // ✅ Recipient user ID
   text: { type: String, required: true },
@@ -103,14 +120,43 @@ const ChatMessageSchema = new Schema({
 ChatMessageSchema.index({ connectionId: 1, createdAt: 1 });
 
 // ============================================================================
+// MOCK INTERVIEW MODEL - Stores AI mock interview sessions
+// ============================================================================
+const MockInterviewSchema = new Schema(
+  {
+    userId: { type: ObjectId, ref: "User", required: true, index: true },
+    company: { type: String, required: true },
+    roundType: { type: String, required: true },
+    transcript: [
+      {
+        role: { type: String, enum: ["ai", "user"], required: true },
+        content: { type: String, required: true },
+        timestamp: { type: Date, default: Date.now },
+      },
+    ],
+    score: { type: Number },
+    summary: { type: String },
+    improvements: [{ type: String }],
+    createdAt: { type: Date, default: Date.now },
+  },
+  { timestamps: false }
+);
+
+MockInterviewSchema.index({ userId: 1, createdAt: -1 });
+
+// ============================================================================
 // EXPORT MODELS
 // ============================================================================
 const userModel = model("User", UserSchema);
 const bookmarkModel = model("Bookmark", BookmarkSchema);
 const partnerModel = model("Partner", PartnerSchema);
-const connectionRequestModel = model("ConnectionRequest", ConnectionRequestSchema);
+const connectionRequestModel = model(
+  "ConnectionRequest",
+  ConnectionRequestSchema
+);
 const notificationModel = model("Notification", NotificationSchema);
 const chatMessageModel = model("ChatMessage", ChatMessageSchema);
+const mockInterviewModel = model("MockInterview", MockInterviewSchema);
 
 module.exports = {
   userModel,
@@ -119,4 +165,5 @@ module.exports = {
   connectionRequestModel,
   notificationModel,
   chatMessageModel,
+  mockInterviewModel,
 };

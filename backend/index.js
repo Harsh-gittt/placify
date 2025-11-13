@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const http = require("http");
 const { Server } = require("socket.io");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 require("dotenv").config();
 
@@ -17,25 +16,26 @@ const {
   connectionRequestModel,
   notificationModel,
   chatMessageModel,
+  mockInterviewModel,
 } = require("./db.js");
+
+const aiRoutes = require("./routes/ai.js");
 
 const PORT = process.env.PORT || 3000;
 const mongodb_url = process.env.mongodb_url;
 const jwt_secret_key = process.env.secret_key;
 const SALT_ROUNDS = 10;
-const geminiApiKey = process.env.GEMINI_API_KEY;
 
-let geminiModel = null;
-if (geminiApiKey) {
-  const genAI = new GoogleGenerativeAI(geminiApiKey);
-  geminiModel = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash-lite",
-  });
-} else {
-  console.warn(
-    "⚠️ GEMINI_API_KEY not configured. /api/generate-questions will return an error."
-  );
-}
+const getUserIdFromRequest = (req) => {
+  const token = req.headers.authorization;
+  if (!token) return null;
+  try {
+    const decoded = jwt.verify(token, jwt_secret_key);
+    return decoded.id;
+  } catch (err) {
+    return null;
+  }
+};
 
 app.use(express.json());
 app.use(
@@ -51,151 +51,90 @@ app.use(
     credentials: true,
   })
 );
-app.post("/api/generate-questions", async (req, res) => {
+
+// AI proxy route
+app.use("/api", aiRoutes);
+
+app.post("/api/save-mock-interview", async (req, res) => {
   try {
-    const { company } = req.body || {};
-    if (!company || typeof company !== "string" || !company.trim()) {
-      return res.status(400).json({ error: "Company is required" });
+    const userId = getUserIdFromRequest(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required" });
     }
 
-    if (!geminiModel) {
-      return res.status(500).json({ error: "Unable to fetch questions" });
+    const { company, roundType, transcript, score, summary, improvements } =
+      req.body || {};
+
+    if (
+      !company ||
+      typeof company !== "string" ||
+      !roundType ||
+      typeof roundType !== "string" ||
+      !Array.isArray(transcript) ||
+      transcript.length === 0
+    ) {
+      return res.status(400).json({ error: "Invalid interview payload" });
     }
 
-    const normalizedCompany = company.trim();
-    const prompt = `
-You are an assistant that only outputs strict JSON.
-Return a JSON object with a single property named "questions" whose value is an array containing 25 to 30 objects.
-Each object must have exactly these properties: "question" (string), "difficulty" (one of "easy", "medium", "hard"), "topic" (string), and "links" (object with keys "leetcode", "geeksforgeeks", "codingninjas").
-Generate interview-style DSA questions that were recently asked by ${normalizedCompany} for software engineering interviews in 2025, covering Arrays, Strings, Linked Lists, Trees, Graphs, Recursion, and Dynamic Programming.
-For each question, include available practice links from LeetCode, GeeksforGeeks, or Coding Ninjas. Use an empty string when a link is not available.
-Format strictly as:
-{
-  "questions": [
-    {
-      "question": "string",
-      "difficulty": "easy|medium|hard",
-      "topic": "string",
-      "links": {
-        "leetcode": "url or empty string",
-        "geeksforgeeks": "url or empty string",
-        "codingninjas": "url or empty string"
-      }
-    }
-  ]
-}
-Do not include explanations, markdown, or any additional fields.
-`.trim();
+    const sanitizedTranscript = transcript
+      .filter(
+        (entry) =>
+          entry &&
+          typeof entry.content === "string" &&
+          entry.content.trim() &&
+          (entry.role === "ai" || entry.role === "user")
+      )
+      .map((entry) => ({
+        role: entry.role,
+        content: entry.content.trim(),
+        timestamp: entry.timestamp ? new Date(entry.timestamp) : new Date(),
+      }));
 
-    const result = await geminiModel.generateContent({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: prompt }],
-        },
-      ],
-      generationConfig: {
-        temperature: 0.7,
-        responseMimeType: "application/json",
-      },
+    if (!sanitizedTranscript.length) {
+      return res.status(400).json({ error: "Transcript cannot be empty" });
+    }
+
+    const record = await mockInterviewModel.create({
+      userId,
+      company: company.trim(),
+      roundType: roundType.trim(),
+      transcript: sanitizedTranscript,
+      score:
+        typeof score === "number" && Number.isFinite(score)
+          ? Math.max(0, Math.min(10, score))
+          : undefined,
+      summary: typeof summary === "string" ? summary.trim() : undefined,
+      improvements: Array.isArray(improvements)
+        ? improvements
+            .filter((tip) => typeof tip === "string" && tip.trim())
+            .map((tip) => tip.trim())
+        : [],
     });
 
-    const rawContent =
-      typeof result?.response?.text === "function"
-        ? result.response.text()
-        : "";
-    const trimmed = typeof rawContent === "string" ? rawContent.trim() : "";
-    if (!trimmed) {
-      console.error(
-        "❌ Gemini response missing text payload",
-        result?.response
-      );
-      throw new Error("Empty response from Gemini");
+    res.status(201).json({ message: "Session saved", interview: record });
+  } catch (error) {
+    console.error("❌ Save mock interview error:", error);
+    res.status(500).json({ error: "Failed to save mock interview" });
+  }
+});
+
+app.get("/api/mock-interviews", async (req, res) => {
+  try {
+    const userId = getUserIdFromRequest(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required" });
     }
 
-    let parsed;
-    try {
-      parsed = JSON.parse(trimmed);
-    } catch (parseError) {
-      console.error("❌ Failed to parse Gemini response:", trimmed);
-      throw new Error("Invalid response format");
-    }
+    const sessions = await mockInterviewModel
+      .find({ userId })
+      .sort({ createdAt: -1, _id: -1 })
+      .limit(50)
+      .lean();
 
-    const candidate = Array.isArray(parsed)
-      ? parsed
-      : Array.isArray(parsed?.questions)
-      ? parsed.questions
-      : null;
-
-    if (!candidate) {
-      console.error("❌ Unexpected Gemini payload shape:", parsed);
-      throw new Error("Invalid response format");
-    }
-
-    const sanitized = candidate
-      .filter((item) => item && typeof item.question === "string")
-      .map((item, index) => {
-        const question = item.question.trim();
-        const difficultyRaw =
-          typeof item.difficulty === "string"
-            ? item.difficulty.trim().toLowerCase()
-            : "medium";
-        const topic =
-          typeof item.topic === "string" && item.topic.trim().length > 0
-            ? item.topic.trim()
-            : "General";
-        const difficulty = ["easy", "medium", "hard"].includes(difficultyRaw)
-          ? difficultyRaw
-          : "medium";
-
-        const rawLinks =
-          item && typeof item.links === "object" && item.links !== null
-            ? item.links
-            : {};
-        const normalizeLink = (value) =>
-          typeof value === "string" && value.trim() ? value.trim() : "";
-        const links = {
-          leetcode: normalizeLink(rawLinks.leetcode),
-          geeksforgeeks: normalizeLink(rawLinks.geeksforgeeks),
-          codingninjas: normalizeLink(rawLinks.codingninjas),
-        };
-
-        return {
-          question: question || `Question ${index + 1}`,
-          difficulty,
-          topic,
-          links,
-        };
-      })
-      .slice(0, 30);
-
-    res.json(sanitized);
-  } catch (err) {
-    console.error("❌ Error fetching questions:", err);
-
-    const status = err?.status || err?.response?.status || 500;
-    let message = err?.message || "Unable to fetch questions";
-
-    if (status === 429) {
-      message =
-        "Gemini API quota exceeded. Please review your billing plan or try again later.";
-    } else if (status === 403) {
-      message =
-        "Gemini API request was forbidden. Verify the model access and API key permissions.";
-    }
-
-    let details = undefined;
-    const response = err?.response;
-    if (response?.text) {
-      try {
-        const body = await response.text();
-        details = body;
-      } catch (readErr) {
-        console.error("❌ Unable to read Gemini error payload:", readErr);
-      }
-    }
-
-    res.status(status).json({ error: message, details });
+    res.json(sessions);
+  } catch (error) {
+    console.error("❌ Fetch mock interviews error:", error);
+    res.status(500).json({ error: "Failed to fetch mock interviews" });
   }
 });
 

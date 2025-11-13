@@ -1,17 +1,11 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
-import usePuterStore from "../../lib/puter";
-import { PuterInit } from "./PuterInit";
-import Summary from "./Summary";
-import ATS from "./ATS";
-import Details from "./Details";
 import { normalizeFeedback } from "../../lib/utils";
 
 const ResumeView = () => {
   const { darkMode } = useTheme();
   const { id } = useParams();
-  const { kv, fs } = usePuterStore();
   const [resumeUrl, setResumeUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [feedback, setFeedback] = useState(null);

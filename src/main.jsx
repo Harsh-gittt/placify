@@ -14,6 +14,8 @@ import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { ChatProvider } from "./context/ChatContext.jsx";
 import Layout from "./components/Layout.jsx";
 import AptitudeQuestions from "./components/AptitudeQuestions.jsx";
+import MockInterview from "./components/MockInterview.jsx";
+// No longer needed - using direct fetchAIResponse instead
 
 const router = createBrowserRouter([
   {
@@ -77,6 +79,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <Hr />
+      </Layout>
+    ),
+  },
+  {
+    path: "/mock-interview",
+    element: (
+      <Layout>
+        <MockInterview />
       </Layout>
     ),
   },
