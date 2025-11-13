@@ -15,6 +15,7 @@ import { ChatProvider } from "./context/ChatContext.jsx";
 import Layout from "./components/Layout.jsx";
 import AptitudeQuestions from "./components/AptitudeQuestions.jsx";
 import MockInterview from "./components/MockInterview.jsx";
+import AiCareerMentor from "./pages/AiCareerMentor.jsx";
 // No longer needed - using direct fetchAIResponse instead
 
 const router = createBrowserRouter([
@@ -95,6 +96,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <AptitudeQuestions />
+      </Layout>
+    ),
+  },
+  {
+    path: "/ai-career-mentor",
+    element: (
+      <Layout>
+        <AiCareerMentor />
       </Layout>
     ),
   },

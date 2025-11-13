@@ -67,6 +67,13 @@ function ResourcesGrid() {
       image: mockInterviewImg,
     },
     {
+      title: "AI Career Mentor",
+      subtitle: "Get company-specific hiring insights via campus placement",
+      to: "/ai-career-mentor",
+      bg: "[#59A6E8]",
+      image: resumeImg,
+    },
+    {
       title: "DSA Questions",
       subtitle: "Practice structured DSA questions and level up",
       to: "/dsa",
