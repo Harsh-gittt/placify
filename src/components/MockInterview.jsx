@@ -17,7 +17,12 @@ const buildBasePrompt = (
   roundType
 ) => `You are acting as an interviewer for ${company}, conducting a ${roundType} interview. Ask exactly ${MAX_QUESTIONS} questions one-by-one. After each candidate reply provide concise feedback (1-3 sentences) and then ask the next question. After the final question produce a final summary exactly in this format (no extra sections):
 
-Final Score: X/10
+Category Scores:
+- Presentation Skills: X/10
+- Communication Skills: X/10
+- Subject Knowledge: X/10
+
+Final Score: <average of the three above, 1 decimal>/10
 Feedback Summary: <2-3 sentences>
 Improvement Tips:
 1. <tip>
@@ -40,6 +45,25 @@ const parseFinalSummary = (text) => {
   const score = scoreMatch
     ? Math.min(10, Math.max(0, parseFloat(scoreMatch[1])))
     : null;
+  const catBlockMatch = text.match(/Category Scores:\s*([\s\S]*?)\n\n/i);
+  const catBlock = catBlockMatch ? catBlockMatch[1] : "";
+  const cat = {
+    presentation: null,
+    communication: null,
+    subject: null,
+  };
+  const pres = catBlock.match(/Presentation Skills:\s*([0-9]+(?:\.[0-9]+)?)\s*\/\s*10/i);
+  const comm = catBlock.match(/Communication Skills:\s*([0-9]+(?:\.[0-9]+)?)\s*\/\s*10/i);
+  const subj = catBlock.match(/Subject Knowledge:\s*([0-9]+(?:\.[0-9]+)?)\s*\/\s*10/i);
+  cat.presentation = pres ? Math.min(10, Math.max(0, parseFloat(pres[1]))) : null;
+  cat.communication = comm ? Math.min(10, Math.max(0, parseFloat(comm[1]))) : null;
+  cat.subject = subj ? Math.min(10, Math.max(0, parseFloat(subj[1]))) : null;
+  let computedScore = score;
+  const parts = [cat.presentation, cat.communication, cat.subject].filter((v) => typeof v === "number");
+  if (parts.length === 3) {
+    const avg = parts.reduce((a, b) => a + b, 0) / 3;
+    computedScore = Math.round(avg * 10) / 10;
+  }
   const summaryMatch = text.match(
     /Feedback Summary:\s*([\s\S]*?)(?:Improvement Tips:|$)/i
   );
@@ -51,10 +75,11 @@ const parseFinalSummary = (text) => {
     .filter(Boolean)
     .slice(0, 3);
   return {
-    score,
+    score: computedScore,
     summary: summaryMatch ? summaryMatch[1].trim() : text.trim(),
     tips,
     raw: text.trim(),
+    categories: cat,
   };
 };
 
@@ -128,6 +153,7 @@ async function loadCloudSessions() {
 
 export default function MockInterview() {
   const { darkMode } = useTheme();
+  const BACKEND_URL = "http://localhost:3000";
   const [company, setCompany] = useState(COMPANIES[0]);
   const [roundType, setRoundType] = useState(ROUND_TYPES[0]);
   const [conversation, setConversation] = useState([]);
@@ -143,20 +169,54 @@ export default function MockInterview() {
   const [authRequired, setAuthRequired] = useState(false);
   const [sessions, setSessions] = useState([]);
   const [loadingSessions, setLoadingSessions] = useState(false);
+  const [showGraph, setShowGraph] = useState(false);
+  const [showTrend, setShowTrend] = useState(true);
+
+  const loadServerSessions = useCallback(async () => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      if (!token) return [];
+      const res = await fetch(`${BACKEND_URL}/api/mock-interviews`, {
+        headers: { Authorization: token },
+      });
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data)
+        ? data.map((s) => ({
+            id: String(s._id || s.id),
+            savedAt: s.createdAt || s.savedAt,
+            company: s.company,
+            roundType: s.roundType,
+            transcript: s.transcript,
+            score: typeof s.score === "number" ? s.score : null,
+            summary: s.summary,
+            improvements: Array.isArray(s.improvements) ? s.improvements : [],
+            categories: s.categoryScores || {},
+            source: "server",
+          }))
+        : [];
+    } catch {
+      return [];
+    }
+  }, [BACKEND_URL]);
 
   const loadSessions = useCallback(async () => {
     setLoadingSessions(true);
     let cloud = [];
     let local = [];
+    let server = [];
     try {
-      [cloud, local] = await Promise.all([
+      [server, cloud, local] = await Promise.all([
+        loadServerSessions(),
         loadCloudSessions(),
         loadLocalSessions(),
       ]);
     } catch {}
     // show cloud sessions first (if any), then local; unique by session id
     const byId = {};
-    [...(cloud || []), ...(local || [])].forEach((s) => {
+    const cloudWithSource = (cloud || []).map((s) => ({ ...s, source: s.source || "cloud" }));
+    const localWithSource = (local || []).map((s) => ({ ...s, source: s.source || "local" }));
+    [...(server || []), ...cloudWithSource, ...localWithSource].forEach((s) => {
       if (s.id && !byId[s.id]) byId[s.id] = s;
     });
     setSessions(
@@ -165,7 +225,7 @@ export default function MockInterview() {
       )
     );
     setLoadingSessions(false);
-  }, []);
+  }, [loadServerSessions]);
 
   useEffect(() => {
     loadSessions();
@@ -177,8 +237,7 @@ export default function MockInterview() {
   );
 
   useEffect(() => {
-    if (chatEndRef.current)
-      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    // disabled auto scroll to keep screen stable while typing/replying
   }, [conversation.length, aiLoading]);
 
   const runChatOnce = useCallback(async (prompt) => {
@@ -319,6 +378,7 @@ export default function MockInterview() {
             : `session-${Date.now()}`,
         savedAt: new Date().toISOString(),
         ...payload,
+        source: "local",
       };
       const next = [entry, ...existing].slice(0, 25);
       localStorage.setItem(storageKey, JSON.stringify(next));
@@ -377,6 +437,66 @@ export default function MockInterview() {
     }
   };
 
+  async function deleteSession(session) {
+    try {
+      const isMongoId = (id) => typeof id === "string" && /^[0-9a-fA-F]{24}$/.test(id);
+      if (session.source === "server" && isMongoId(session.id)) {
+        const token = localStorage.getItem("auth_token");
+        if (!token) throw new Error("Not signed in");
+        const res = await fetch(`${BACKEND_URL}/api/mock-interviews/${encodeURIComponent(session.id)}`, {
+          method: "DELETE",
+          headers: { Authorization: token },
+        });
+        if (!res.ok) {
+          const e = await res.json().catch(() => ({}));
+          throw new Error(e.error || "Delete failed");
+        }
+      } else if (session.source === "cloud" || (typeof session.id === "string" && session.id.startsWith("mockInterview:"))) {
+        const puter = await ensurePuterReady();
+        if (puter?.kv?.delete) await puter.kv.delete(session.id);
+        else if (puter?.kv?.del) await puter.kv.del(session.id);
+        else if (puter?.kv?.set) await puter.kv.set(session.id, null);
+      } else {
+        const storageKey = "mockInterview:sessions";
+        const existingRaw = localStorage.getItem(storageKey);
+        const arr = existingRaw ? JSON.parse(existingRaw) : [];
+        const next = arr.filter((e) => e.id !== session.id);
+        localStorage.setItem(storageKey, JSON.stringify(next));
+      }
+      await loadSessions();
+      setStatusMessage("Session deleted");
+      setError("");
+    } catch (err) {
+      console.error("Delete session error", err);
+      setError(err.message || "Delete failed");
+    }
+  }
+
+  const saveSessionToServer = async (payload) => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      if (!token) return false;
+      const res = await fetch(`${BACKEND_URL}/api/save-mock-interview`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        if (res.status === 401) return false;
+        throw new Error(err.error || "Failed to save session");
+      }
+      setStatusMessage("Session saved to your account.");
+      setError("");
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
   const handleSaveSession = async () => {
     if (!finalSummary) return;
     setSaving(true);
@@ -392,8 +512,10 @@ export default function MockInterview() {
         score: finalSummary.score,
         summary: finalSummary.summary,
         improvements: finalSummary.tips,
+        categoryScores: finalSummary.categories,
       };
-      // Try saving to Puter Cloud only, or localStorage as fallback if Puter unavailable.
+      const serverSaved = await saveSessionToServer(payload);
+      if (serverSaved) return;
       const cloudSaved = await saveSessionToPuter(payload);
       if (cloudSaved) return;
       if (saveSessionLocally(payload)) return;
@@ -411,6 +533,13 @@ export default function MockInterview() {
     finalSummary?.score != null
       ? Math.min(100, (finalSummary.score / 10) * 100)
       : null;
+  const categories = finalSummary?.categories || {};
+  const graphMax = 10;
+  const categoryColors = {
+    presentation: "#f97316",
+    communication: "#22c55e",
+    subject: "#3b82f6",
+  };
 
   return (
     <div
@@ -443,7 +572,7 @@ export default function MockInterview() {
               : "bg-white border border-gray-200"
           } rounded-2xl p-5 sm:p-6 shadow-lg transition-colors`}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium opacity-80">Company</label>
               <select
@@ -462,6 +591,7 @@ export default function MockInterview() {
                 ))}
               </select>
             </div>
+            
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium opacity-80">
@@ -484,7 +614,7 @@ export default function MockInterview() {
               </select>
             </div>
 
-            <div className="flex items-end">
+            <div className="flex items-end sm:col-span-2">
               <button
                 type="button"
                 onClick={handleStartInterview}
@@ -734,29 +864,123 @@ export default function MockInterview() {
               {loadingSessions ? "Loading..." : "Refresh"}
             </button>
           </div>
+          {sessions.length > 0 && (
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setShowGraph((s) => !s)}
+                className="text-xs px-3 py-1.5 rounded-lg border border-orange-400 text-orange-400 hover:bg-orange-400/10 transition"
+              >
+                {showGraph ? "Hide Graph" : "Compare Scores"}
+              </button>
+            </div>
+          )}
           {sessions.length === 0 && (
             <div className="text-sm opacity-70">
               No sessions saved yet. Complete and save an interview to see it
               here.
             </div>
           )}
+          {showGraph && sessions.length > 0 && (
+            <div className={`${darkMode ? "bg-[#1a1a1a] border-white/10" : "bg-orange-50 border-orange-200"} rounded-xl p-4 border`}>
+              <div className="flex items-center gap-4 mb-3 text-xs opacity-70">
+                Overall mock interview scores over time
+              </div>
+              <div className="w-full overflow-x-auto">
+                {(() => {
+                  const leftLabel = 220;
+                  const graphWidth = 640;
+                  const row = 64;
+                  const trendHeight = showTrend ? 140 : 0;
+                  const height = Math.max(160, sessions.length * row) + trendHeight;
+                  const sortedForTrend = [...sessions].sort((a, b) => new Date(a.savedAt) - new Date(b.savedAt));
+                  const trendPoints = (() => {
+                    const n = sortedForTrend.length;
+                    if (!showTrend || n === 0) return "";
+                    const startX = leftLabel;
+                    const endX = leftLabel + graphWidth;
+                    const step = n > 1 ? (endX - startX) / (n - 1) : 0;
+                    return sortedForTrend
+                      .map((s, i) => {
+                        const x = startX + i * step;
+                        const y = 100 - Math.min(100, ((s.score || 0) / 10) * 100);
+                        return `${x},${y + 20}`;
+                      })
+                      .join(" ");
+                  })();
+                  return (
+                    <svg viewBox={`0 0 ${leftLabel + graphWidth + 40} ${height}`} width="100%" preserveAspectRatio="xMinYMin meet">
+                      {showTrend && (
+                        <g>
+                          <rect x={leftLabel} y={0} width={graphWidth} height={120} fill={darkMode ? "#0f0f0f" : "#faf7f5"} rx={10} />
+                          <polyline points={trendPoints} fill="none" stroke="#f97316" strokeWidth={2} />
+                          {sortedForTrend.map((s, i) => {
+                            const n = sortedForTrend.length;
+                            const startX = leftLabel;
+                            const endX = leftLabel + graphWidth;
+                            const step = n > 1 ? (endX - startX) / (n - 1) : 0;
+                            const x = startX + i * step;
+                            const y = 100 - Math.min(100, ((s.score || 0) / 10) * 100);
+                            return (
+                              <circle key={s.id} cx={x} cy={y + 20} r={3} fill="#f97316">
+                                <title>{(s.company || "-") + " • " + (s.roundType || "-") + " • " + (typeof s.score === "number" ? s.score.toFixed(1) : "-")}</title>
+                              </circle>
+                            );
+                          })}
+                        </g>
+                      )}
+                      {sessions.map((s, i) => {
+                        const yBase = trendHeight + 30 + i * row;
+                         const total = typeof s.score === "number" ? s.score.toFixed(1) : "-";
+                         const toPixels = (v) => Math.max(0, Math.min(graphWidth, (v || 0) / 10 * graphWidth));
+                         return (
+                           <g key={s.id || i}>
+                             <text x={10} y={yBase - 16} fontSize={12} className={darkMode ? "fill-white/70" : "fill-black/70"}>
+                               {(s.company || "-") + " (" + (s.roundType || "-") + ")"} — Total: {total}/10
+                             </text>
+                            {
+                              <>
+                                <defs>
+                                  <linearGradient id={`grad-${i}`} x1="0" x2="1" y1="0" y2="0">
+                                    <stop offset="0%" stopColor="#f97316" />
+                                    <stop offset="50%" stopColor="#f59e0b" />
+                                    <stop offset="100%" stopColor="#22c55e" />
+                                  </linearGradient>
+                                </defs>
+                                <rect x={leftLabel} y={yBase + 10} width={toPixels(Number(total))} height={16} fill={`url(#grad-${i})`} rx={8}>
+                                  <animate attributeName="width" from={0} to={toPixels(Number(total))} dur="0.6s" fill="freeze" />
+                                </rect>
+                                <text x={leftLabel + 10} y={yBase + 22} fontSize={11} className={darkMode ? "fill-white" : "fill-black"}>
+                                  Overall {total}/10
+                                </text>
+                              </>
+                            }
+                          </g>
+                         );
+                       })}
+                    </svg>
+                  );
+                })()}
+              </div>
+            </div>
+          )}
           {sessions.length > 0 && (
             <ul className="divide-y divide-gray-200/10">
-              {sessions.map((s) => (
-                <li key={s.id} className="py-4 flex flex-col gap-1">
-                  <div className="flex items-center gap-4 flex-wrap">
-                    <span className="font-medium">{s.company}</span>
-                    <span className="text-xs px-2 py-1 bg-orange-50 rounded border border-orange-100 text-orange-700">
-                      {s.roundType}
-                    </span>
-                    <span className="text-xs opacity-60">
-                      {formatDateTime(s.savedAt)}
-                    </span>
-                    {typeof s.score === "number" && (
-                      <span className="font-bold text-orange-500">
-                        Score: {Number(s.score).toFixed(1)}/10
-                      </span>
-                    )}
+               {sessions.map((s) => (
+                 <li key={s.id} className="py-4 flex flex-col gap-1">
+                   <div className="flex items-center gap-4 flex-wrap">
+                     <span className="font-medium">{s.company}</span>
+                     <span className="text-xs px-2 py-1 bg-orange-50 rounded border border-orange-100 text-orange-700">
+                       {s.roundType}
+                     </span>
+                     <span className="text-xs opacity-60">
+                       {formatDateTime(s.savedAt)}
+                     </span>
+                     {typeof s.score === "number" && (
+                       <span className="font-bold text-orange-500">
+                         Score: {Number(s.score).toFixed(1)}/10
+                       </span>
+                     )}
                   </div>
                   {s.summary && (
                     <div className="text-xs opacity-80">

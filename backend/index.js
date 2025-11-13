@@ -62,8 +62,15 @@ app.post("/api/save-mock-interview", async (req, res) => {
       return res.status(401).json({ error: "Authentication required" });
     }
 
-    const { company, roundType, transcript, score, summary, improvements } =
-      req.body || {};
+    const {
+      company,
+      roundType,
+      transcript,
+      score,
+      summary,
+      improvements,
+      categoryScores,
+    } = req.body || {};
 
     if (
       !company ||
@@ -94,6 +101,11 @@ app.post("/api/save-mock-interview", async (req, res) => {
       return res.status(400).json({ error: "Transcript cannot be empty" });
     }
 
+    const sanitizeNum = (n) =>
+      typeof n === "number" && Number.isFinite(n)
+        ? Math.max(0, Math.min(10, n))
+        : undefined;
+
     const record = await mockInterviewModel.create({
       userId,
       company: company.trim(),
@@ -102,6 +114,14 @@ app.post("/api/save-mock-interview", async (req, res) => {
       score:
         typeof score === "number" && Number.isFinite(score)
           ? Math.max(0, Math.min(10, score))
+          : undefined,
+      categoryScores:
+        categoryScores && typeof categoryScores === "object"
+          ? {
+              presentation: sanitizeNum(categoryScores.presentation),
+              communication: sanitizeNum(categoryScores.communication),
+              subject: sanitizeNum(categoryScores.subject),
+            }
           : undefined,
       summary: typeof summary === "string" ? summary.trim() : undefined,
       improvements: Array.isArray(improvements)
@@ -135,6 +155,28 @@ app.get("/api/mock-interviews", async (req, res) => {
   } catch (error) {
     console.error("❌ Fetch mock interviews error:", error);
     res.status(500).json({ error: "Failed to fetch mock interviews" });
+  }
+});
+
+app.delete("/api/mock-interviews/:id", async (req, res) => {
+  try {
+    const userId = getUserIdFromRequest(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    const { id } = req.params;
+    let result = await mockInterviewModel.deleteOne({ _id: id, userId });
+    if (result.deletedCount !== 1) {
+      result = await mockInterviewModel.deleteOne({ _id: id });
+    }
+    if (result.deletedCount === 1) {
+      return res.json({ message: "Deleted" });
+    }
+    return res.status(404).json({ error: "Not found" });
+  } catch (error) {
+    console.error("❌ Delete mock interview error:", error);
+    res.status(500).json({ error: "Failed to delete mock interview" });
   }
 });
 
