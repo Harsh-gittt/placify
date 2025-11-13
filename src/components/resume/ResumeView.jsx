@@ -1,46 +1,83 @@
-import React from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { normalizeFeedback } from "../../lib/utils";
+import Summary from "./Summary";
+import ATS from "./ATS";
+import Details from "./Details";
 
 const ResumeView = () => {
   const { darkMode } = useTheme();
+  const location = useLocation();
   const { id } = useParams();
   const [resumeUrl, setResumeUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [feedback, setFeedback] = useState(null);
+  const initialData = useMemo(() => location.state?.data || null, [location.state]);
 
   useEffect(() => {
-    const loadResume = async () => {
-      const resumeRaw = await kv.get(`resume:${id}`);
-      if (!resumeRaw) return;
-      const data = JSON.parse(resumeRaw);
-      // Normalize scores for existing resumes (in case they were saved with wrong scale)
-      const normalizedFeedback = data.feedback ? normalizeFeedback(data.feedback) : null;
-      setFeedback(normalizedFeedback);
+    if (!initialData) return;
+    if (initialData.feedback) {
+      setFeedback(normalizeFeedback(initialData.feedback));
+    }
+    if (initialData.resumeUrl) setResumeUrl(initialData.resumeUrl);
+    if (initialData.imageUrl) setImageUrl(initialData.imageUrl);
+  }, [initialData]);
 
-      if (data.resumePath) {
-        const blob = await fs.read(data.resumePath);
-        if (blob) {
-          const pdfBlob = new Blob([blob], { type: "application/pdf" });
-          setResumeUrl(URL.createObjectURL(pdfBlob));
+  useEffect(() => {
+    let cancelled = false;
+    const loadResume = async () => {
+      if (!id) return;
+      const puter = window?.puter;
+      if (!puter?.kv || !puter?.fs) return;
+
+      try {
+        if (typeof puter.ready === "function") {
+          await puter.ready();
+        } else if (puter.ready && typeof puter.ready.then === "function") {
+          await puter.ready;
         }
+      } catch {
+        // ignore readiness error
       }
 
-      if (data.imagePath) {
-        const imgBlob = await fs.read(data.imagePath);
-        if (imgBlob) setImageUrl(URL.createObjectURL(imgBlob));
+      try {
+        const resumeRaw = await puter.kv.get(`resume:${id}`);
+        if (!resumeRaw) return;
+        const data = JSON.parse(resumeRaw);
+        const normalizedFeedback = data.feedback ? normalizeFeedback(data.feedback) : null;
+        if (!cancelled && normalizedFeedback) setFeedback(normalizedFeedback);
+
+        if (data.resumePath) {
+          const blob = await puter.fs.read(data.resumePath);
+          if (!cancelled && blob) {
+            const pdfBlob = blob instanceof Blob ? blob : new Blob([blob], { type: "application/pdf" });
+            setResumeUrl(URL.createObjectURL(pdfBlob));
+          }
+        }
+
+        if (data.imagePath) {
+          const imgBlob = await puter.fs.read(data.imagePath);
+          if (!cancelled && imgBlob) {
+            const imageBlob = imgBlob instanceof Blob ? imgBlob : new Blob([imgBlob]);
+            setImageUrl(URL.createObjectURL(imageBlob));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load resume from Puter:", err);
       }
     };
 
     loadResume();
-  }, [id, kv, fs]);
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
 
-  if (!id) return <div>No resume id provided</div>;
+  if (!id && !initialData) return <div>No resume id provided</div>;
 
   return (
     <main className={`!pt-0 min-h-screen transition-colors duration-300 ${darkMode ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
-      <PuterInit />
       <nav className={`resume-nav transition-colors duration-300 ${darkMode ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200'}`}>
         <Link 
           to="/" 
@@ -58,11 +95,11 @@ const ResumeView = () => {
       </nav>
       <div className="flex flex-row w-full max-lg:flex-col-reverse">
         <section className={`feedback-section transition-colors duration-300 ${
-          darkMode 
-            ? 'bg-[#121212]' 
+          darkMode
+            ? 'bg-[#121212]'
             : 'bg-[url(\'/images/bg-small.svg\')]'
         } bg-cover h-[100vh] max-lg:h-auto max-lg:min-h-[400px] sticky top-0 max-lg:relative flex items-center justify-center overflow-y-auto max-lg:overflow-visible`}>
-          {imageUrl && resumeUrl && (
+          {imageUrl && resumeUrl ? (
             <div className="animate-in fade-in zoom-in duration-1000 gradient-border max-sm:m-2 m-4 h-[90%] max-lg:h-auto max-wxl:h-fit w-fit max-w-full hover:scale-105 transition-transform duration-300">
               <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="block">
                 <img
@@ -72,6 +109,20 @@ const ResumeView = () => {
                   alt="Resume preview"
                 />
               </a>
+            </div>
+          ) : resumeUrl ? (
+            <div className="w-full h-[500px] max-w-2xl mx-auto animate-in fade-in zoom-in duration-1000">
+              <embed
+                src={resumeUrl}
+                type="application/pdf"
+                className="w-full h-full min-h-[400px] rounded-xl border shadow"
+                title="PDF Resume Preview"
+              />
+              <div className="text-xs text-center mt-2 opacity-70">(Scroll, zoom, or <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="text-orange-500 underline">open PDF</a>)</div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center min-h-[200px] text-sm opacity-70 p-8">
+              <span>No resume preview available.</span>
             </div>
           )}
         </section>
