@@ -170,9 +170,8 @@ export function ChatProvider({ children }) {
         // ✅ Show global toast notification
         setGlobalToast({
           type: "chat_message",
-          message: `New message: ${data.message.text.substring(0, 50)}${
-            data.message.text.length > 50 ? "..." : ""
-          }`,
+          message: `New message: ${data.message.text.substring(0, 50)}${data.message.text.length > 50 ? "..." : ""
+            }`,
           connectionId: data.connectionId,
           timestamp: new Date().toISOString(),
         });
@@ -192,42 +191,42 @@ export function ChatProvider({ children }) {
   }, [isChatOpen, activeChatConnection]);
 
   // ✅ Listen for connection_request notifications
-useEffect(() => {
-  if (!socketRef.current) return;
+  useEffect(() => {
+    if (!socketRef.current) return;
 
-  const handleNotification = (notification) => {
-    console.log("🔔 Notification received:", notification);
+    const handleNotification = (notification) => {
+      console.log("🔔 Notification received:", notification);
 
-    setNotifications((prev) => [notification, ...prev]);
-    setGlobalToast(notification);
+      setNotifications((prev) => [notification, ...prev]);
+      setGlobalToast(notification);
 
-    // ✅ Dispatch window event for Navbar
-    if (notification.type === "connection_request") {
-      window.dispatchEvent(
-        new CustomEvent("socket:connection_request", { detail: notification })
-      );
+      // ✅ Dispatch window event for Navbar
+      if (notification.type === "connection_request") {
+        window.dispatchEvent(
+          new CustomEvent("socket:connection_request", { detail: notification })
+        );
+      }
+    };
+
+    socketRef.current.on("notification", handleNotification);
+    return () => socketRef.current.off("notification", handleNotification);
+  }, []);
+
+  // ✅ Listen for connection removal and update connections state
+  useEffect(() => {
+    function handleConnectionRemoved(e) {
+      const { connectionId } = e.detail;
+      console.log("🗑️ Connection removed event received:", connectionId);
+
+      setConnections((prev) => prev.filter((c) => c._id !== connectionId));
     }
-  };
 
-  socketRef.current.on("notification", handleNotification);
-  return () => socketRef.current.off("notification", handleNotification);
-}, []);
+    window.addEventListener("connection_removed", handleConnectionRemoved);
 
-// ✅ Listen for connection removal and update connections state
-useEffect(() => {
-  function handleConnectionRemoved(e) {
-    const { connectionId } = e.detail;
-    console.log("🗑️ Connection removed event received:", connectionId);
-    
-    setConnections((prev) => prev.filter((c) => c._id !== connectionId));
-  }
-
-  window.addEventListener("connection_removed", handleConnectionRemoved);
-  
-  return () => {
-    window.removeEventListener("connection_removed", handleConnectionRemoved);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("connection_removed", handleConnectionRemoved);
+    };
+  }, []);
 
 
 
