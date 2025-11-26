@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 import { Link } from "react-router-dom";
+import { fetchAIResponse } from "../lib/puterClient";
 
 function AiCareerMentor() {
   const { darkMode } = useTheme();
@@ -8,252 +9,458 @@ function AiCareerMentor() {
   const [placementType, setPlacementType] = useState("On Campus");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [resultText, setResultText] = useState("");
+  const [insights, setInsights] = useState(null);
+  const [rawText, setRawText] = useState("");
 
-  const isPuterReady = () => typeof window !== "undefined" && typeof window.puter !== "undefined";
-
+  // -----------------------------
+  // FIXED handleGetInsights()
+  // -----------------------------
   async function handleGetInsights() {
     setError("");
-    setResultText("");
+    setInsights(null);
+    setRawText("");
 
     if (!companyName.trim()) {
       setError("Please enter a company name.");
       return;
     }
 
-    if (!isPuterReady()) {
-      setError("Puter.js is not loaded. Please refresh the page or ensure you're signed in to Puter.");
-      return;
-    }
+    setLoading(true);
 
-    const prompt = `Give me the hiring process for ${companyName} via ${placementType} placement. Include:\n- number of rounds,\n- type of each round,\n- important questions,\n- additional notes,\n- and tips to clear each round.`;
+    const prompt = `Analyze the hiring process for ${companyName} for a ${placementType} role.
+      Return a strict JSON object with the following structure:
+      {
+        "rounds": [
+          { "name": "Round Name", "description": "Brief details about this round", "topics": ["Topic 1", "Topic 2"] }
+        ],
+        "importantTopics": [
+          { "topic": "Main Topic Name", "subtopics": ["Subtopic 1", "Subtopic 2", "Subtopic 3"] }
+        ],
+        "tips": ["Specific tip 1", "Specific tip 2", "Specific tip 3", "Specific tip 4", "Specific tip 5"],
+        "notes": ["Important note 1", "Important note 2", "Important note 3", "Important note 4", "Important note 5"]
+      }
+      Ensure "tips" and "notes" have at least 5-7 items each.
+      For "importantTopics", provide 3-4 main topics, each with 2-3 specific subtopics.
+      Keep the response concise, accurate, and helpful for a student. 
+      Do not include any markdown formatting (like json code blocks), just the raw JSON string.`;
 
     try {
-      setLoading(true);
-      const resp = await window.puter.ai.chat(prompt);
-      const text = typeof resp === "string" ? resp : (resp?.text ?? JSON.stringify(resp));
-      setResultText(String(text || ""));
+      // 1. Fetch AI text
+      const text = await fetchAIResponse(prompt);
+
+      // 2. Remove ```json blocks
+      const cleanedText = text
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim();
+
+      setRawText(cleanedText);
+
+      // 3. Parse JSON
+      try {
+        const parsedData = JSON.parse(cleanedText);
+
+        // Validate structure
+        if (!parsedData.rounds && !parsedData.tips && !parsedData.notes) {
+          throw new Error("Invalid structure");
+        }
+
+        setInsights(parsedData);
+
+      } catch (parseError) {
+        console.warn("JSON Parse Error:", parseError);
+        setError("Received unstructured response. Please try again.");
+      }
     } catch (e) {
-      setError(e?.message || "Failed to fetch insights. Please try again.");
+      console.error("AI Error:", e);
+      setError("Failed to fetch insights. Please try again.");
     } finally {
       setLoading(false);
     }
   }
 
-  // Simple parser to extract suggested sections when present
-  function parseSections(text) {
-    const t = (text || "").replace(/\r/g, "").replace(/\\n/g, "\n");
-    const lower = t.toLowerCase();
-    const keys = [
-      { key: "number of rounds", label: "Number of Rounds" },
-      { key: "type of each round", label: "Round Types" },
-      { key: "important questions", label: "Sample Questions" },
-      { key: "tips", label: "Tips to Succeed" },
-      { key: "additional notes", label: "Additional Notes" },
-    ];
-
-    const indices = keys
-      .map(k => ({ label: k.label, key: k.key, idx: lower.indexOf(k.key) }))
-      .filter(x => x.idx !== -1)
-      .sort((a, b) => a.idx - b.idx);
-
-    if (indices.length < 2) return null; // not enough structure; render raw
-
-    const sections = {};
-    for (let i = 0; i < indices.length; i++) {
-      const start = indices[i].idx;
-      const end = i + 1 < indices.length ? indices[i + 1].idx : t.length;
-      const label = indices[i].label;
-      // Slice original text to preserve case
-      const slice = t.substring(start, end);
-      // Remove the key header portion
-      const headerLen = indices[i].key.length;
-      sections[label] = slice.substring(headerLen).trim();
-    }
-    return sections;
-  }
-
-  const sections = parseSections(resultText);
-
   return (
-    <div className={`${darkMode ? "bg-black text-white" : "bg-white text-gray-800"} min-h-[calc(100dvh-4rem)] w-full`}>
-      {/* Hero */}
-      <section className="px-6 pt-6">
-        <div className="max-w-7xl mx-auto">
-          <div className={`rounded-2xl p-8 sm:p-10 border shadow-[0_10px_40px_rgba(0,0,0,0.25)] bg-gradient-to-br from-orange-500/10 to-purple-500/10 ${darkMode ? "border-gray-800" : "border-gray-200"}`}>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-purple-500">AI Career Mentor</span>
-            </h1>
-            <p className="mt-3 text-sm sm:text-base opacity-80">
-              Get clear, sectioned insights on hiring processes with tips and practice links.
-            </p>
-          </div>
+    <div
+      className={`${
+        darkMode ? "bg-black text-white" : "bg-gray-50 text-gray-900"
+      } min-h-[calc(100dvh-4rem)] w-full transition-colors duration-300`}
+    >
+      {/* Hero Section */}
+      <section className="relative px-6 pt-12 pb-8 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-purple-500/5 to-transparent pointer-events-none" />
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600">
+              AI Career Mentor
+            </span>
+          </h1>
+          <p
+            className={`text-lg md:text-xl max-w-2xl mx-auto ${
+              darkMode ? "text-gray-400" : "text-gray-600"
+            } animate-in fade-in slide-in-from-bottom-5 duration-700 delay-100`}
+          >
+            Unlock your dream job with personalized, AI-driven insights into
+            hiring processes, interview rounds, and success strategies.
+          </p>
         </div>
       </section>
 
-      {/* Form */}
-      <section className="px-6 mt-6">
-        <div className="max-w-7xl mx-auto">
-          <div className={`${darkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} rounded-2xl shadow-lg border p-6 sm:p-8`}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium mb-1">Company Name</label>
+      {/* Input Section */}
+      <section className="px-6 mb-12">
+        <div className="max-w-4xl mx-auto">
+          <div
+            className={`${
+              darkMode ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"
+            } rounded-2xl shadow-xl border p-6 md:p-8 transition-all duration-300 hover:shadow-2xl animate-in fade-in zoom-in duration-500 delay-200`}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-2 space-y-2">
+                <label
+                  className={`text-sm font-semibold ${
+                    darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
+                  Target Company
+                </label>
                 <input
                   type="text"
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
-                  placeholder="e.g., Infosys"
-                  className={`${darkMode ? "bg-[#121212] border-gray-800 text-white" : "bg-white border-gray-300 text-gray-900"} w-full px-4 py-3 rounded-xl border outline-none focus:border-orange-400`}
+                  placeholder="e.g., Google, Infosys, TCS"
+                  className={`w-full px-4 py-3 rounded-xl border outline-none transition-all duration-200 ${
+                    darkMode
+                      ? "bg-[#1a1a1a] border-gray-700 text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                      : "bg-gray-50 border-gray-300 text-gray-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  }`}
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Placement Type</label>
+
+              <div className="space-y-2">
+                <label
+                  className={`text-sm font-semibold ${
+                    darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
+                  Placement Type
+                </label>
                 <select
                   value={placementType}
                   onChange={(e) => setPlacementType(e.target.value)}
-                  className={`${darkMode ? "bg-[#121212] border-gray-800 text-white" : "bg-white border-gray-300 text-gray-900"} w-full px-4 py-3 rounded-xl border outline-none focus:border-orange-400`}
+                  className={`w-full px-4 py-3 rounded-xl border outline-none transition-all duration-200 ${
+                    darkMode
+                      ? "bg-[#1a1a1a] border-gray-700 text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                      : "bg-gray-50 border-gray-300 text-gray-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  }`}
                 >
                   <option>On Campus</option>
                   <option>Off Campus</option>
+                  <option>Internship</option>
                 </select>
               </div>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
               <button
                 onClick={handleGetInsights}
                 disabled={loading}
-                className={`px-5 py-3 rounded-xl font-semibold ${
-                  loading ? "bg-orange-300 cursor-not-allowed" : "bg-orange-400 hover:bg-orange-500"
-                } text-white transition-colors`}
+                className={`w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-white shadow-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] ${
+                  loading
+                    ? "bg-gradient-to-r from-gray-500 to-gray-600 cursor-not-allowed opacity-70"
+                    : "bg-gradient-to-r from-orange-500 to-pink-600 hover:shadow-orange-500/25"
+                }`}
               >
-                {loading ? "Fetching…" : "Get Career Insights"}
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Analyzing...
+                  </span>
+                ) : (
+                  "Get Insights"
+                )}
               </button>
-              {!isPuterReady() && (
-                <span className="text-sm opacity-80">Puter.js not detected — please refresh or sign into Puter.</span>
-              )}
             </div>
 
             {error && (
-              <div className="mt-4 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 rounded-lg p-3">
+              <div className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium animate-in fade-in slide-in-from-top-2">
                 {error}
+
+                {rawText && (
+                  <details className="mt-2">
+                    <summary className="cursor-pointer opacity-70 hover:opacity-100">
+                      View raw response
+                    </summary>
+                    <pre className="mt-2 p-2 bg-black/10 rounded text-xs overflow-auto max-h-40 whitespace-pre-wrap">
+                      {rawText}
+                    </pre>
+                  </details>
+                )}
               </div>
-            )}
-            {!error && loading && (
-              <div className="mt-4 text-sm opacity-80">Analyzing hiring process…</div>
             )}
           </div>
         </div>
       </section>
 
-      {/* Results & Preparation */}
-      <section className="px-6 mt-6 mb-10">
-        <div className="max-w-7xl mx-auto">
-          {resultText && (
-            <div className={`${darkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} rounded-2xl shadow-lg border p-6 sm:p-8`}>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
-                <h2 className="text-2xl font-bold">Career Insights</h2>
-                <span className="text-sm opacity-70">Structured summary based on AI response</span>
+      {/* RESULTS SECTION */}
+      {insights && (
+        <section className="px-6 pb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
+          <div className="max-w-7xl mx-auto space-y-8">
+            {/* Interview Rounds */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-1 bg-orange-500 rounded-full" />
+                <h2
+                  className={`text-2xl md:text-3xl font-bold ${
+                    darkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  Interview Process
+                </h2>
               </div>
 
-              {/* Horizontal Preparation & Practice */}
-              <div className="mb-6 -mx-2 overflow-x-auto">
-                <div className="px-2 flex items-stretch gap-3 min-w-max">
-                  <Link className="block" to="/dsa">
-                    <PrepLink label="DSA Practice" description="Ace problem-solving" color="from-orange-500 to-pink-500" />
-                  </Link>
-                  <Link className="block" to="/aptitude-questions">
-                    <PrepLink label="Aptitude" description="Quantitative & logical" color="from-blue-500 to-cyan-500" />
-                  </Link>
-                  <Link className="block" to="/hr">
-                    <PrepLink label="HR & Behavioral" description="Interview behaviors" color="from-purple-500 to-violet-500" />
-                  </Link>
-                  <Link className="block" to="/resources">
-                    <PrepLink label="Core Subjects" description="OS • DBMS • CN" color="from-emerald-500 to-teal-500" />
-                  </Link>
-                  <Link className="block" to="/mock-interview">
-                    <PrepLink label="Mock Interview" description="Simulate rounds" color="from-red-500 to-orange-500" />
-                  </Link>
-                </div>
-              </div>
+              {insights.rounds && insights.rounds.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {insights.rounds.map((round, idx) => (
+                    <div
+                      key={idx}
+                      className={`group relative p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
+                        darkMode
+                          ? "bg-[#121212] border-gray-800 hover:border-orange-500/30"
+                          : "bg-white border-gray-200 hover:border-orange-200"
+                      }`}
+                    >
+                      <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <span className="text-6xl font-black text-orange-500">
+                          {idx + 1}
+                        </span>
+                      </div>
 
-              {/* Insights content - wider layout */}
-              {sections ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {Object.entries(sections).map(([label, content]) => (
-                    <SectionBlock key={label} label={label} content={content} darkMode={darkMode} />
+                      <h3
+                        className={`text-xl font-bold mb-3 ${
+                          darkMode ? "text-white" : "text-gray-900"
+                        }`}
+                      >
+                        {round.name}
+                      </h3>
+
+                      <p
+                        className={`text-sm mb-4 leading-relaxed ${
+                          darkMode ? "text-gray-400" : "text-gray-600"
+                        }`}
+                      >
+                        {round.description}
+                      </p>
+
+                      {round.topics && round.topics.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {round.topics.map((topic, tIdx) => (
+                            <span
+                              key={tIdx}
+                              className={`text-xs px-2.5 py-1 rounded-full font-medium ${
+                                darkMode
+                                  ? "bg-orange-500/10 text-orange-400 border border-orange-500/20"
+                                  : "bg-orange-50 text-orange-700 border border-orange-100"
+                              }`}
+                            >
+                              {topic}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               ) : (
-                <div className={`${darkMode ? "bg-[#0f0f0f] border-gray-800" : "bg-gray-100 border-gray-200"} p-4 rounded-lg border`}>
-                  <div className="text-lg whitespace-pre-wrap leading-7">
-                    {resultText}
-                  </div>
-                </div>
+                <p
+                  className={`text-sm ${
+                    darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
+                  No specific interview rounds found.
+                </p>
               )}
+            </div>
 
-              {/* External practice links (inline) */}
-              <div className="mt-6">
-                <h4 className="text-sm font-semibold opacity-80">External practice</h4>
-                <ul className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-sm">
-                  <li><a className="text-orange-400 hover:underline" href="https://leetcode.com" target="_blank" rel="noreferrer">LeetCode</a> — coding rounds & contests</li>
-                  <li><a className="text-orange-400 hover:underline" href="https://www.geeksforgeeks.org" target="_blank" rel="noreferrer">GeeksforGeeks</a> — interview experiences</li>
-                  <li><a className="text-orange-400 hover:underline" href="https://www.interviewbit.com" target="_blank" rel="noreferrer">InterviewBit</a> — guided practice</li>
-                  <li><a className="text-orange-400 hover:underline" href="https://prepinsta.com" target="_blank" rel="noreferrer">PrepInsta</a> — campus placement resources</li>
-                </ul>
+            {/* Important Topics Section */}
+            {insights.importantTopics && insights.importantTopics.length > 0 && (
+              <div className="space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-1 bg-pink-500 rounded-full" />
+                  <h2
+                    className={`text-2xl md:text-3xl font-bold ${
+                      darkMode ? "text-white" : "text-gray-900"
+                    }`}
+                  >
+                    Important Topics
+                  </h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {insights.importantTopics.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-lg ${
+                        darkMode
+                          ? "bg-[#121212] border-gray-800 hover:border-pink-500/30"
+                          : "bg-white border-gray-200 hover:border-pink-200"
+                      }`}
+                    >
+                      <h3
+                        className={`text-lg font-bold mb-3 ${
+                          darkMode ? "text-pink-400" : "text-pink-600"
+                        }`}
+                      >
+                        {item.topic}
+                      </h3>
+                      {item.subtopics && item.subtopics.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {item.subtopics.map((sub, sIdx) => (
+                            <span
+                              key={sIdx}
+                              className={`text-xs px-2.5 py-1 rounded-full font-medium ${
+                                darkMode
+                                  ? "bg-pink-500/10 text-pink-300 border border-pink-500/20"
+                                  : "bg-pink-50 text-pink-700 border border-pink-100"
+                              }`}
+                            >
+                              {sub}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Tips */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-1 bg-green-500 rounded-full" />
+                <h2
+                  className={`text-2xl md:text-3xl font-bold ${
+                    darkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  Tips to Succeed
+                </h2>
+              </div>
+
+              <div
+                className={`p-8 rounded-2xl border ${
+                  darkMode
+                    ? "bg-gradient-to-br from-[#121212] to-[#0a0a0a] border-gray-800"
+                    : "bg-gradient-to-br from-white to-gray-50 border-gray-200"
+                }`}
+              >
+                {insights.tips && insights.tips.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                    {insights.tips.map((tip, idx) => (
+                      <div key={idx} className="flex items-start gap-4">
+                        <div
+                          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                            darkMode
+                              ? "bg-green-500/20 text-green-400"
+                              : "bg-green-100 text-green-600"
+                          }`}
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </div>
+                        <p
+                          className={`text-base leading-relaxed ${
+                            darkMode ? "text-gray-300" : "text-gray-700"
+                          }`}
+                        >
+                          {tip}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p
+                    className={`text-sm ${
+                      darkMode ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
+                    No specific tips found.
+                  </p>
+                )}
               </div>
             </div>
-          )}
-        </div>
-      </section>
-    </div>
-  );
-}
 
-export default AiCareerMentor;
+            {/* Notes */}
+            {insights.notes && insights.notes.length > 0 && (
+              <div className="space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-1 bg-purple-500 rounded-full" />
+                  <h2
+                    className={`text-2xl md:text-3xl font-bold ${
+                      darkMode ? "text-white" : "text-gray-900"
+                    }`}
+                  >
+                    Additional Notes
+                  </h2>
+                </div>
 
-// Helper components
-function SectionBlock({ label, content, darkMode }) {
-  const raw = String(content || "").replace(/\\n/g, "\n");
-  const lines = raw.split(/\n+/).map(l => l.trim()).filter(Boolean);
-  const bulletRx = /^([\-*•]|\d+\.|\d+\))\s+/;
-  const bulletLines = lines.filter(l => bulletRx.test(l));
-  const nonBulletLines = lines.filter(l => !bulletRx.test(l));
-  const showList = bulletLines.length >= 2 || (raw.includes(" - ") && raw.split(" - ") .length > 3);
-  const hyphenTokens = showList && bulletLines.length === 0
-    ? raw.split(/\s+-\s+/).map(t => t.trim()).filter(Boolean)
-    : [];
-  const items = bulletLines.length > 0
-    ? bulletLines.map(l => l.replace(bulletRx, ""))
-    : hyphenTokens;
-  const heading = nonBulletLines.length && nonBulletLines[0].endsWith(":") ? nonBulletLines[0].replace(/:$/, "") : null;
-  return (
-    <div className={`${darkMode ? "bg-[#0f0f0f] border-gray-800" : "bg-gray-100 border-gray-200"} p-5 rounded-lg border`}>
-      <h3 className="text-xl font-semibold mb-2">{label}</h3>
-      {heading && <div className="text-sm opacity-70 mb-2">{heading}</div>}
-      {showList && items.length > 0 ? (
-        <ul className="list-disc ml-6 space-y-2 text-lg leading-7">
-          {items.map((l, i) => (
-            <li key={i}>{l}</li>
-          ))}
-        </ul>
-      ) : (
-        <div className="text-lg whitespace-pre-wrap leading-7">{raw}</div>
+                <div
+                  className={`rounded-2xl p-6 md:p-8 border ${
+                    darkMode
+                      ? "bg-purple-500/5 border-purple-500/20"
+                      : "bg-purple-50 border-purple-100"
+                  }`}
+                >
+                  <div className="space-y-4">
+                    {insights.notes.map((note, idx) => (
+                      <div key={idx} className="flex gap-4">
+                        <span className="text-2xl">💡</span>
+                        <p
+                          className={`text-base leading-relaxed ${
+                            darkMode ? "text-gray-300" : "text-gray-700"
+                          }`}
+                        >
+                          {note}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
       )}
     </div>
   );
 }
 
-function PrepLink({ label, description, color }) {
-  return (
-    <div className={`rounded-xl p-3 border ${"bg-gradient-to-r " + color} text-white shadow hover:shadow-lg transition-shadow`}>
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="font-semibold">{label}</div>
-          <div className="text-xs opacity-90">{description}</div>
-        </div>
-        <span>→</span>
-      </div>
-    </div>
-  );
-}
+export default AiCareerMentor;

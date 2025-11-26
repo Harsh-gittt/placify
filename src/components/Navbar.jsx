@@ -879,24 +879,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
                   >
                     <ul className="py-2">
                       <li>
-                        <Link
-                          to="/profile"
-                          className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
-                          onClick={() => setShowUserMenu(false)}
-                        >
-                          Profile
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/bookmarks"
-                          className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
-                          onClick={() => setShowUserMenu(false)}
-                        >
-                          Bookmarks
-                        </Link>
-                      </li>
-                      <li>
                         <button
                           className="w-full text-left px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors text-red-500"
                           onClick={handleSignOut}

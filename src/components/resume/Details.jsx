@@ -36,11 +36,6 @@ const CategoryContent = ({ tips = [] }) => {
             style={{ animationDelay: `${index * 100}ms` }}
             key={index}
           >
-            <img
-              src={tip.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"}
-              alt="score"
-              className="size-5 max-sm:size-4 flex-shrink-0"
-            />
             <p className={`text-xl max-md:text-lg max-sm:text-base ${
               darkMode ? 'text-gray-300' : 'text-gray-500'
             }`}>
@@ -65,11 +60,6 @@ const CategoryContent = ({ tips = [] }) => {
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="flex flex-row gap-2 items-center">
-              <img
-                src={tip.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"}
-                alt="score"
-                className="size-5 max-sm:size-4 flex-shrink-0"
-              />
               <p className={`text-xl max-md:text-lg max-sm:text-base font-semibold ${
                 tip.type === "good"
                   ? darkMode ? "text-green-300" : "text-green-700"

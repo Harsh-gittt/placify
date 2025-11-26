@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import dsaImg from '../assets/images/screenshots/dsa.png'
+import aptiImg from '../assets/images/screenshots/apti.png'
+import coreSubjectsImg from '../assets/images/screenshots/core subjects.png'
+import hrQuestionsImg from '../assets/images/screenshots/hr questions.png'
 
 function Tab({ active, label, onClick, className = '' }) {
   const { darkMode } = useTheme();
@@ -79,9 +83,11 @@ function LearningShowcase(){
 
             {/* Right image placeholder */}
             <div className="w-full">
-              <div className={`w-full aspect-video rounded-xl ${darkMode ? 'bg-[#0f0f0f] border-white/10' : 'bg-gray-200 border-gray-300'} border flex items-center justify-center ${darkMode ? 'text-gray-500' : 'text-gray-600'} transition-colors duration-300`}>
-                {active==='dsa' ? 'DSA Screenshot' : active==='system' ? 'Aptitude Preview' : active==='subjects' ? 'Core Subjects Preview' : 'HR Round Preview'}
-              </div>
+              <img 
+                src={active==='dsa' ? dsaImg : active==='system' ? aptiImg : active==='subjects' ? coreSubjectsImg : hrQuestionsImg}
+                alt={active==='dsa' ? 'DSA Screenshot' : active==='system' ? 'Aptitude Preview' : active==='subjects' ? 'Core Subjects Preview' : 'HR Round Preview'}
+                className="w-full h-auto rounded-xl border ${darkMode ? 'border-white/10' : 'border-gray-300'} transition-colors duration-300"
+              />
             </div>
           </div>
         </div>
