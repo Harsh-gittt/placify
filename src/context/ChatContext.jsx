@@ -312,7 +312,41 @@ useEffect(() => {
     // ✅ NEW: Global toast state
     globalToast,
     setGlobalToast,
+    // ✅ NEW: Add connection manually (for real-time updates)
+    addConnection: (newConnection) => {
+      setConnections((prev) => {
+        // Avoid duplicates
+        if (prev.some((c) => c._id === newConnection._id)) return prev;
+        return [newConnection, ...prev];
+      });
+    },
   };
+
+  // ✅ Listen for connection_accepted event (for the sender)
+  useEffect(() => {
+    if (!socketRef.current) return;
+
+    const handleConnectionAccepted = (data) => {
+      console.log("✅ Connection accepted event received:", data);
+      const { notification, connection } = data;
+
+      // Show toast
+      setGlobalToast(notification);
+
+      // Add to connections list
+      if (connection) {
+        setConnections((prev) => {
+          if (prev.some((c) => c._id === connection._id)) return prev;
+          return [connection, ...prev];
+        });
+      }
+    };
+
+    socketRef.current.on("connection_accepted", handleConnectionAccepted);
+    return () => {
+      socketRef.current.off("connection_accepted", handleConnectionAccepted);
+    };
+  }, []);
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 }

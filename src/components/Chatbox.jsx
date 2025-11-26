@@ -48,12 +48,17 @@ function ChatBox() {
   useEffect(() => {
     if (!socket) return;
     const handleNewMessage = (data) => {
+      console.log("💬 ChatBox received message:", data);
       if (data.connectionId === activeChatConnection?._id) {
         setMessages((prev) => {
           // Prevent duplicates
           const exists = prev.some((m) => m._id === data.message._id);
-          return exists ? prev : [...prev, data.message];
+          if (exists) return prev;
+          console.log("✅ Adding new message to chat view");
+          return [...prev, data.message];
         });
+      } else {
+        console.log("⚠️ Message not for active chat:", data.connectionId, "Active:", activeChatConnection?._id);
       }
     };
     socket.on("new_message", handleNewMessage);
