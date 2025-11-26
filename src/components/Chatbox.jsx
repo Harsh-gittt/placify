@@ -165,9 +165,8 @@ function ChatBox() {
   return (
     <div
       ref={chatBoxRef}
-      className={`fixed z-[200] rounded-xl shadow-2xl border-2 transition-all ${
-        darkMode ? "bg-[#18181b] border-orange-400 text-white" : "bg-white border-gray-300 text-gray-900"
-      } ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+      className={`fixed z-[200] rounded-xl shadow-2xl border-2 transition-all ${darkMode ? "bg-[#18181b] border-orange-400 text-white" : "bg-white border-gray-300 text-gray-900"
+        } ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
@@ -231,9 +230,8 @@ function ChatBox() {
                 return (
                   <div key={msg._id || idx} className={`flex ${isOwn ? "justify-end" : "justify-start"}`}>
                     <div
-                      className={`max-w-[70%] px-3 py-2 rounded-lg text-sm ${
-                        isOwn ? "bg-orange-400 text-white" : darkMode ? "bg-[#23232a] text-white" : "bg-gray-200 text-gray-900"
-                      }`}
+                      className={`max-w-[70%] px-3 py-2 rounded-lg text-sm ${isOwn ? "bg-orange-400 text-white" : darkMode ? "bg-[#23232a] text-white" : "bg-gray-200 text-gray-900"
+                        }`}
                     >
                       <p className="break-words">{msg.text}</p>
                       <p className="text-xs opacity-70 mt-1">
@@ -254,9 +252,8 @@ function ChatBox() {
                 value={messageText}
                 onChange={(e) => setMessageText(e.target.value)}
                 placeholder="Type a message..."
-                className={`flex-1 px-3 py-2 rounded-lg border focus:outline-none focus:border-orange-400 ${
-                  darkMode ? "bg-[#23232a] border-gray-700 text-white placeholder-gray-500" : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
-                }`}
+                className={`flex-1 px-3 py-2 rounded-lg border focus:outline-none focus:border-orange-400 ${darkMode ? "bg-[#23232a] border-gray-700 text-white placeholder-gray-500" : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
+                  }`}
                 disabled={sending || loading}
                 autoFocus
               />

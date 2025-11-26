@@ -429,7 +429,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
     connections,
     globalToast,
     selfId,
-    addConnection,
   } = useChat();
 
   // Only keep state for UI toggles (menus)
@@ -538,7 +537,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
       console.log("✅ Request accepted:", data);
 
       // ✅ Update UI: Add to connections
-      addConnection(data.connection);
+      // setConnections((prev) => [data.connection, ...prev]); // No longer needed
 
       // ✅ Update UI: Remove from requests
       setGlobalToast({
