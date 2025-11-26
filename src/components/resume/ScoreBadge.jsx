@@ -25,11 +25,6 @@ const ScoreBadge = ({ score }) => {
         score
       )}`}
     >
-      <img
-        src={score > 69 ? "/icons/check.svg" : "/icons/warning.svg"}
-        alt="score"
-        className="size-4 animate-in zoom-in duration-300"
-      />
       <p className="text-sm font-medium">{score}/100</p>
     </div>
   );

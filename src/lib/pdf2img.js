@@ -61,3 +61,24 @@ export async function convertPdfToImage(file) {
     return { imageUrl: "", file: null, error: `Failed to convert PDF: ${err}` };
   }
 }
+
+export async function extractTextFromPdf(file) {
+  try {
+    const lib = await loadPdfJs();
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
+    let fullText = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map((item) => item.str).join(" ");
+      fullText += pageText + "\n";
+    }
+
+    return fullText.trim();
+  } catch (err) {
+    console.error("Error extracting text from PDF:", err);
+    return "";
+  }
+}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import FileUploader from "./FileUploader";
-import { convertPdfToImage } from "../../lib/pdf2img";
+import { convertPdfToImage, extractTextFromPdf } from "../../lib/pdf2img";
 import { generateUUID, prepareInstructions, normalizeFeedback } from "../../lib/utils";
 import { fetchAIResponse } from "../../lib/puterClient";
 
@@ -41,8 +41,12 @@ const Upload = () => {
       }
 
       setStatusText("Analyzing resume with AI...");
+      
+      // Extract text from PDF
+      const resumeText = await extractTextFromPdf(file);
+      
       // Prepare the AI prompt
-      const prompt = prepareInstructions({ jobTitle, jobDescription });
+      const prompt = prepareInstructions({ jobTitle, jobDescription, resumeText });
 
       // Call anonymous AI—no Puter signin required!
       const feedbackRaw = await fetchAIResponse(prompt);
@@ -67,7 +71,15 @@ const Upload = () => {
       // Simulate saving and redirect after a second
       setTimeout(() => {
         // Optionally persist feedback, then route
-        navigate(`/resume/preview`, { state: { data } });
+        navigate(`/resume/preview`, { 
+          state: { 
+            data: {
+              ...data,
+              resumeUrl: URL.createObjectURL(file),
+              imageUrl: imageFile.imageUrl
+            }
+          } 
+        });
       }, 800);
 
     } catch (err) {
@@ -96,13 +108,33 @@ const Upload = () => {
             Smart feedback for your dream job
           </h1>
           {isProcessing ? (
-            <div className="animate-in fade-in zoom-in duration-500">
-              <h2 className={`max-md:text-xl max-sm:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{statusText}</h2>
-              <img
-                src="/images/resume-scan.gif"
-                className="w-full max-w-md mx-auto mt-4 animate-pulse"
-                alt="processing"
-              />
+            <div className="animate-in fade-in zoom-in duration-500 flex flex-col items-center">
+              <h2 className={`max-md:text-xl max-sm:text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{statusText}</h2>
+              
+              <div className="relative w-64 h-80 bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-200">
+                {/* Document lines */}
+                <div className="p-6 space-y-4">
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  <div className="space-y-2 pt-4">
+                    <div className="h-2 bg-gray-100 rounded"></div>
+                    <div className="h-2 bg-gray-100 rounded"></div>
+                    <div className="h-2 bg-gray-100 rounded"></div>
+                    <div className="h-2 bg-gray-100 rounded w-5/6"></div>
+                  </div>
+                  <div className="space-y-2 pt-4">
+                    <div className="h-2 bg-gray-100 rounded"></div>
+                    <div className="h-2 bg-gray-100 rounded"></div>
+                    <div className="h-2 bg-gray-100 rounded w-4/5"></div>
+                  </div>
+                </div>
+                
+                {/* Scanning line */}
+                <div className="absolute left-0 w-full h-1 bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)] animate-scan z-10"></div>
+                
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-b from-orange-500/5 to-transparent pointer-events-none"></div>
+              </div>
             </div>
           ) : (
             <h2 className={`max-md:text-xl max-sm:text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>

@@ -37,11 +37,6 @@ const ATS = ({ score = 0, suggestions = [] }) => {
     >
       {/* Top section with icon and headline */}
       <div className="flex items-center gap-4 mb-6 max-sm:mb-4 animate-in fade-in slide-in-from-left-4 duration-500">
-        <img
-          src={iconSrc}
-          alt="ATS Score Icon"
-          className="w-12 h-12 max-sm:w-10 max-sm:h-10 animate-in zoom-in duration-500"
-        />
         <div>
           <h2 className={`text-2xl max-md:text-xl max-sm:text-lg font-bold ${
             darkMode ? 'text-white' : 'text-gray-900'
@@ -74,11 +69,6 @@ const ATS = ({ score = 0, suggestions = [] }) => {
                 className="flex items-start gap-3 max-sm:gap-2 animate-in fade-in slide-in-from-left-4 duration-500"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <img
-                  src={suggestion.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"}
-                  alt={suggestion.type === "good" ? "Check" : "Warning"}
-                  className="w-5 h-5 max-sm:w-4 max-sm:h-4 mt-1 flex-shrink-0"
-                />
                 <p
                   className={`max-sm:text-sm ${
                     suggestion.type === "good"
