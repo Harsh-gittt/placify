@@ -7,6 +7,7 @@ import CommunityStats from "./components/CommunityStats";
 import Footer from "./components/Footer";
 import { useTheme } from "./context/ThemeContext";
 import { useChat } from "./context/ChatContext";
+import { API_BASE_URL } from "./lib/apiBaseUrl";
 
 const App = ({ onOpenSignin, onOpenSignup }) => {
   const { darkMode } = useTheme();
@@ -29,7 +30,7 @@ const App = ({ onOpenSignin, onOpenSignup }) => {
       if (!token) return;
 
       try {
-        const res = await fetch("http://localhost:3000/get-user-details", {
+        const res = await fetch(`${API_BASE_URL}/get-user-details`, {
           headers: { Authorization: token },
         });
 

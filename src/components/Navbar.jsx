@@ -3,13 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/images/placify3.png";
 import { useTheme } from "../context/ThemeContext";
 import { useChat } from "../context/ChatContext";
+import { API_BASE_URL } from "../lib/apiBaseUrl";
 
 async function GetUserDetails() {
   try {
     const token = localStorage.getItem("auth_token");
     if (!token) return null;
 
-    const res = await fetch("http://localhost:3000/get-user-details", {
+    const res = await fetch(`${API_BASE_URL}/get-user-details`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -516,7 +517,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
       console.log(`📡 Accepting request: ${notificationId}`);
 
       const res = await fetch(
-        `http://localhost:3000/api/notifications/${notificationId}/accept`,
+        `${API_BASE_URL}/api/notifications/${notificationId}/accept`,
         {
           method: "POST",
           headers: {
@@ -571,7 +572,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
       console.log(`📡 Declining request: ${notificationId}`);
 
       const res = await fetch(
-        `http://localhost:3000/api/notifications/${notificationId}/decline`,
+        `${API_BASE_URL}/api/notifications/${notificationId}/decline`,
         {
           method: "POST",
           headers: {
@@ -657,7 +658,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
       const token = localStorage.getItem("auth_token");
 
       const res = await fetch(
-        `http://localhost:3000/api/connections/${connectionId}`,
+        `${API_BASE_URL}/api/connections/${connectionId}`,
         {
           method: "DELETE",
           headers: {

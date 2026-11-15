@@ -50,8 +50,11 @@ Set the values in `backend\.env`:
 MONGODB_URL=mongodb://127.0.0.1:27017/placify
 SECRET_KEY=replace-with-a-long-random-secret
 PORT=3000
+FRONTEND_URL=http://localhost:5173
 GEMINI_API_KEY=your-gemini-api-key
 ```
+
+For production, set `FRONTEND_URL` on the backend to the deployed frontend's origin. The production frontend uses the hosted backend by default; set `VITE_API_BASE_URL` at build time to override it.
 
 Generate a JWT secret with:
 

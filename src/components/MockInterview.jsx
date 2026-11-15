@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { fetchAIChatResponse } from "../lib/aiClient";
 import { useTheme } from "../context/ThemeContext";
+import { API_BASE_URL } from "../lib/apiBaseUrl";
 
 const COMPANIES = ["Infosys", "TCS", "Accenture", "Wipro", "Capgemini"];
 const ROUND_TYPES = ["Technical", "HR", "Online Assessment"];
@@ -153,7 +154,6 @@ async function loadCloudSessions() {
 
 export default function MockInterview() {
   const { darkMode } = useTheme();
-  const BACKEND_URL = "http://localhost:3000";
   const [company, setCompany] = useState(COMPANIES[0]);
   const [roundType, setRoundType] = useState(ROUND_TYPES[0]);
   const [conversation, setConversation] = useState([]);
@@ -176,7 +176,7 @@ export default function MockInterview() {
     try {
       const token = localStorage.getItem("auth_token");
       if (!token) return [];
-      const res = await fetch(`${BACKEND_URL}/api/mock-interviews`, {
+      const res = await fetch(`${API_BASE_URL}/api/mock-interviews`, {
         headers: { Authorization: token },
       });
       if (!res.ok) return [];
@@ -198,7 +198,7 @@ export default function MockInterview() {
     } catch {
       return [];
     }
-  }, [BACKEND_URL]);
+  }, []);
 
   const loadSessions = useCallback(async () => {
     setLoadingSessions(true);
@@ -443,7 +443,7 @@ export default function MockInterview() {
       if (session.source === "server" && isMongoId(session.id)) {
         const token = localStorage.getItem("auth_token");
         if (!token) throw new Error("Not signed in");
-        const res = await fetch(`${BACKEND_URL}/api/mock-interviews/${encodeURIComponent(session.id)}`, {
+        const res = await fetch(`${API_BASE_URL}/api/mock-interviews/${encodeURIComponent(session.id)}`, {
           method: "DELETE",
           headers: { Authorization: token },
         });
@@ -476,7 +476,7 @@ export default function MockInterview() {
     try {
       const token = localStorage.getItem("auth_token");
       if (!token) return false;
-      const res = await fetch(`${BACKEND_URL}/api/save-mock-interview`, {
+      const res = await fetch(`${API_BASE_URL}/api/save-mock-interview`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -6,6 +6,7 @@ import {
   useRef,
 } from "react";
 import { io } from "socket.io-client";
+import { API_BASE_URL } from "../lib/apiBaseUrl";
 
 const ChatContext = createContext();
 
@@ -35,7 +36,7 @@ export function ChatProvider({ children }) {
   useEffect(() => {
     console.log("🔌 Initializing socket connection...");
 
-    socketRef.current = io("http://localhost:3000", {
+    socketRef.current = io(API_BASE_URL, {
       transports: ["websocket", "polling"],
       reconnection: true,
       reconnectionDelay: 1000,
@@ -75,7 +76,7 @@ export function ChatProvider({ children }) {
       if (!token) return;
 
       try {
-        const res = await fetch("http://localhost:3000/get-user-details", {
+        const res = await fetch(`${API_BASE_URL}/get-user-details`, {
           headers: { Authorization: token },
         });
 
@@ -102,7 +103,7 @@ export function ChatProvider({ children }) {
 
   // Fetch partners
   useEffect(() => {
-    fetch("http://localhost:3000/api/partners")
+    fetch(`${API_BASE_URL}/api/partners`)
       .then((res) => res.json())
       .then((data) => setPartners(data))
       .catch((err) => console.error("❌ Fetch partners error:", err));
@@ -115,7 +116,7 @@ export function ChatProvider({ children }) {
     const token = localStorage.getItem("auth_token");
     if (!token) return;
 
-    fetch(`http://localhost:3000/api/connections/accepted`, {
+    fetch(`${API_BASE_URL}/api/connections/accepted`, {
       headers: { Authorization: token },
     })
       .then((res) => res.json())
@@ -133,7 +134,7 @@ export function ChatProvider({ children }) {
     const token = localStorage.getItem("auth_token");
     if (!token) return;
 
-    fetch(`http://localhost:3000/api/notifications`, {
+    fetch(`${API_BASE_URL}/api/notifications`, {
       headers: { Authorization: token },
     })
       .then((res) => res.json())
@@ -231,7 +232,7 @@ export function ChatProvider({ children }) {
 
 
   const createNotification = (notif) => {
-    fetch("http://localhost:3000/api/notifications", {
+    fetch(`${API_BASE_URL}/api/notifications`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(notif),
@@ -248,7 +249,7 @@ export function ChatProvider({ children }) {
       return;
     }
 
-    fetch(`http://localhost:3000/api/notifications/${id}/read`, {
+    fetch(`${API_BASE_URL}/api/notifications/${id}/read`, {
       method: "PUT",
       headers: { Authorization: token },
     })

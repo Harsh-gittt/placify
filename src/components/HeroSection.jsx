@@ -1,6 +1,7 @@
 // HeroSection.jsx
 import { useEffect, useState } from "react";
 import { useTheme } from "../context/ThemeContext";
+import { API_BASE_URL } from "../lib/apiBaseUrl";
 
 const rotatingItems = [
   { label: "DSA Sheet", className: "text-teal-400" },
@@ -37,7 +38,7 @@ async function GetUserDetails() {
       return null;
     }
 
-    const res = await fetch("http://localhost:3000/get-user-details", {
+    const res = await fetch(`${API_BASE_URL}/get-user-details`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

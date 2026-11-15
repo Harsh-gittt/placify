@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "../context/ThemeContext";
 import { useChat } from "../context/ChatContext";
-
-const BACKEND_URL = "http://localhost:3000";
+import { API_BASE_URL } from "../lib/apiBaseUrl";
 
 function ChatBox() {
   const { darkMode } = useTheme();
@@ -90,7 +89,7 @@ function ChatBox() {
       setLoading(true);
       const token = localStorage.getItem("auth_token");
       if (!token) return;
-      const res = await fetch(`${BACKEND_URL}/api/chat/${activeChatConnection._id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/chat/${activeChatConnection._id}`, {
         headers: { Authorization: token },
       });
       if (res.ok) {
@@ -115,7 +114,7 @@ function ChatBox() {
       setSending(true);
       const token = localStorage.getItem("auth_token");
       if (!token) return;
-      const res = await fetch(`${BACKEND_URL}/api/chat`, {
+      const res = await fetch(`${API_BASE_URL}/api/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

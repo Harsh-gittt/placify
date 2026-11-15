@@ -17,8 +17,11 @@ npm install
 MONGODB_URL=mongodb://127.0.0.1:27017/placify
 SECRET_KEY=replace-with-a-random-secret
 PORT=3000
+FRONTEND_URL=http://localhost:5173
 GEMINI_API_KEY=
 ```
+
+For production, set `FRONTEND_URL` to the deployed frontend's origin. Multiple comma-separated origins are supported.
 
 AI features use Google's Gemini 3.5 Flash-Lite through the backend. Create a free API key in [Google AI Studio](https://aistudio.google.com/apikey), add it to `GEMINI_API_KEY` in `backend/.env`, and restart the backend. The free tier has usage limits and Google's free-tier data terms apply. Keep the key on the backend; do not add it to frontend code or commit it.
 

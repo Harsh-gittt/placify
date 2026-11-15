@@ -1,6 +1,6 @@
 import { getFallbackDSAQuestions } from "../data/dsaQuestionBank";
+import { API_BASE_URL } from "./apiBaseUrl";
 
-const API_URL = "http://localhost:3000";
 const MODEL = "gemini-3.5-flash-lite";
 
 export async function fetchAIChatResponse(prompt) {
@@ -8,7 +8,7 @@ export async function fetchAIChatResponse(prompt) {
     throw new Error("An AI prompt is required.");
   }
 
-  const response = await fetch(`${API_URL}/api/ai`, {
+  const response = await fetch(`${API_BASE_URL}/api/ai`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),

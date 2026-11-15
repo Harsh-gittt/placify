@@ -5,9 +5,7 @@ import PartnerCard from "./PartnerCard";
 import BePartner from "./BePartner";
 import { useTheme } from "../context/ThemeContext";
 import { useChat } from "../context/ChatContext"; // Add this import
-
-
-const BACKEND_URL = "http://localhost:3000";
+import { API_BASE_URL } from "../lib/apiBaseUrl";
 
 const SAMPLE_PARTNERS = [
   {
@@ -208,7 +206,7 @@ function StudyPartner() {
       const token = localStorage.getItem("auth_token");
       if (!token) return;
 
-      const res = await fetch(`${BACKEND_URL}/get-user-details`, {
+      const res = await fetch(`${API_BASE_URL}/get-user-details`, {
         headers: { Authorization: token },
       });
 
@@ -227,7 +225,7 @@ function StudyPartner() {
       setLoading(true);
       setError(null);
       
-      const res = await fetch(`${BACKEND_URL}/api/partners`, {
+      const res = await fetch(`${API_BASE_URL}/api/partners`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -313,7 +311,7 @@ function StudyPartner() {
         .map((s) => s.trim())
         .filter(Boolean);
 
-      const res = await fetch(`${BACKEND_URL}/api/partners`, {
+      const res = await fetch(`${API_BASE_URL}/api/partners`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -375,7 +373,7 @@ function StudyPartner() {
         return;
       }
 
-      const res = await fetch(`${BACKEND_URL}/api/connections`, {
+      const res = await fetch(`${API_BASE_URL}/api/connections`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

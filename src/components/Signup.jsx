@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
+import { API_BASE_URL } from "../lib/apiBaseUrl";
 
 export default function Signup({ isOpen, onClose, openSignin }) {
   const { darkMode } = useTheme();
@@ -18,7 +19,7 @@ export default function Signup({ isOpen, onClose, openSignin }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/signup", {
+      const res = await fetch(`${API_BASE_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
