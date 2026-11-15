@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/images/Placify3.png";
+import logo from "../assets/images/placify3.png";
 import { useTheme } from "../context/ThemeContext";
 import { useChat } from "../context/ChatContext";
 
