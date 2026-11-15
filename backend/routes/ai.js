@@ -1,87 +1,75 @@
-// backend/routes/ai.js
 const express = require("express");
 const router = express.Router();
 
-// Helper: call Puter (no-key) first, then fallback to OpenRouter if configured
-async function callPuter(prompt) {
-  const res = await fetch("https://api.puter.com/v1/ai/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model: "gpt-3.5", messages: [{ role: "user", content: prompt }] }),
-  });
-  return res;
-}
-
-async function callOpenRouter(prompt) {
-  const key = process.env.OPENROUTER_API_KEY;
-  if (!key) throw new Error("OPENROUTER_API_KEY not configured");
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: prompt }],
-    }),
-  });
-  return res;
-}
+const GEMINI_MODEL = "gemini-3.5-flash-lite";
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 router.post("/ai", async (req, res) => {
-  try {
-    const { prompt } = req.body;
-    if (!prompt) return res.status(400).json({ error: "Missing prompt" });
+  const prompt = req.body?.prompt;
+  if (typeof prompt !== "string" || !prompt.trim()) {
+    return res.status(400).json({ error: "A non-empty prompt is required." });
+  }
 
-    // Try Puter first (no API key). Wrap in try/catch.
-    try {
-      const puterResp = await callPuter(prompt);
-      if (puterResp.ok) {
-        const data = await puterResp.json();
-        const message = data?.message || data?.choices?.[0]?.message?.content || JSON.stringify(data);
-        return res.json({ provider: "puter", message });
-      }
-
-      // If Puter returns 401/403 or other non-ok, log and fallthrough to fallback
-      const status = puterResp.status;
-      const bodyText = await puterResp.text().catch(()=>"");
-      console.warn(`⚠️ Puter returned non-ok: ${status}`, bodyText.substring(0, 100));
-      if (status === 401 || status === 403) {
-        console.log("Puter API requires authentication. Checking for OpenRouter fallback...");
-      } else if (status !== 401 && status !== 403) {
-        // For other statuses, still attempt fallback if configured
-        console.warn("Puter non-ok status; attempting fallback if available");
-      }
-    } catch (puterErr) {
-      console.warn("Puter call failed:", puterErr.message || puterErr);
-    }
-
-    // Fallback: OpenRouter (if API key exists)
-    if (process.env.OPENROUTER_API_KEY) {
-      console.log("Puter failed, attempting OpenRouter fallback...");
-      try {
-        const openResp = await callOpenRouter(prompt);
-        if (openResp.ok) {
-          const data = await openResp.json();
-          const message = data?.choices?.[0]?.message?.content || JSON.stringify(data);
-          console.log("✅ OpenRouter fallback successful");
-          return res.json({ provider: "openrouter", message });
-        }
-        const txt = await openResp.text().catch(()=>"");
-        console.warn("OpenRouter non-ok:", openResp.status, txt);
-        return res.status(502).json({ error: "OpenRouter returned non-ok", details: txt });
-      } catch (openErr) {
-        console.error("OpenRouter call failed:", openErr);
-        return res.status(502).json({ error: "OpenRouter request failed", details: openErr.message });
-      }
-    }
-
-    // If we get here, no fallback available
-    console.error("❌ Puter API blocked (403) and no OpenRouter fallback configured");
-    return res.status(403).json({
-      error: "Puter API access denied (403). To fix this:\n1. Get a free OpenRouter API key at https://openrouter.ai/keys\n2. Add OPENROUTER_API_KEY=your_key to backend/.env\n3. Restart the backend server",
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return res.status(503).json({
+      error:
+        "AI is not configured. Create a free key at https://aistudio.google.com/apikey, add it as GEMINI_API_KEY in backend/.env, and restart the backend.",
     });
-  } catch (err) {
-    console.error("AI proxy error:", err);
-    return res.status(500).json({ error: "Server error while fetching AI response", details: err.message });
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 60000);
+
+  try {
+    const response = await fetch(GEMINI_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.4, maxOutputTokens: 8192 },
+      }),
+      signal: controller.signal,
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      const message =
+        data?.error?.message || `Gemini request failed (${response.status}).`;
+      console.error(`Gemini returned HTTP ${response.status}`);
+      return res.status(response.status === 429 ? 429 : 502).json({
+        error: message,
+      });
+    }
+
+    const text = (data?.candidates?.[0]?.content?.parts || [])
+      .map((part) => part.text || "")
+      .join("")
+      .trim();
+
+    if (!text) {
+      return res.status(502).json({
+        error: "Gemini returned no text. The prompt may have been blocked.",
+      });
+    }
+
+    return res.json({
+      provider: "gemini",
+      model: GEMINI_MODEL,
+      text,
+      message: text,
+    });
+  } catch (error) {
+    if (error.name === "AbortError") {
+      return res.status(504).json({ error: "Gemini request timed out." });
+    }
+    console.error("Gemini request failed:", error.message);
+    return res.status(502).json({ error: "Could not reach the Gemini API." });
+  } finally {
+    clearTimeout(timeout);
   }
 });
 

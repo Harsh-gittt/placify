@@ -1,14 +1,37 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import SearchBar from "./SearchBar";
 import PartnerCard from "./PartnerCard";
 import BePartner from "./BePartner";
-import Navbar from "./Navbar";
 import { useTheme } from "../context/ThemeContext";
 import { useChat } from "../context/ChatContext"; // Add this import
 
 
 const BACKEND_URL = "http://localhost:3000";
+
+const SAMPLE_PARTNERS = [
+  {
+    _id: "sample-aarav",
+    name: "Aarav Sharma",
+    skills: ["DSA", "Java", "System Design"],
+    lookingFor: "Weekly problem-solving sessions and mock interviews",
+    isSample: true,
+  },
+  {
+    _id: "sample-priya",
+    name: "Priya Nair",
+    skills: ["React", "TypeScript", "UI/UX"],
+    lookingFor: "A partner for frontend projects and code reviews",
+    isSample: true,
+  },
+  {
+    _id: "sample-kabir",
+    name: "Kabir Singh",
+    skills: ["Python", "Machine Learning", "SQL"],
+    lookingFor: "ML project collaboration and interview preparation",
+    isSample: true,
+  },
+];
 
 // ============================================================================
 // BECOME PARTNER MODAL
@@ -32,9 +55,9 @@ function BecomePartnerModal({ onClose, onSubmit, loading }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 bg-black bg-opacity-75">
       <div
-        className={`rounded-2xl p-6 w-full max-w-md ${
+        className={`rounded-2xl p-5 sm:p-6 w-full max-w-md ${
           darkMode ? "bg-[#18181b] text-white" : "bg-white text-gray-900"
         }`}
       >
@@ -254,7 +277,11 @@ function StudyPartner() {
     }
   }
 
-  const filteredPartners = partners.filter((p) => {
+  const partnersToDisplay = error
+    ? partners
+    : [...partners, ...SAMPLE_PARTNERS];
+
+  const filteredPartners = partnersToDisplay.filter((p) => {
     if (myPartner && p._id === myPartner._id) {
       return false;
     }
@@ -394,25 +421,24 @@ function StudyPartner() {
         darkMode ? "bg-black text-white" : "bg-white text-gray-900"
       }`}
     >
-      <Navbar />
-      <div className="px-8">
+      <div className="px-4 sm:px-8">
         {myPartner ? (
           <div
-            className={`rounded-2xl p-8 text-center mt-10 transition-colors duration-300 ${
+            className={`rounded-2xl p-5 sm:p-8 text-center mt-6 sm:mt-10 transition-colors duration-300 ${
               darkMode
                 ? "bg-gradient-to-br from-[#18181b] to-[#23232a] border border-gray-800"
                 : "bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200"
             }`}
           >
             <h2
-              className={`text-2xl font-bold mb-2 ${
+              className={`text-xl sm:text-2xl font-bold mb-2 ${
                 darkMode ? "text-white" : "text-gray-900"
               }`}
             >
               ✅ You are already a partner
             </h2>
             <p
-              className={`text-lg ${
+              className={`text-base sm:text-lg ${
                 darkMode ? "text-gray-300" : "text-gray-600"
               }`}
             >
@@ -432,7 +458,7 @@ function StudyPartner() {
         />
       )}
 
-      <div className="p-8 space-y-8">
+      <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -486,12 +512,13 @@ function StudyPartner() {
                   email={partner.email}
                   onConnect={handleConnect}
                   isConnected={isConnected(partner._id)} // ✅ Pass connection status
+                  isSample={partner.isSample}
                 />
               ))
             ) : (
               <div className="col-span-full text-center py-12">
                 <p className="text-gray-400 text-lg mb-4">
-                  {partners.length === 0
+                  {partnersToDisplay.length === 0
                     ? "No study partners yet. Be the first!"
                     : "No partners match your search."}
                 </p>

@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useContext,
   useState,
@@ -242,10 +242,25 @@ export function ChatProvider({ children }) {
   };
 
   const markNotificationRead = (id) => {
+    const token = localStorage.getItem("auth_token");
+    if (!token) {
+      console.error("Cannot mark notification as read without an auth token");
+      return;
+    }
+
     fetch(`http://localhost:3000/api/notifications/${id}/read`, {
       method: "PUT",
+      headers: { Authorization: token },
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        const updated = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(
+            updated.message || `HTTP ${res.status}: Failed to mark notification as read`
+          );
+        }
+        return updated;
+      })
       .then((updated) =>
         setNotifications((prev) =>
           prev.map((n) => (n._id === id ? updated : n))

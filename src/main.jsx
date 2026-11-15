@@ -5,7 +5,6 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dsa from "./components/Dsa.jsx";
 import StudyPartner from "./components/StudyPartner.jsx";
-import Internships from "./components/Internships.jsx";
 import Resources from "./components/Resources.jsx";
 import Hr from "./components/Hr.jsx";
 import ResumeUpload from "./components/resume/Upload.jsx";
@@ -16,7 +15,6 @@ import Layout from "./components/Layout.jsx";
 import AptitudeQuestions from "./components/AptitudeQuestions.jsx";
 import MockInterview from "./components/MockInterview.jsx";
 import AiCareerMentor from "./pages/AiCareerMentor.jsx";
-// No longer needed - using direct fetchAIResponse instead
 
 const router = createBrowserRouter([
   {
@@ -40,14 +38,6 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <StudyPartner />
-      </Layout>
-    ),
-  },
-  {
-    path: "/internships",
-    element: (
-      <Layout>
-        <Internships />
       </Layout>
     ),
   },

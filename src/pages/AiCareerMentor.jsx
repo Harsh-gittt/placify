@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 import { Link } from "react-router-dom";
-import { fetchAIResponse } from "../lib/puterClient";
+import { fetchAIResponse } from "../lib/aiClient";
 
 function AiCareerMentor() {
   const { darkMode } = useTheme();

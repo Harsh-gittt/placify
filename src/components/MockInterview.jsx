@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { fetchAIChatResponse } from "../lib/puterClient";
+import { fetchAIChatResponse } from "../lib/aiClient";
 import { useTheme } from "../context/ThemeContext";
 
 const COMPANIES = ["Infosys", "TCS", "Accenture", "Wipro", "Capgemini"];
@@ -561,6 +561,10 @@ export default function MockInterview() {
             round. The AI interviewer asks one question at a time, provides
             immediate feedback, and finishes with a score, summary, and
             personalised improvement tips.
+          </p>
+          <p className="text-sm opacity-70">
+            Academic demo: your interview replies are sent to Google Gemini.
+            Avoid including personal or confidential details.
           </p>
         </header>
 

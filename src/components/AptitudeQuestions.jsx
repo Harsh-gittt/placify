@@ -58,10 +58,10 @@ function AptitudeQuestions() {
   useEffect(() => { setOpenSet(new Set()); }, [selectedTopic]);
 
   return (
-    <div className={`${darkMode ? 'bg-black text-white' : 'bg-white text-gray-800'} w-screen min-h-screen h-auto`}>
+    <div className={`${darkMode ? 'bg-black text-white' : 'bg-white text-gray-800'} w-full min-h-screen h-auto`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-0 h-full min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         {/* Sidebar: Topics */}
-        <aside className={`lg:col-span-3 lg:sticky lg:top-20 self-start ${darkMode ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200'} border rounded-2xl p-3 sm:p-4 max-h-[calc(100vh-2rem)] overflow-y-auto`}>
+        <aside className={`lg:col-span-3 lg:sticky lg:top-20 self-start ${darkMode ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200'} border rounded-2xl p-3 sm:p-4 max-h-[45vh] lg:max-h-[calc(100vh-2rem)] overflow-y-auto`}>
           <div className="flex items-center gap-2 mb-4">
             <input 
               value={topicFilter} 
@@ -103,7 +103,7 @@ function AptitudeQuestions() {
                 value={search} 
                 onChange={e=>setSearch(e.target.value)} 
                 placeholder="Search questions…" 
-                className={`${darkMode ? 'bg-[#121212] border-gray-800 text-white' : 'bg-white border-gray-200 text-gray-900'} flex-1 min-w-[200px] px-3 py-2 text-sm rounded-xl border outline-none focus:border-orange-400 transition-colors`} 
+                className={`${darkMode ? 'bg-[#121212] border-gray-800 text-white' : 'bg-white border-gray-200 text-gray-900'} flex-1 min-w-0 sm:min-w-[200px] px-3 py-2 text-sm rounded-xl border outline-none focus:border-orange-400 transition-colors`}
               />
               <div className="flex gap-2 overflow-x-auto no-scrollbar whitespace-nowrap">
                 {['all','bookmarked'].map(t=> (

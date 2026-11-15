@@ -25,14 +25,29 @@ function ChatBox() {
 
   // Draggable state only, keep local
   const [position, setPosition] = useState({
-    x: typeof window !== "undefined" ? window.innerWidth - 420 : 0,
-    y: 100,
+    x: typeof window !== "undefined" ? Math.max(12, window.innerWidth - 412) : 0,
+    y:
+      typeof window !== "undefined"
+        ? Math.max(12, Math.min(100, window.innerHeight - 612))
+        : 100,
   });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
   const chatBoxRef = useRef(null);
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    function keepChatInViewport() {
+      setPosition((current) => ({
+        x: Math.max(12, Math.min(current.x, window.innerWidth - 412)),
+        y: Math.max(12, Math.min(current.y, window.innerHeight - 612)),
+      }));
+    }
+
+    window.addEventListener("resize", keepChatInViewport);
+    return () => window.removeEventListener("resize", keepChatInViewport);
+  }, []);
 
   // Load messages when connection changes
   useEffect(() => {
@@ -140,8 +155,8 @@ function ChatBox() {
     function handleMouseMove(e) {
       if (isDragging) {
         setPosition({
-          x: Math.max(0, Math.min(e.clientX - dragOffset.x, window.innerWidth - 400)),
-          y: Math.max(0, Math.min(e.clientY - dragOffset.y, window.innerHeight - 100)),
+          x: Math.max(12, Math.min(e.clientX - dragOffset.x, window.innerWidth - 412)),
+          y: Math.max(12, Math.min(e.clientY - dragOffset.y, window.innerHeight - 612)),
         });
       }
     }
@@ -170,9 +185,11 @@ function ChatBox() {
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
-        width: isChatMinimized ? "300px" : "400px",
+        width: isChatMinimized
+          ? "min(300px, calc(100vw - 24px))"
+          : "min(400px, calc(100vw - 24px))",
         height: isChatMinimized ? "60px" : "600px",
-        maxWidth: "calc(100vw - 40px)",
+        maxWidth: "none",
         maxHeight: "calc(100vh - 40px)",
       }}
       onMouseDown={handleMouseDown}

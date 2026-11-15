@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/images/Placify3.png";
 import { useTheme } from "../context/ThemeContext";
@@ -217,7 +217,7 @@ function ConnectionsPanel({
   );
 
   return (
-    <div className="absolute right-0 mt-3 w-96 z-50">
+    <div className="absolute right-0 mt-3 w-[min(24rem,calc(100vw-2rem))] sm:w-96 z-50">
       <div
         className={`${
           darkMode
@@ -426,7 +426,9 @@ function Navbar({ onLoginClick, onConnectNow }) {
     unreadChatCounts,
     setGlobalToast,
     notifications,
+    setNotifications,
     connections,
+    setConnections,
     globalToast,
     selfId,
   } = useChat();
@@ -536,10 +538,15 @@ function Navbar({ onLoginClick, onConnectNow }) {
       const data = await res.json();
       console.log("✅ Request accepted:", data);
 
-      // ✅ Update UI: Add to connections
-      // setConnections((prev) => [data.connection, ...prev]); // No longer needed
-
-      // ✅ Update UI: Remove from requests
+      if (data.connection) {
+        setConnections((previous) => [
+          ...previous.filter((connection) => connection._id !== data.connection._id),
+          data.connection,
+        ]);
+      }
+      setNotifications((previous) =>
+        previous.filter((notification) => notification._id !== notificationId)
+      );
       setGlobalToast({
         type: "connection_accepted",
         message: "Connection request accepted!",
@@ -575,15 +582,22 @@ function Navbar({ onLoginClick, onConnectNow }) {
       );
 
       if (res.ok) {
-        console.log("✅ Request declined");
-
+        setNotifications((previous) =>
+          previous.filter((notification) => notification._id !== notificationId)
+        );
         setGlobalToast({
           type: "connection_declined",
           message: "Request declined",
         });
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || `HTTP ${res.status}: Failed to decline request`
+        );
       }
     } catch (err) {
       console.error("❌ Decline error:", err);
+      alert(`Failed to decline request: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -654,7 +668,6 @@ function Navbar({ onLoginClick, onConnectNow }) {
       );
 
       if (res.ok) {
-        // setConnections((prev) => prev.filter((c) => c._id !== connectionId)); // No longer needed
         setConnectionToRemove(null);
 
         window.dispatchEvent(
@@ -669,10 +682,15 @@ function Navbar({ onLoginClick, onConnectNow }) {
           message: "Connection removed successfully",
           timestamp: new Date().toISOString(),
         });
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || `HTTP ${res.status}: Failed to remove connection`
+        );
       }
     } catch (err) {
       console.error("❌ Remove connection error:", err);
-      alert("Failed to remove connection");
+      alert(`Failed to remove connection: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -706,7 +724,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
           </span>
         </Link>
 
-        <div className="flex items-center gap-5">
+        <div className="hidden md:flex items-center gap-5">
           <div className="relative" ref={connectionsRef}>
             <button
               className="flex items-center gap-1 hover:opacity-90 transition-opacity relative pr-2"
@@ -825,7 +843,7 @@ function Navbar({ onLoginClick, onConnectNow }) {
                     </li>
                     <li>
                       <Link
-                        to="/resources"
+                        to="/resume"
                         className="block px-4 py-2 hover:bg-[#ea7a47]/10 transition-colors"
                         onClick={() => setShowResources(false)}
                       >
@@ -954,11 +972,53 @@ function Navbar({ onLoginClick, onConnectNow }) {
             DSA Resources
           </Link>
           <Link
+            to="/study-partner"
+            className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Study Partner
+          </Link>
+          <Link
+            to="/aptitude-questions"
+            className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Aptitude Questions
+          </Link>
+          <Link
             to="/resources"
             className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
             onClick={() => setIsMenuOpen(false)}
           >
             All Resources
+          </Link>
+          <Link
+            to="/hr"
+            className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            HR Questions
+          </Link>
+          <Link
+            to="/mock-interview"
+            className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Mock Interview
+          </Link>
+          <Link
+            to="/ai-career-mentor"
+            className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            AI Career Mentor
+          </Link>
+          <Link
+            to="/resume"
+            className="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Resume Review
           </Link>
           <button
             onClick={() => {

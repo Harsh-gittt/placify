@@ -4,7 +4,7 @@ import { useTheme } from "../../context/ThemeContext";
 import FileUploader from "./FileUploader";
 import { convertPdfToImage, extractTextFromPdf } from "../../lib/pdf2img";
 import { generateUUID, prepareInstructions, normalizeFeedback } from "../../lib/utils";
-import { fetchAIResponse } from "../../lib/puterClient";
+import { fetchAIResponse } from "../../lib/aiClient";
 
 const Upload = () => {
   const { darkMode } = useTheme();
@@ -149,6 +149,11 @@ const Upload = () => {
               <p className={`text-sm ${darkMode ? 'text-red-300' : 'text-red-700'}`}>{error}</p>
             </div>
           )}
+
+          <p className={`mt-4 mx-auto max-w-2xl text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            Academic demo: resume text is sent to Google Gemini for analysis.
+            Use a sample resume, not personal or confidential documents.
+          </p>
 
           <form
             id="upload-form"

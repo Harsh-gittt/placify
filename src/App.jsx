@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import HeroSection from "./components/HeroSection";
 import ResourcesGrid from "./components/ResourcesGrid";
 import LearningShowcase from "./components/LearningShowcase";
@@ -8,11 +8,9 @@ import Footer from "./components/Footer";
 import { useTheme } from "./context/ThemeContext";
 import { useChat } from "./context/ChatContext";
 
-const App = () => {
+const App = ({ onOpenSignin, onOpenSignup }) => {
   const { darkMode } = useTheme();
   const { socket } = useChat();
-  const [showSignin, setShowSignin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
 
   useEffect(() => {
     if (darkMode) {
@@ -68,7 +66,10 @@ const App = () => {
         darkMode ? "bg-black text-white" : "bg-white text-black"
       } w-full min-h-screen overflow-x-hidden transition-colors duration-300`}
     >
-      <HeroSection />
+      <HeroSection
+        onOpenSignin={onOpenSignin}
+        onOpenSignup={onOpenSignup}
+      />
       <LearnersMarquee />
       <ResourcesGrid />
       <LearningShowcase />

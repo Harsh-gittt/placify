@@ -50,7 +50,7 @@ function Hr() {
   }, [allQs, search, filterTab, bookmarks])
 
   return (
-    <div className={`${darkMode ? 'bg-black text-white' : 'bg-white text-gray-800'} w-screen h-[calc(100dvh-4rem)] overflow-hidden relative`}>
+    <div className={`${darkMode ? 'bg-black text-white' : 'bg-white text-gray-800'} w-full min-h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-4rem)] lg:overflow-hidden relative`}>
       {/* Decorative background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-orange-400/10 blur-3xl" />
@@ -59,12 +59,12 @@ function Hr() {
         <div className="absolute top-24 right-40 text-orange-500/50 text-4xl">✦</div>
         <div className="absolute bottom-16 left-10 text-orange-500/60 text-6xl">✦</div>
       </div>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-0 h-full min-h-0 flex flex-col">
+      <div className="max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-2 pb-4 lg:pb-0 lg:h-full lg:min-h-0 flex flex-col">
         {/* Top banner */}
         <div className={`relative overflow-hidden rounded-2xl mb-4 border ${darkMode? 'border-gray-800 bg-gradient-to-r from-[#111] via-[#161313] to-[#111]':'border-gray-200 bg-gradient-to-r from-orange-50 to-amber-50'}`}>
-          <div className="px-6 py-5 flex items-center justify-between gap-4">
+          <div className="px-4 sm:px-6 py-4 sm:py-5 flex items-start sm:items-center justify-between gap-3">
             <div>
-              <h1 className="text-3xl font-extrabold flex items-center gap-3">HR Questions <span className="px-2 py-0.5 rounded-full text-xs bg-orange-400/15 text-orange-300 border border-orange-400/30">Behavioral</span></h1>
+              <h1 className="text-2xl sm:text-3xl font-extrabold flex flex-wrap items-center gap-2 sm:gap-3">HR Questions <span className="px-2 py-0.5 rounded-full text-xs bg-orange-400/15 text-orange-300 border border-orange-400/30">Behavioral</span></h1>
               <p className="text-sm opacity-70 mt-1">Curated interview Q&A with expandable answers and bookmarks</p>
             </div>
             <div className="hidden sm:flex items-center gap-3">
@@ -79,17 +79,17 @@ function Hr() {
           </div>
         </div>
 
-        <div className={`rounded-2xl border ${darkMode?'border-gray-800 bg-[#0a0a0a]':'border-gray-200 bg-white'} p-3 sm:p-4 h-full min-h-0 flex flex-col pb-6 shadow-[0_10px_40px_rgba(0,0,0,0.25)]`}>
-          <div className="flex items-center gap-3 mb-3">
+        <div className={`rounded-2xl border ${darkMode?'border-gray-800 bg-[#0a0a0a]':'border-gray-200 bg-white'} p-3 sm:p-4 lg:h-full lg:min-h-0 flex flex-col pb-6 shadow-[0_10px_40px_rgba(0,0,0,0.25)]`}>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-3">
             <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search questions…" className={`${darkMode?'bg-[#121212] border-gray-800 text-white':'bg-white border-gray-200 text-gray-900'} flex-1 px-3 py-2 rounded-xl border outline-none focus:border-orange-400`} />
-            <div className="flex gap-2">
+            <div className="flex gap-2 overflow-x-auto no-scrollbar">
               {['all','bookmarked'].map(t => (
                 <button key={t} onClick={()=>setFilterTab(t)} className={`px-3 py-1.5 rounded-xl text-sm border transition-colors ${filterTab===t? 'bg-orange-400 text-white border-orange-400' : (darkMode?'border-gray-800 hover:bg-[#121212]':'border-gray-200 hover:bg-gray-50')}`}>{t[0].toUpperCase()+t.slice(1)}</button>
               ))}
             </div>
           </div>
 
-          <ul className="flex-1 min-h-0 overflow-y-auto no-scrollbar space-y-3 pr-1 pb-6">
+          <ul className="flex-1 min-h-0 lg:overflow-y-auto no-scrollbar space-y-3 pr-1 pb-6">
             {filtered.map(q => {
               const id = qid(q)
               const open = openSet.has(id)

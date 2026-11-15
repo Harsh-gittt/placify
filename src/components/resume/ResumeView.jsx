@@ -111,7 +111,7 @@ const ResumeView = () => {
               </a>
             </div>
           ) : resumeUrl ? (
-            <div className="w-full h-[500px] max-w-2xl mx-auto animate-in fade-in zoom-in duration-1000">
+            <div className="w-full h-[min(500px,70dvh)] min-h-[300px] max-w-2xl mx-auto animate-in fade-in zoom-in duration-1000">
               <embed
                 src={resumeUrl}
                 type="application/pdf"

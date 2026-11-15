@@ -48,11 +48,11 @@ export default function Signin({ isOpen, onClose, openSignup }) {
 
   return (
     // ✅ FIX: Added proper backdrop
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[2px]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-3 sm:p-4 bg-black/30 backdrop-blur-[2px]">
       <div
-        className={`max-w-md w-full mx-4 ${
+        className={`max-w-md w-full ${
           darkMode ? "bg-black rounded-2xl" : "bg-white rounded-2xl"
-        } transition-colors duration-300 p-4`}
+        } transition-colors duration-300 p-3 sm:p-4`}
       >
         <div className="max-w-md mx-auto">
           <div
@@ -64,7 +64,7 @@ export default function Signin({ isOpen, onClose, openSignup }) {
               shadow-lg
               overflow-hidden
               transition-colors duration-300
-              p-8
+              p-5 sm:p-8
             `}
             role="region"
             aria-labelledby="signin-heading"
@@ -137,7 +137,7 @@ export default function Signin({ isOpen, onClose, openSignup }) {
                   />
                 </label>
 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center">
                     <input
                       id="remember-me"

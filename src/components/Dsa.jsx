@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { fetchDSAQuestions } from "../lib/puterClient";
+import { fetchDSAQuestions } from "../lib/aiClient";
 import { useTheme } from "../context/ThemeContext";
 
 // LocalStorage helpers with prefix
@@ -439,12 +439,12 @@ function Dsa() {
     <div
       className={`${
         darkMode ? "bg-black text-white" : "bg-white text-gray-800"
-      } w-screen h-[calc(100dvh-4rem)] overflow-hidden`}
+      } w-full min-h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-4rem)] lg:overflow-hidden`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-0 h-full min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-2 pb-0 lg:h-full lg:min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         {/* Sidebar */}
         <aside
-          className={`lg:col-span-3 lg:sticky lg:top-20 self-start ${
+          className={`hidden lg:block lg:col-span-3 lg:sticky lg:top-20 self-start ${
             darkMode
               ? "bg-[#0a0a0a] border-gray-800"
               : "bg-white border-gray-200"
@@ -496,7 +496,7 @@ function Dsa() {
           </ul>
         </aside>
         {/* Main */}
-        <main className="lg:col-span-9 h-full min-h-0 flex flex-col pb-6">
+        <main className="lg:col-span-9 lg:h-full lg:min-h-0 flex flex-col pb-6">
           <div className="flex items-start sm:items-center justify-between gap-3 mb-3">
             <div>
               <h1 className="text-2xl font-bold">DSA Tracker</h1>
@@ -576,6 +576,22 @@ function Dsa() {
                 </option>
               ))}
             </select>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+              <button
+                onClick={() => fetchHandler({ bypassCache: false })}
+                className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl px-3 py-2 text-sm font-semibold"
+              >
+                Fetch Latest Questions
+              </button>
+              {questions.length > 0 && (
+                <button
+                  onClick={handleRefetch}
+                  className="bg-orange-400/80 hover:bg-orange-600 text-white rounded-xl px-3 py-2 text-sm font-semibold"
+                >
+                  Refetch Latest
+                </button>
+              )}
+            </div>
           </div>
           <div
             className={`rounded-2xl border ${
@@ -584,7 +600,7 @@ function Dsa() {
                 : "border-gray-200 bg-white"
             } p-3 sm:p-4 mb-3`}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -593,7 +609,7 @@ function Dsa() {
                   darkMode
                     ? "bg-[#121212] border-gray-800 text-white"
                     : "bg-white border-gray-200 text-gray-900"
-                } flex-1 px-3 py-2 rounded-xl border outline-none focus:border-orange-400`}
+                } w-full min-w-0 sm:flex-1 px-3 py-2 rounded-xl border outline-none focus:border-orange-400`}
               />
               <div className="flex gap-2 overflow-x-auto no-scrollbar whitespace-nowrap">
                 {["all", "bookmarked", "completed", "incomplete"].map((t) => (
@@ -620,7 +636,7 @@ function Dsa() {
               </div>
             </div>
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto pr-1 pb-4">
+          <div className="flex-1 min-h-0 overflow-visible lg:overflow-y-auto pr-1 pb-4">
             {loading && (
               <div className="h-full flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4 text-center">

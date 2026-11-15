@@ -11,13 +11,13 @@ function SearchBar({ searchTerm, setSearchTerm, subject, setSubject, onSearch, o
         placeholder="Search by Name, Skill..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className={`flex-1 px-4 py-2 rounded-lg w-64 outline-none transition-colors duration-200 ${darkMode ? 'bg-black/30 text-white placeholder-gray-300' : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-300'}`}
+        className={`flex-1 min-w-0 px-4 py-2 rounded-lg w-full sm:w-64 outline-none transition-colors duration-200 ${darkMode ? 'bg-black/30 text-white placeholder-gray-300' : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-300'}`}
       />
       {/* Filter dropdown */}
       <select
         value={subject}
         onChange={(e) => setSubject(e.target.value)}
-        className={`px-4 py-2 rounded-lg outline-none transition-colors duration-200 ${darkMode ? 'bg-black/30 text-white' : 'bg-white text-gray-900 border border-gray-300'}`}
+        className={`max-w-full px-4 py-2 rounded-lg outline-none transition-colors duration-200 ${darkMode ? 'bg-black/30 text-white' : 'bg-white text-gray-900 border border-gray-300'}`}
       >
         <option className={darkMode ? 'bg-black text-gray-300' : 'bg-white text-gray-500'} value="">Filter by Subject</option>
         <option className={darkMode ? 'bg-black text-gray-300' : 'bg-white text-gray-900'} value="DSA">DSA</option>

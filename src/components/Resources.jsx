@@ -74,10 +74,10 @@ function Resources() {
   }
 
   return (
-    <div className={`${darkMode ? 'bg-black text-white' : 'bg-white text-gray-800'} w-screen h-[calc(100dvh-4rem)] overflow-hidden`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-0 h-full min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div className={`${darkMode ? 'bg-black text-white' : 'bg-white text-gray-800'} w-full min-h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-4rem)] lg:overflow-hidden`}>
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-2 pb-4 lg:pb-0 lg:h-full lg:min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         {/* Sidebar */}
-        <aside className={`lg:col-span-3 lg:sticky lg:top-20 self-start ${darkMode ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200'} border rounded-2xl p-4`}>
+        <aside className={`lg:col-span-3 lg:sticky lg:top-20 self-start max-h-[45vh] lg:max-h-[calc(100vh-5rem)] overflow-y-auto ${darkMode ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200'} border rounded-2xl p-3 sm:p-4`}>
           <div className="mb-3">
             <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search Q&A…" className={`${darkMode?'bg-[#121212] border-gray-800 text-white':'bg-white border-gray-200 text-gray-900'} w-full px-3 py-2 text-sm rounded-xl border outline-none focus:border-orange-400`} />
           </div>
@@ -94,14 +94,14 @@ function Resources() {
         </aside>
 
         {/* Main content */}
-        <main className="lg:col-span-9 h-full min-h-0 flex flex-col pb-6">
+        <main className="lg:col-span-9 lg:h-full lg:min-h-0 flex flex-col pb-6">
           <div className="mb-3">
             <h1 className="text-2xl font-bold">Core Subjects</h1>
             <p className="text-sm opacity-70">{selected}</p>
           </div>
 
-          <div className={`rounded-2xl border ${darkMode?'border-gray-800 bg-[#0a0a0a]':'border-gray-200 bg-white'} p-3 sm:p-4 h-full min-h-0 flex flex-col`}>
-            <div className="flex items-center justify-between gap-3 mb-3">
+          <div className={`rounded-2xl border ${darkMode?'border-gray-800 bg-[#0a0a0a]':'border-gray-200 bg-white'} p-3 sm:p-4 lg:h-full lg:min-h-0 flex flex-col`}>
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
               <span className="text-sm opacity-70">{filtered.length} questions</span>
               <div className="flex gap-2">
                 {['all','bookmarked'].map(t => (
@@ -110,7 +110,7 @@ function Resources() {
               </div>
             </div>
 
-            <ul className="flex-1 min-h-0 overflow-y-auto no-scrollbar space-y-2 pr-1 pb-6">
+            <ul className="flex-1 min-h-0 lg:overflow-y-auto no-scrollbar space-y-2 pr-1 pb-6">
               {filtered.map((q) => {
                 const id = qid(q)
                 const open = openSet.has(id)

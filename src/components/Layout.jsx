@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { cloneElement, isValidElement, useState } from "react";
 import Navbar from "./Navbar";
 import ChatBox from "./Chatbox";
 import NotificationToast from "./NotificationToast";
@@ -14,6 +14,13 @@ function Layout({ children }) {
   const [showSignin, setShowSignin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
+  const pageContent = isValidElement(children)
+    ? cloneElement(children, {
+        onOpenSignin: () => setShowSignin(true),
+        onOpenSignup: () => setShowSignup(true),
+      })
+    : children;
+
   return (
     <>
       <Navbar onLoginClick={() => setShowSignin(true)} />
@@ -26,7 +33,7 @@ function Layout({ children }) {
         />
       )}
 
-      <div className="pt-16">{children}</div>
+      <div className="pt-16">{pageContent}</div>
 
       <ChatBox />
 

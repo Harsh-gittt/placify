@@ -11,13 +11,16 @@
 npm install
 ```
 
-2. Create a `.env` file in the `backend` directory with the following variables:
+2. Copy `.env.example` to `.env` in the `backend` directory, then set the required values:
 
 ```env
-mongodb_url=your_mongodb_connection_string
-secret_key=your_jwt_secret_key
+mongodb_url=mongodb://127.0.0.1:27017/placify
+secret_key=replace-with-a-random-secret
 PORT=3000
+GEMINI_API_KEY=
 ```
+
+AI features use Google's Gemini 3.5 Flash-Lite through the backend. Create a free API key in [Google AI Studio](https://aistudio.google.com/apikey), add it to `GEMINI_API_KEY` in `backend/.env`, and restart the backend. The free tier has usage limits and Google's free-tier data terms apply. Keep the key on the backend; do not add it to frontend code or commit it.
 
 ### MongoDB Connection String Examples:
 - Local MongoDB: `mongodb://localhost:27017/placify`

@@ -9,7 +9,7 @@ function Stat({ value, label, icon: Icon }) {
 
   const containerClasses = [
     "rounded-3xl",
-    "p-8",
+    "p-4 sm:p-8",
     "flex",
     "flex-col",
     "items-center",
@@ -69,12 +69,12 @@ function CommunityStats() {
   return (
     <section
       aria-label="Community statistics"
-      className={`${darkMode ? "bg-black text-white" : "bg-white text-gray-800"} py-16 px-6 transition-colors duration-300`}
+      className={`${darkMode ? "bg-black text-white" : "bg-white text-gray-800"} py-10 sm:py-16 px-4 sm:px-6 transition-colors duration-300`}
     >
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-12">Empowering Students for Career Success</h2>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-8 sm:mb-12">Empowering Students for Career Success</h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-8">
           {stats.map((s, idx) => (
             <Stat key={idx} {...s} />
           ))}

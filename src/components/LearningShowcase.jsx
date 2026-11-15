@@ -60,20 +60,20 @@ function LearningShowcase(){
     ]
   }
   return (
-    <section className={`${darkMode ? 'bg-black text-white' : 'bg-white text-gray-800'} py-14 px-6 transition-colors duration-300`}>
+    <section className={`${darkMode ? 'bg-black text-white' : 'bg-white text-gray-800'} py-10 sm:py-14 px-4 sm:px-6 transition-colors duration-300`}>
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-5xl font-extrabold text-center mb-8">Revolutionize the Way You Learn</h2>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-6 sm:mb-8">Revolutionize the Way You Learn</h2>
 
-        <div className={`${darkMode ? 'bg-[#1f1f1f] border-white/10' : 'bg-gray-100 border-gray-200'} rounded-3xl p-6 sm:p-10 border transition-colors duration-300`}>
+        <div className={`${darkMode ? 'bg-[#1f1f1f] border-white/10' : 'bg-gray-100 border-gray-200'} rounded-3xl p-4 sm:p-6 lg:p-10 border transition-colors duration-300`}>
           {/* Tabs */}
-          <div className="flex gap-4 overflow-x-auto whitespace-nowrap no-scrollbar pl-2">
-            <Tab active={active==='dsa'} label="DSA Sheet" onClick={() => setActive('dsa')} className="flex-shrink-0" />
-            <Tab active={active==='system'} label="Aptitude Practice" onClick={() => setActive('system')} className="flex-shrink-0" />
-            <Tab active={active==='subjects'} label="Core Subjects" onClick={() => setActive('subjects')} className="flex-shrink-0" />
-            <Tab active={active==='interviews'} label="HR Round" onClick={() => setActive('interviews')} className="flex-shrink-0" />
+          <div className="flex gap-2 sm:gap-4 overflow-x-auto whitespace-nowrap no-scrollbar pl-1">
+            <Tab active={active==='dsa'} label="DSA Sheet" onClick={() => setActive('dsa')} className="flex-shrink-0 px-3 sm:px-5" />
+            <Tab active={active==='system'} label="Aptitude Practice" onClick={() => setActive('system')} className="flex-shrink-0 px-3 sm:px-5" />
+            <Tab active={active==='subjects'} label="Core Subjects" onClick={() => setActive('subjects')} className="flex-shrink-0 px-3 sm:px-5" />
+            <Tab active={active==='interviews'} label="HR Round" onClick={() => setActive('interviews')} className="flex-shrink-0 px-3 sm:px-5" />
           </div>
 
-          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <div className="mt-6 sm:mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 items-start">
             {/* Left bullets */}
             <div className="space-y-10">
               {content[active].map((b, idx) => (

@@ -48,8 +48,8 @@ export default function Signup({ isOpen, onClose, openSignin }) {
 
   return (
     // ✅ FIX: Added proper backdrop
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[10px]">
-      <div className={`max-w-md w-full mx-4 ${darkMode ? 'bg-black rounded-2xl' : 'bg-white rounded-2xl'} transition-colors duration-300 p-4`}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-3 sm:p-4 bg-black/30 backdrop-blur-[10px]">
+      <div className={`max-w-md w-full ${darkMode ? 'bg-black rounded-2xl' : 'bg-white rounded-2xl'} transition-colors duration-300 p-3 sm:p-4`}>
         <div className="max-w-md mx-auto">
           <div
             className={`
@@ -60,7 +60,7 @@ export default function Signup({ isOpen, onClose, openSignin }) {
               shadow-lg
               overflow-hidden
               transition-colors duration-300
-              p-8
+              p-5 sm:p-8
             `}
             role="region"
             aria-labelledby="signup-heading"
@@ -88,7 +88,7 @@ export default function Signup({ isOpen, onClose, openSignin }) {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <label className="block">
                   <input
                     name="first_name"

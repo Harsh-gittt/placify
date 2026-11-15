@@ -10,6 +10,7 @@ function PartnerCard({
   onConnect,
   connectionStatus,
   isConnected,
+  isSample = false,
 }) {
   const { darkMode } = useTheme(); // ✅ Use theme hook
 
@@ -18,7 +19,7 @@ function PartnerCard({
 
   return (
     <div
-      className={`border rounded-2xl p-6 w-72 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between ${
+      className={`border rounded-2xl p-5 sm:p-6 w-full min-w-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between ${
         darkMode
           ? "bg-[#18181b] border-gray-800 text-white"
           : "bg-white border-gray-200 text-gray-900"
@@ -84,7 +85,14 @@ function PartnerCard({
 
       {/* Connect Button or Status */}
       <div className="mt-auto">
-        {connectionStatus === "pending" ? (
+        {isSample ? (
+          <button
+            className="w-full bg-gray-500 text-white font-semibold px-4 py-2 rounded-lg cursor-not-allowed opacity-70"
+            disabled
+          >
+            Sample Profile
+          </button>
+        ) : connectionStatus === "pending" ? (
           <button
             className="w-full bg-gray-500 text-white font-semibold px-4 py-2 rounded-lg cursor-not-allowed opacity-70"
             disabled
