@@ -47,8 +47,8 @@ Copy-Item backend\.env.example backend\.env
 Set the values in `backend\.env`:
 
 ```env
-mongodb_url=mongodb://127.0.0.1:27017/placify
-secret_key=replace-with-a-long-random-secret
+MONGODB_URL=mongodb://127.0.0.1:27017/placify
+SECRET_KEY=replace-with-a-long-random-secret
 PORT=3000
 GEMINI_API_KEY=your-gemini-api-key
 ```

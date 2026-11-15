@@ -14,8 +14,8 @@ npm install
 2. Copy `.env.example` to `.env` in the `backend` directory, then set the required values:
 
 ```env
-mongodb_url=mongodb://127.0.0.1:27017/placify
-secret_key=replace-with-a-random-secret
+MONGODB_URL=mongodb://127.0.0.1:27017/placify
+SECRET_KEY=replace-with-a-random-secret
 PORT=3000
 GEMINI_API_KEY=
 ```

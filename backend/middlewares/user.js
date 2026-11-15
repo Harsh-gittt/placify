@@ -3,12 +3,12 @@ const jwt = require("jsonwebtoken");
 
 
 require('dotenv').config(); 
-const secret_key = process.env.secret_key;
+const secretKey = process.env.SECRET_KEY;
 
 function userauthmiddleware(req,res,next){
     try{
     const token = req.header("Authorization")
-     const id = jwt.verify(token,secret_key).id
+     const id = jwt.verify(token, secretKey).id
      req.id = id
      next();
      

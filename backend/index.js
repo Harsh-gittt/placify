@@ -22,15 +22,15 @@ const {
 const aiRoutes = require("./routes/ai.js");
 
 const PORT = process.env.PORT || 3000;
-const mongodb_url = process.env.mongodb_url;
-const jwt_secret_key = process.env.secret_key;
+const mongoDbUrl = process.env.MONGODB_URL;
+const jwtSecretKey = process.env.SECRET_KEY;
 const SALT_ROUNDS = 10;
 
 const getUserIdFromRequest = (req) => {
   const token = req.headers.authorization;
   if (!token) return null;
   try {
-    const decoded = jwt.verify(token, jwt_secret_key);
+    const decoded = jwt.verify(token, jwtSecretKey);
     return decoded.id;
   } catch (err) {
     return null;
@@ -264,7 +264,7 @@ try {
       return res.status(401).json({ message: "No token provided" });
     }
     try {
-      const decoded = jwt.verify(token, jwt_secret_key);
+      const decoded = jwt.verify(token, jwtSecretKey);
       req.id = decoded.id;
       next();
     } catch (err) {
@@ -351,7 +351,7 @@ app.post("/signin", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const jwt_token = jwt.sign({ id: user._id }, jwt_secret_key, {
+    const jwt_token = jwt.sign({ id: user._id }, jwtSecretKey, {
       expiresIn: "7d",
     });
 
@@ -1159,24 +1159,24 @@ app.post("/api/chat", userauthmiddleware, async (req, res) => {
 async function main() {
   try {
     // Check environment variables
-    if (!mongodb_url) {
-      console.error("❌ ERROR: mongodb_url not found in environment variables");
+    if (!mongoDbUrl) {
+      console.error("❌ ERROR: MONGODB_URL not found in environment variables");
       console.error(
-        "   Please create a .env file with: mongodb_url=your_mongodb_connection_string"
+        "   Please configure MONGODB_URL with your MongoDB connection string"
       );
       process.exit(1);
     }
-    if (!jwt_secret_key) {
-      console.error("❌ ERROR: secret_key not found in environment variables");
+    if (!jwtSecretKey) {
+      console.error("❌ ERROR: SECRET_KEY not found in environment variables");
       console.error(
-        "   Please create a .env file with: secret_key=your_jwt_secret_key"
+        "   Please configure SECRET_KEY with a strong random value"
       );
       process.exit(1);
     }
 
     // Connect to MongoDB with better error handling
     console.log("🔄 Connecting to MongoDB...");
-    await mongoose.connect(mongodb_url, {
+    await mongoose.connect(mongoDbUrl, {
       serverSelectionTimeoutMS: 5000,
     });
     console.log("✅ Connected to MongoDB");
