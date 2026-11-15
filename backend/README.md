@@ -21,7 +21,7 @@ FRONTEND_URL=http://localhost:5173
 GEMINI_API_KEY=
 ```
 
-For production, set `FRONTEND_URL` to the deployed frontend's origin. Multiple comma-separated origins are supported.
+The current Vercel frontend origin is allowlisted. Set `FRONTEND_URL` for any additional production or preview origins; multiple comma-separated origins are supported.
 
 AI features use Google's Gemini 3.5 Flash-Lite through the backend. Create a free API key in [Google AI Studio](https://aistudio.google.com/apikey), add it to `GEMINI_API_KEY` in `backend/.env`, and restart the backend. The free tier has usage limits and Google's free-tier data terms apply. Keep the key on the backend; do not add it to frontend code or commit it.
 
